@@ -102,3 +102,10 @@ InitTestScene*.unity*
 /.vscode
 *.log
 
+*.log
+/Logs
+/Logs
+UserSettings/Layouts/default-6000.dwlt
+*.dwlt
+/UserSettings/Layouts
+/UserSettings
