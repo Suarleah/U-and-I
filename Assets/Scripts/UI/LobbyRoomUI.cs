@@ -1,35 +1,20 @@
 using Steamworks;
-using Steamworks.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-/// <summary>
-/// Controls the Lobby Room panel shown after creating or joining a lobby.
-///
-/// Required UI hierarchy (wire up in Inspector):
-///   Canvas/LobbyRoomPanel
-///     ├─ TMP_Text  lobbyNameText
-///     ├─ Transform playerListContent   (Vertical Layout Group parent)
-///     ├─ Button    startButton         (host only — disable for clients)
-///     ├─ Button    leaveButton
-///     └─ TMP_Text  statusText
-///
-/// PlayerListItem prefab: a TMP_Text (optionally a small colored icon too).
-/// </summary>
 public class LobbyRoomUI : MonoBehaviour
 {
     [Header("Info")]
-    [SerializeField] TMP_Text lobbyNameText;
-    [SerializeField] TMP_Text statusText;
+    [SerializeField] private TMP_Text lobbyNameText;
+    [SerializeField] private TMP_Text statusText;
 
     [Header("Player list")]
-    [SerializeField] Transform  playerListContent;
-    [SerializeField] GameObject playerListItemPrefab; // Prefab with TMP_Text
+    [SerializeField] private Transform  playerListContent;
+    [SerializeField] private GameObject playerListItemPrefab; // Prefab with TMP_Text
 
     [Header("Buttons")]
-    [SerializeField] Button startButton;
-    [SerializeField] Button leaveButton;
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button leaveButton;
 
     void OnEnable()
     {
@@ -57,15 +42,13 @@ public class LobbyRoomUI : MonoBehaviour
         leaveButton.onClick.RemoveListener(OnLeaveClicked);
     }
 
-    // ── Button handlers ───────────────────────────────────────────────────────
-
     void OnStartClicked()
     {
         // Host starts the NGO server and enters the game world.
-        // Clients will be told to start via the GameStartRpc on the GameManager.
+        // Clients will be told to start via the GameStartRpc on GameManager.
         GameManager.Instance.HostStartGame();
 
-        // Notify clients via lobby chat message (simplest cross-platform signal)
+        // Notify clients viachat
         SteamLobbyManager.Instance.CurrentLobby.SendChatString("START");
     }
 
@@ -73,8 +56,6 @@ public class LobbyRoomUI : MonoBehaviour
     {
         GameManager.Instance.GoToMainMenu();
     }
-
-    // ── Refresh ───────────────────────────────────────────────────────────────
 
     void RefreshUI()
     {

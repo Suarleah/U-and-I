@@ -4,7 +4,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : NetworkBehaviour
 {
     [Header("Movement")]
@@ -33,18 +32,18 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner) // If I am the owner of this gameobject
         {
             netName.Value = SteamClient.IsValid ? new FixedString64Bytes(SteamClient.Name) : new FixedString64Bytes("Player");
-            // 
+            // the name is equal to their steam name if it is valid, if not then just "player"
             netPosition.Value = rb.position;
         }
 
-        // Subscribe to remote changes
+        // remote changes
         netName.OnValueChanged += (_, n) => ApplyName(n.ToString());
         netPosition.OnValueChanged += OnRemotePositionChanged;
 
         // Apply current values
         ApplyName(netName.Value.ToString());
 
-        // Disable physics for non-owner eleport them instead
+        // Disable physics for non-owner teleport them instead
         if (!IsOwner)
             rb.bodyType = RigidbodyType2D.Kinematic;
     }
@@ -57,22 +56,8 @@ public class PlayerController : NetworkBehaviour
 
     void HandleMovement()
     {
-        var kb = Keyboard.current;
-        if (kb == null) return;
-
-        Vector2 dir = Vector2.zero;
-        if (kb.wKey.isPressed || kb.upArrowKey.isPressed) dir.y += 1f;
-        if (kb.sKey.isPressed || kb.downArrowKey.isPressed) dir.y -= 1f;
-        if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) dir.x -= 1f;
-        if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) dir.x += 1f;
-
-        rb.linearVelocity = dir.normalized * speed;
-
         // Sync position every physics step
         netPosition.Value = rb.position;
-
-        if (spriteRenderer != null && dir.x != 0f)
-            spriteRenderer.flipX = dir.x < 0f;
     }
 
     private void OnRemotePositionChanged(Vector2 prev, Vector2 next)

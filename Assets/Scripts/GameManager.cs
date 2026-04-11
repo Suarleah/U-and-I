@@ -2,12 +2,6 @@ using Steamworks;
 using Unity.Netcode;
 using UnityEngine;
 
-/// <summary>
-/// Top-level coordinator. Boots Steam, owns the NetworkManager + SteamTransport,
-/// and drives the panel state machine (MainMenu → LobbyRoom → Game).
-/// Attach to a persistent GameObject in the Lobby scene alongside
-/// NetworkManager, SteamTransport, and SteamLobbyManager.
-/// </summary>
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -38,13 +32,12 @@ public class GameManager : MonoBehaviour
             SteamClient.Shutdown();
     }
 
-    // ── Steam init ────────────────────────────────────────────────────────────
 
     void InitSteam()
     {
         try
         {
-            SteamClient.Init(480, true); // Replace 480 with your real App ID before shipping
+            SteamClient.Init(480, true); // Replace 480 with app id because 480 is for testing
             Debug.Log($"[Steam] Logged in as {SteamClient.Name}");
         }
         catch (System.Exception e)
@@ -53,7 +46,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ── State machine ─────────────────────────────────────────────────────────
 
     public void GoToMainMenu()
     {
@@ -110,15 +102,12 @@ public class GameManager : MonoBehaviour
     public void HostStartGame()
     {
         StartGameAsHost();
-
         // Tell all clients to start
-        // Clients receive OnClientConnectedCallback and will be in-game already
-        // via the NGO connection flow — no extra RPC needed for scene-less setup
     }
 
     void Update()
     {
-        // Facepunch.Steamworks requires periodic callback dispatch
+        // Facepunch.Steamworks requires periodic callbacks
         if (SteamClient.IsValid)
             SteamClient.RunCallbacks();
     }

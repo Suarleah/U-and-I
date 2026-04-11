@@ -4,33 +4,25 @@ using System.Threading.Tasks;
 using Steamworks;
 using Steamworks.Data;
 using UnityEngine;
-
-/// <summary>
-/// Manages Steam lobbies: create, list, join, leave.
-/// The host's SteamId is stored in lobby metadata so connecting clients
-/// know which Steam relay socket to connect to.
-/// </summary>
 public class SteamLobbyManager : MonoBehaviour
 {
     public static SteamLobbyManager Instance { get; private set; }
 
-    public const string GameKey       = "game";
-    public const string GameValue     = "uandi";
-    public const string LobbyNameKey  = "lobbyName";
-    public const int    MaxPlayers    = 10;
+    public const string GameKey = "game";
+    public const string GameValue = "uandi";
+    public const string LobbyNameKey = "lobbyName";
+    public const int MaxPlayers = 10;
 
-    public Lobby  CurrentLobby { get; private set; }
-    public SteamId HostSteamId  => CurrentLobby.Owner.Id;
-    public bool    IsLobbyValid => CurrentLobby.Id.IsValid;
-
-    // Events the UI listens to
-    public event Action<Lobby>         OnLobbyCreated;
-    public event Action<Lobby>         OnLobbyJoined;
-    public event Action                OnLobbyLeft;
-    public event Action<Friend>        OnMemberJoined;
-    public event Action<Friend>        OnMemberLeft;
-    public event Action<List<Lobby>>   OnLobbyListReceived;
-    public event Action<string>        OnError;
+    public Lobby CurrentLobby { get; private set; }
+    public SteamId HostSteamId => CurrentLobby.Owner.Id;
+    public bool IsLobbyValid => CurrentLobby.Id.IsValid;
+    public event Action<Lobby> OnLobbyCreated;
+    public event Action<Lobby> OnLobbyJoined;
+    public event Action OnLobbyLeft;
+    public event Action<Friend> OnMemberJoined;
+    public event Action<Friend> OnMemberLeft;
+    public event Action<List<Lobby>> OnLobbyListReceived;
+    public event Action<string> OnError;
 
     void Awake()
     {
@@ -41,22 +33,19 @@ public class SteamLobbyManager : MonoBehaviour
 
     void OnEnable()
     {
-        SteamMatchmaking.OnLobbyCreated      += HandleLobbyCreated;
-        SteamMatchmaking.OnLobbyEntered      += HandleLobbyEntered;
+        SteamMatchmaking.OnLobbyCreated += HandleLobbyCreated;
+        SteamMatchmaking.OnLobbyEntered += HandleLobbyEntered;
         SteamMatchmaking.OnLobbyMemberJoined += HandleMemberJoined;
-        SteamMatchmaking.OnLobbyMemberLeave  += HandleMemberLeft;
+        SteamMatchmaking.OnLobbyMemberLeave += HandleMemberLeft;
     }
 
     void OnDisable()
     {
-        SteamMatchmaking.OnLobbyCreated      -= HandleLobbyCreated;
-        SteamMatchmaking.OnLobbyEntered      -= HandleLobbyEntered;
+        SteamMatchmaking.OnLobbyCreated -= HandleLobbyCreated;
+        SteamMatchmaking.OnLobbyEntered -= HandleLobbyEntered;
         SteamMatchmaking.OnLobbyMemberJoined -= HandleMemberJoined;
-        SteamMatchmaking.OnLobbyMemberLeave  -= HandleMemberLeft;
+        SteamMatchmaking.OnLobbyMemberLeave -= HandleMemberLeft;
     }
-
-    // ── Public API ────────────────────────────────────────────────────────────
-
     public async Task CreateLobby(string lobbyName)
     {
         try
@@ -69,7 +58,7 @@ public class SteamLobbyManager : MonoBehaviour
             }
 
             CurrentLobby = result.Value;
-            CurrentLobby.SetData(GameKey,      GameValue);
+            CurrentLobby.SetData(GameKey, GameValue);
             CurrentLobby.SetData(LobbyNameKey, lobbyName);
             CurrentLobby.SetJoinable(true);
 
@@ -133,8 +122,6 @@ public class SteamLobbyManager : MonoBehaviour
     public IEnumerable<Friend> GetMembers() => CurrentLobby.Members;
 
     public string GetLobbyName() => CurrentLobby.GetData(LobbyNameKey);
-
-    // ── Steam callbacks ───────────────────────────────────────────────────────
 
     private void HandleLobbyCreated(Result result, Lobby lobby)
     {
