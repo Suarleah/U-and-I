@@ -8,23 +8,30 @@ public class SteamManager : MonoBehaviour
     public const uint AppId = 480; // Spacewar test app, replace with your real app id later
 
     void Awake()
-    {
-        // Singleton enforcement
-        if (Instance != null) { Destroy(gameObject); return; }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+{
+    // Singleton enforcement
+    if (Instance != null) { Destroy(gameObject); return; }
+    Instance = this;
+    DontDestroyOnLoad(gameObject);
 
-        // Connect to Steam
-        try
-        {
-            SteamClient.Init(AppId, true);
-            Debug.Log($"Steam initialized: {SteamClient.Name} ({SteamClient.SteamId})");
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"Steam failed to initialize: {e}");
-        }
+    // Skip init if something already initialized Steam (e.g. the transport)
+    if (SteamClient.IsValid)
+    {
+        Debug.Log($"Steam already initialized by something else: {SteamClient.Name}");
+        return;
     }
+
+    // Connect to Steam
+    try
+    {
+        SteamClient.Init(AppId, true);
+        Debug.Log($"Steam initialized: {SteamClient.Name} ({SteamClient.SteamId})");
+    }
+    catch (System.Exception e)
+    {
+        Debug.LogError($"Steam failed to initialize: {e}");
+    }
+}
 
     // Steam needs this called every frame so its events fire
     void Update()
