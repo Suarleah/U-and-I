@@ -13,5 +13,6 @@ public class Mousefollower : MonoBehaviour
     void Update()
     {
         gameObject.transform.position = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
     }
 }
