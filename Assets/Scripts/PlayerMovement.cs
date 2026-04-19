@@ -27,7 +27,7 @@ public class PlayerMovement : NetworkBehaviour
         base.OnStartClient();
         
         playerName.OnChange += OnNameChanged;
-        playerName.Value = AuthenticationService.Instance.PlayerName;
+        SetNameServerRpc(AuthenticationService.Instance.PlayerName);
         // Call OnNameChanged when playerName is changed
     }
 
@@ -36,7 +36,9 @@ public class PlayerMovement : NetworkBehaviour
         if (!IsOwner) return;
 
         Vector2 dir = moveAction.ReadValue<Vector2>();
-        MoveServerRpc(dir);
+        playerRb.linearVelocity = dir * speed;
+        // Rigid body synced automatically by the NetworkTransform component :D
+       // MoveServerRpc(dir);
     }
 
     void OnNameChanged(string prev, string next, bool asServer)
@@ -50,7 +52,7 @@ public class PlayerMovement : NetworkBehaviour
         playerName.Value = name;
     }
 
-    [ServerRpc] 
+    /* [ServerRpc] 
     public void MoveServerRpc(Vector2 dir)
     {
         playerRb.linearVelocity = dir * speed;
@@ -62,4 +64,5 @@ public class PlayerMovement : NetworkBehaviour
     {
         playerRb.position = pos;
     }
+    */
 }
