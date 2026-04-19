@@ -54,5 +54,12 @@ public class PlayerMovement : NetworkBehaviour
     public void MoveServerRpc(Vector2 dir)
     {
         playerRb.linearVelocity = dir * speed;
+        MoveClientRpc(playerRb.position);
+    }
+
+    [ObserversRpc]
+    public void MoveClientRpc(Vector2 pos)
+    {
+        playerRb.position = pos;
     }
 }
