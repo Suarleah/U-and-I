@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class MainMenuManager : MonoBehaviour
     public TMP_InputField joinCodeInput;
     public GameObject menu;
     public GameObject lobby;
+     public GameObject lobbySqaure;
+    public TMP_InputField changeName;
 
     async void Start()
     {
@@ -20,6 +23,7 @@ public class MainMenuManager : MonoBehaviour
         joinCodeDisplay.text = "Secret code: " + code;
         menu.SetActive(false);
         lobby.SetActive(true);
+        lobbySqaure.SetActive(true);
     }
 
     public async void OnJoinClicked()
@@ -28,5 +32,31 @@ public class MainMenuManager : MonoBehaviour
         menu.SetActive(false);
         lobby.SetActive(true);
         // GET CODE FROM THE RELAY MANAGER
+    }
+
+    PlayerMovement FindLocalPlayer()
+    {
+        foreach (PlayerMovement p in FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None))
+        {
+            if (p.IsOwner) return p;
+        }
+        return null;
+    }
+
+    public void ChangeName(String name)
+    {
+        PlayerMovement localPlayer = FindLocalPlayer();
+        localPlayer.SetNameServerRpc(name);
+    }
+
+    public void WhileTyping(String nothing)
+    {
+        PlayerMovement localPlayer = FindLocalPlayer();
+        localPlayer.DisableMyInput();
+    }
+    public void DoneTyping(String nothing)
+    {
+        PlayerMovement localPlayer = FindLocalPlayer();
+        localPlayer.EnableMyInput();
     }
 }
