@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using System;
+using FishNet.Managing.Scened;
+using FishNet;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -8,12 +10,26 @@ public class MainMenuManager : MonoBehaviour
     public TMP_InputField joinCodeInput;
     public GameObject menu;
     public GameObject lobby;
-     public GameObject lobbySqaure;
+    public GameObject lobbySqaure;
     public TMP_InputField changeName;
 
     async void Start()
     {
         await RelayManager.Instance.InitializeAsync();
+
+        InstanceFinder.NetworkManager.SceneManager.OnLoadStart += OnLoadStart;  
+        InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;
+        // When a scene starts loading and ends loading, not actually switchibg the scene just loading it asyncornously
+    }
+
+    void OnLoadStart(SceneLoadStartEventArgs loadEventArgs)
+    {
+
+    }
+
+    void OnLoadEnd(SceneLoadEndEventArgs loadEventArgs)
+    {
+
     }
 
     public async void OnHostClicked()
