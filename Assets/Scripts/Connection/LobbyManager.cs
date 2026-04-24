@@ -3,6 +3,9 @@ using TMPro;
 using System;
 using FishNet.Managing.Scened;
 using FishNet;
+using UnityEngine.SceneManagement;
+using FishNet.Object;
+using Unity.Services.Core;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -10,26 +13,35 @@ public class MainMenuManager : MonoBehaviour
     public TMP_InputField joinCodeInput;
     public GameObject menu;
     public GameObject lobby;
-    public GameObject lobbySqaure;
+    public GameObject loading;
+    public String sceneToLoad;
+    private SceneLoadData sld;
     public TMP_InputField changeName;
 
     async void Start()
     {
         await RelayManager.Instance.InitializeAsync();
-
+        
         InstanceFinder.NetworkManager.SceneManager.OnLoadStart += OnLoadStart;  
         InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;
         // When a scene starts loading and ends loading, not actually switchibg the scene just loading it asyncornously
+        sld = new SceneLoadData(sceneToLoad);
     }
 
     void OnLoadStart(SceneLoadStartEventArgs loadEventArgs)
     {
-
+        loading.SetActive(true);
     }
 
     void OnLoadEnd(SceneLoadEndEventArgs loadEventArgs)
     {
+        sld.ReplaceScenes = ReplaceOption.All;
+        InstanceFinder.NetworkManager.SceneManager.LoadGlobalScenes(sld);
+    }
 
+    public void OnStartClicked()
+    {
+        InstanceFinder.NetworkManager.SceneManager.LoadGlobalScenes(sld);
     }
 
     public async void OnHostClicked()
@@ -39,7 +51,6 @@ public class MainMenuManager : MonoBehaviour
         joinCodeDisplay.text = "Secret code: " + code;
         menu.SetActive(false);
         lobby.SetActive(true);
-        lobbySqaure.SetActive(true);
     }
 
     public async void OnJoinClicked()
