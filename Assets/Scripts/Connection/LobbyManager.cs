@@ -6,13 +6,14 @@ using FishNet;
 using UnityEngine.SceneManagement;
 using FishNet.Object;
 using Unity.Services.Core;
+using FishNet.Connection;
 
 public class MainMenuManager : MonoBehaviour
 {
     public TMP_Text joinCodeDisplay;
     public TMP_InputField joinCodeInput;
     public GameObject menu;
-    public GameObject lobby;
+    public GameObject lobby; private Canvas lobbyC;
     public GameObject loading;
     public String sceneToLoad;
     private SceneLoadData sld;
@@ -24,8 +25,12 @@ public class MainMenuManager : MonoBehaviour
         
         InstanceFinder.NetworkManager.SceneManager.OnLoadStart += OnLoadStart;  
         InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;
+        InstanceFinder.NetworkManager.SceneManager.OnClientLoadedStartScenes += ClientJoined;
         // When a scene starts loading and ends loading, not actually switchibg the scene just loading it asyncornously
         sld = new SceneLoadData(sceneToLoad);
+        sld.ReplaceScenes = ReplaceOption.All;
+
+        lobbyC = lobby.GetComponent<Canvas>();
     }
 
     void OnLoadStart(SceneLoadStartEventArgs loadEventArgs)
@@ -35,8 +40,17 @@ public class MainMenuManager : MonoBehaviour
 
     void OnLoadEnd(SceneLoadEndEventArgs loadEventArgs)
     {
-        sld.ReplaceScenes = ReplaceOption.All;
-        InstanceFinder.NetworkManager.SceneManager.LoadGlobalScenes(sld);
+       // sld.ReplaceScenes = ReplaceOption.All;
+       // InstanceFinder.NetworkManager.SceneManager.LoadGlobalScenes(sld);
+    }
+    void ClientJoined(NetworkConnection connection, bool asHost)
+    {
+       // I am having trouble displaying the canvas because we need the cam to follow player
+        lobbyC.renderMode = RenderMode.ScreenSpaceCamera;
+        // Force it to show up
+        lobbyC.renderMode = RenderMode.WorldSpace;
+       // sld.MovedNetworkObjects = 
+        
     }
 
     public void OnStartClicked()

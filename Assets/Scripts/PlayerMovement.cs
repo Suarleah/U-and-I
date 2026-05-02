@@ -4,6 +4,8 @@ using TMPro;
 using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
+
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -13,6 +15,7 @@ public class PlayerMovement : NetworkBehaviour
     private Rigidbody2D playerRb;
     public GameObject visual;
     private TextMeshProUGUI nameText;
+    [SerializeField] private CinemachineCamera cinemachineCamera;
 
     private readonly SyncVar<string> playerName = new SyncVar<string>();
 
@@ -30,6 +33,10 @@ public class PlayerMovement : NetworkBehaviour
         playerName.OnChange += OnNameChanged;
         SetNameServerRpc(AuthenticationService.Instance.PlayerName);
         // Call OnNameChanged when playerName is changed
+
+        cinemachineCamera.enabled = IsOwner;
+        // Enable our local cinemachine camera on the object if we are the owner.
+
     }
 
     private void Update()
