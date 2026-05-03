@@ -24,6 +24,7 @@ public class PlayerMovement : NetworkBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         nameText = GetComponentInChildren<TextMeshProUGUI>();
         moveAction = inputAsset.FindAction("Move");
+        cinemachineCamera = FindFirstObjectByType<CinemachineCamera>();
     }
 
     public override void OnStartClient()
@@ -34,8 +35,11 @@ public class PlayerMovement : NetworkBehaviour
         SetNameServerRpc(AuthenticationService.Instance.PlayerName);
         // Call OnNameChanged when playerName is changed
 
-        cinemachineCamera.enabled = IsOwner;
-        // Enable our local cinemachine camera on the object if we are the owner.
+        cinemachineCamera.Priority = IsOwner ? 10 : 0;
+        // The prioriity of the cinemachine is high if I am the owner of this gameobject
+        // If I am not, then it is low because I don't want to use it
+        // If you want every player to use one camera then just make the priority higher than 10
+        
 
     }
 
