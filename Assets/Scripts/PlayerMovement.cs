@@ -15,6 +15,7 @@ public class PlayerMovement : NetworkBehaviour
     private Rigidbody2D playerRb;
     public GameObject visual;
     private TextMeshProUGUI nameText;
+    private Animator animator;
     [SerializeField] private CinemachineCamera cinemachineCamera;
 
     private readonly SyncVar<string> playerName = new SyncVar<string>();
@@ -23,6 +24,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         playerRb = GetComponent<Rigidbody2D>();
         nameText = GetComponentInChildren<TextMeshProUGUI>();
+        animator = GetComponentInChildren<Animator>();
         moveAction = inputAsset.FindAction("Move");
         cinemachineCamera = FindFirstObjectByType<CinemachineCamera>();
     }
@@ -49,6 +51,7 @@ public class PlayerMovement : NetworkBehaviour
 
         Vector2 dir = moveAction.ReadValue<Vector2>();
         playerRb.linearVelocity = dir * speed;
+        Animate();
 
         if (dir.x < 0) // If I pressing left
         {
@@ -63,6 +66,13 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         // Rigid body synced automatically by the NetworkTransform component :D
+    }
+
+    private void Animate()
+    {
+        // No need to sync because of NetworkAnimator component on Visual :)
+        animator.SetBool("moving", moveAction.ReadValue<Vector2>().magnitude != 0);
+        // Playing run animation if the player is pressing the move button
     }
 
     void OnNameChanged(string prev, string next, bool asServer)

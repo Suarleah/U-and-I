@@ -56,7 +56,7 @@ public class MainMenuManager : MonoBehaviour
         lobbyC = lobby.GetComponentInChildren<Canvas>();
     }
 
-    void Update()
+    async void Update()
     {
         ReadyToStart();
     }
@@ -100,7 +100,7 @@ public class MainMenuManager : MonoBehaviour
             startingGame = false;
         }
 
-        if (playersReady == InstanceFinder.NetworkManager.ClientManager.Clients.Count && !startingGame)
+        if (playersReady == InstanceFinder.NetworkManager.ClientManager.Clients.Count && !startingGame && playersReady != 0)
         {
             // If the number of players who are ready is the same as the number of players in the game
             countdownCoroutine = StartCoroutine(startCountdown());

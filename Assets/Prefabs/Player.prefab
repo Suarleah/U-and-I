@@ -627,6 +627,7 @@ GameObject:
   - component: {fileID: 9048580373265084429}
   - component: {fileID: 969349395985352757}
   - component: {fileID: 5475773299030236992}
+  - component: {fileID: 7790982156565938253}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -719,6 +720,28 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &7790982156565938253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5660681057038499985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 6584228753299874231}
+  _networkObjectCache: {fileID: 0}
+  IgnoredParameters: []
+  _animator: {fileID: 969349395985352757}
+  _synchronizeWhenDisabled: 0
+  _smoothFloats: 1
+  _interpolation: 2
+  _clientAuthoritative: 1
+  _sendToOwner: 0
 --- !u!1 &5790459160846303279
 GameObject:
   m_ObjectHideFlags: 0
