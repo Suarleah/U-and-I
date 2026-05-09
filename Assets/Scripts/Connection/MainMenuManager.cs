@@ -88,7 +88,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void ReadyToStart()
     {
-        if (playersReady != InstanceFinder.NetworkManager.ClientManager.Clients.Count)
+        if (playersReady != InstanceFinder.NetworkManager.ClientManager.Clients.Count && playersReady != 0)
         {
             // If the number of players who are ready is not the same as the number of players in the game
             if (countdownCoroutine != null)
