@@ -5,6 +5,8 @@ using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
+using FishNet;
+using FishNet.Connection;
 
 
 public class PlayerMovement : NetworkBehaviour
@@ -32,7 +34,7 @@ public class PlayerMovement : NetworkBehaviour
     public override void OnStartClient()
     { // Called as cloient when join
         base.OnStartClient();
-        
+
         playerName.OnChange += OnNameChanged;
         SetNameServerRpc(AuthenticationService.Instance.PlayerName);
         // Call OnNameChanged when playerName is changed
@@ -40,8 +42,7 @@ public class PlayerMovement : NetworkBehaviour
         cinemachineCamera.Priority = IsOwner ? 10 : 0;
         // The prioriity of the cinemachine is high if I am the owner of this gameobject
         // If I am not, then it is low because I don't want to use it
-        // If you want every player to use one camera then just make the priority higher than 10
-        
+        // If you want every player to use one camera then just make the priority higher than 1
 
     }
 

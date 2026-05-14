@@ -1,3 +1,4 @@
+using FishNet.Managing.Scened;
 using FishNet.Object;
 using UnityEngine;
 
@@ -30,6 +31,12 @@ public class ReadyManager : NetworkBehaviour
     {
         mainMenuManager.playersReady -= 1;
         UpdatePlayerReadyText(mainMenuManager.playersReady, NetworkManager.ClientManager.Clients.Count);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void StartGame(SceneLoadData sld) // Called by MainMenuManager because it cant do server call
+    {
+        NetworkManager.SceneManager.LoadGlobalScenes(sld);
     }
 
     [ObserversRpc]

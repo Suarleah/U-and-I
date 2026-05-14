@@ -19,8 +19,8 @@ public class MainMenuManager : MonoBehaviour
     public Button hostButton;
     public Button joinButton;
 
-     [Header("Lobby Screen")]
-     public TMP_InputField changeName; // Where player changes name
+    [Header("Lobby Screen")]
+    public TMP_InputField changeName; // Where player changes name
 
     public int playersReady = 0; // Used for starting game
     private bool startingGame; // Used for starting game
@@ -34,7 +34,7 @@ public class MainMenuManager : MonoBehaviour
     public String sceneToLoad; // Next scene
     private SceneLoadData sld;
 
-    
+
 
     async void Start()
     {
@@ -46,10 +46,11 @@ public class MainMenuManager : MonoBehaviour
         hostButton.interactable = true;
         joinButton.interactable = true;
 
-        InstanceFinder.NetworkManager.SceneManager.OnLoadStart += OnLoadStart;  
+        InstanceFinder.NetworkManager.SceneManager.OnLoadStart += OnLoadStart;
         InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;
         InstanceFinder.NetworkManager.SceneManager.OnClientLoadedStartScenes += ClientJoined;
         // When a scene starts loading and ends loading, not actually switching the scene just loading it asynchronously
+        
         sld = new SceneLoadData(sceneToLoad);
         sld.ReplaceScenes = ReplaceOption.All;
 
@@ -68,22 +69,22 @@ public class MainMenuManager : MonoBehaviour
 
     void OnLoadEnd(SceneLoadEndEventArgs loadEventArgs)
     {
-       // sld.ReplaceScenes = ReplaceOption.All;
-       // InstanceFinder.NetworkManager.SceneManager.LoadGlobalScenes(sld);
+        // sld.ReplaceScenes = ReplaceOption.All;
+        // InstanceFinder.NetworkManager.SceneManager.LoadGlobalScenes(sld);
     }
 
     void ClientJoined(NetworkConnection connection, bool asHost)
     {
-       if (ReadyManager.Instance != null)
+        if (ReadyManager.Instance != null)
         {
             ReadyManager.Instance.UpdatePlayerReadyText(playersReady, InstanceFinder.NetworkManager.ClientManager.Clients.Count);
         }
-       
+
     }
 
     public void StartGame()
     {
-        InstanceFinder.NetworkManager.SceneManager.LoadGlobalScenes(sld);
+        ReadyManager.Instance.StartGame(sld);
     }
 
     public void ReadyToStart()
@@ -117,7 +118,7 @@ public class MainMenuManager : MonoBehaviour
                 ReadyManager.Instance.UpdateBoxClients(i); // Have to do this through a client method so that everyone sees it update
                 yield return new WaitForSeconds(0.05f);
             }
-            
+
         }
         // If we made it through the whole timer, start the game!!
         StartGame();
@@ -125,19 +126,23 @@ public class MainMenuManager : MonoBehaviour
 
     public async void OnHostClicked()
     {
+        loading.SetActive(true);
         string code = await RelayManager.Instance.CreateRelayAsync(RelayManager.Instance.maxPlayers);
         // get code from ro4;ieiirmnpv;ivb
         joinCodeDisplay.text = "Secret code: " + code;
         menu.SetActive(false);
         lobby.SetActive(true);
+        loading.SetActive(false);
     }
 
     public async void OnJoinClicked()
     {
+        loading.SetActive(true);
         await RelayManager.Instance.JoinRelayAsync(joinCodeInput.text.Trim().ToUpper());
         menu.SetActive(false);
         lobby.SetActive(true);
         // GET CODE FROM THE RELAY MANAGER
+        loading.SetActive(false);
     }
 
     PlayerMovement FindLocalPlayer()
@@ -165,5 +170,11 @@ public class MainMenuManager : MonoBehaviour
     {
         PlayerMovement localPlayer = FindLocalPlayer();
         localPlayer.EnableMyInput();
+    }
+    void OnDisable() // Yarrr I don't be listening to events in other scenes
+    {
+        InstanceFinder.NetworkManager.SceneManager.OnLoadStart -= OnLoadStart;
+        InstanceFinder.NetworkManager.SceneManager.OnLoadEnd -= OnLoadEnd;
+        InstanceFinder.NetworkManager.SceneManager.OnClientLoadedStartScenes -= ClientJoined;
     }
 }
