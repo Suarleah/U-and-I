@@ -1,10 +1,11 @@
 using System.Linq;
 using FishNet;
+using FishNet.Component.Transforming;
 using FishNet.Connection;
-using FishNet.Demo.AdditiveScenes;
 using FishNet.Managing.Scened;
 using FishNet.Object;
 using FishNet.Transporting;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class GameManager : NetworkBehaviour
@@ -16,60 +17,27 @@ public class GameManager : NetworkBehaviour
 
 
     //not really necessary and can be renamed but i did it just in case
-    
     [SerializeField] private FishNet.Managing.NetworkManager NetworkManagerInstance;
 
-
-    //I added an awake function, because I think the server starts after this object wakes (so it wont move the players in time for the scene load)
     private void Awake()
     {
-        NetworkManagerInstance = InstanceFinder.NetworkManager;
-        NetworkManagerInstance.SceneManager.OnLoadEnd += test;
+        NetworkManagerInstance = InstanceFinder.NetworkManager;  
     }
 
     public override void OnStartServer()
     {
         base.OnStartServer();
         Instance = this;
-
-        //NetworkManager.ServerManager.OnRemoteConnectionState += MovePlayer;
-        // When someone's connection changes (When they join), move them to the spawn
+        NetworkManagerInstance.SceneManager.OnClientPresenceChangeEnd += MovePlayer;
+        //" Called when a client presence changes within a scene, after the server rebuilds observers."
 
     }
 
-
-    private void test(SceneLoadEndEventArgs args)
-    {
-        LoadQueueData d = args.QueueData;
-        Debug.Log("tried to move player onclientload");
-        if (!d.AsServer)
-            return;
-        Debug.Log("tried to move player onclientload passed server check");
-        PlayerMovement player;
-
-        //coded spawn number like this because the host doesnt consider itself to be a connection, hence the first "connection" is actually spawnNum-1
-        if (spawnNum == 0)
-        {
-             player = base.ClientManager.Connection.FirstObject.GetComponent<PlayerMovement>();
-        } else
-        {
-            player = d.Connections[spawnNum - 1].FirstObject.GetComponent<PlayerMovement>();
-        }
-        if (player == null)
-        {
-            Debug.Log("player was null onclientload");
-            return;
-        }
-
-        player.transform.position = spawnPoints[spawnNum].transform.position;
-        spawnNum++;
-    }
-
-
-    public void MovePlayer(NetworkConnection connection, RemoteConnectionStateArgs args)
+    [Server] // This call only be done on the server, and it automatically does because it subscribe to ebvent :D
+    public void MovePlayer(ClientPresenceChangeEventArgs arghhhh)
     {
         Debug.Log("tried to move player");
-        PlayerMovement player = connection.FirstObject.GetComponent<PlayerMovement>();
+        PlayerMovement player = arghhhh.Connection.FirstObject.GetComponent<PlayerMovement>();
         // Get player
         if (player == null)
         {
@@ -78,17 +46,17 @@ public class GameManager : NetworkBehaviour
         }
 
         player.transform.position = spawnPoints[spawnNum].transform.position;
+        //NetworkTransform test = player.gameObject.GetComponent<NetworkTransform>();
+        Vector2 pos = new Vector2(spawnPoints[spawnNum].transform.position.x, spawnPoints[spawnNum].transform.position.y);
+        InitialPosUpdate(player, pos);
         spawnNum++;
+        
     }
-    // Update is called once per frame
-    void Update()
+
+    [ObserversRpc]
+    public void InitialPosUpdate(PlayerMovement player, Vector2 newPos)
     {
-
+        // Perhaps can be replaced with something related to each players NetworkTransform
+        player.transform.position = newPos;
     }
-
-    //[ServerRpc]
-
-
-
-    //[ObserversRpc]
 }
