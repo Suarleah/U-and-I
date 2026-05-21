@@ -147,11 +147,13 @@ public class MainMenuManager : MonoBehaviour
 
     PlayerMovement FindLocalPlayer()
     {
+        return FishNet.InstanceFinder.ClientManager.Connection.FirstObject.gameObject.GetComponent<PlayerMovement>();
+        /*
         foreach (PlayerMovement p in FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None))
         {
             if (p.IsOwner) return p;
         }
-        return null;
+        return null;*/
     }
 
     public void ChangeName(String name)
