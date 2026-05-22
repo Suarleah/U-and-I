@@ -7,14 +7,21 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using FishNet;
 using FishNet.Connection;
+using UnityEngine.AI;
 
 
 public class testentity : NetworkBehaviour
 {
+
+    private NavMeshAgent myBrain;
+    private PlayerMovement target;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    async void Start()
     {
-        
+        myBrain = GetComponent<NavMeshAgent>();
+        myBrain.updateRotation = false; // No rotation
+        myBrain.updateUpAxis = false; // Not 3D
+        target = InstanceFinder.ClientManager.Connection.FirstObject.gameObject.GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -25,7 +32,7 @@ public class testentity : NetworkBehaviour
             return;
         }
 
-        float x = Random.Range(0, 10) - 4.5f;
-        gameObject.transform.position += new Vector3(x/100, x/100, 0);
+        myBrain.SetDestination(target.transform.position); // Calculate a new route every frame.... :(
     }
+
 }
