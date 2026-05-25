@@ -12,7 +12,7 @@ public class Interactable : MonoBehaviour
     public InputActionAsset inputAsset;
 
     GameObject player;
-    InputAction interactAction;
+    InputAction interactAction; // right now this is the E key
 
 
     private void Awake()
