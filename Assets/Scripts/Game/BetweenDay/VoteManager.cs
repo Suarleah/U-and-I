@@ -26,7 +26,8 @@ public class VoteManager : NetworkBehaviour
     public TextMeshProUGUI playersReadyText;
     private ReadyManager readyManager;
     private Coroutine countdownCoroutine;
-    public GameObject shop; private Canvas shopC; // Lobby and its canvas
+    public GameObject shop;
+    [SerializeField]private Canvas shopC; // Lobby and its canvas
     public String sceneToLoad; // Next scene
     private SceneLoadData sld;
     private static int posIndex;
@@ -41,7 +42,7 @@ public class VoteManager : NetworkBehaviour
         sld = new SceneLoadData(sceneToLoad);
         sld.ReplaceScenes = ReplaceOption.All;
 
-        shopC = shopC.GetComponentInChildren<Canvas>();
+        shopC = shop.GetComponentInChildren<Canvas>();
     }
 
     async void Update()

@@ -1119,7 +1119,7 @@ MonoBehaviour:
   playersReadyText: {fileID: 1317874449}
   lobby: {fileID: 98762318}
   loading: {fileID: 1074386254}
-  sceneToLoad: entity test scene
+  sceneToLoad: Vote Screen
 --- !u!4 &335761819
 Transform:
   m_ObjectHideFlags: 0
