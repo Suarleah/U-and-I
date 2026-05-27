@@ -48,6 +48,10 @@ public class UIManager : MonoBehaviour
         {
             if (colliders[i].gameObject.GetComponent<Interactable>())
             {
+                if (!colliders[i].gameObject.GetComponent<Interactable>().enabled)
+                {
+                    continue;
+                }
                 if (Vector2.Distance(colliders[i].transform.position, player.transform.position)< mindist)
                 {
                     if (curobj)

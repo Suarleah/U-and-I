@@ -9,10 +9,10 @@ public class PatientZero : Patient
 
     public override void EscapedUpdate()
     {
-        if (!IsOwner)
+        /*if (!IsServerStarted)
         {
             return;
-        }
+        }*/
         patience.Value += Time.deltaTime;
         if (patience.Value >= maxPatience)
         {
@@ -42,5 +42,4 @@ public class PatientZero : Patient
         
     }
 
-    
 }

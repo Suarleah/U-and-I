@@ -76,6 +76,11 @@ public class Interactable : NetworkBehaviour
         c.gameObject.SetActive(true);
     }
 
+    public virtual void closeCanvas()
+    {
+        c.gameObject.SetActive(false);
+    }
+
     [ServerRpc(RequireOwnership = false)]
     public virtual void UIButtonPressed(string info) //when a UI button is pressed, this can be called. 
     {

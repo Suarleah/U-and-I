@@ -24,12 +24,19 @@ public class PatientInteractable : Interactable
         }
         else if (uimanager.currentInteraction == this) //pressing interact in the interaction menu closes it. Idk if its stupid or not to have this keybind
         {
+            closePatientInfo();
+        }
+
+    }
+
+    public void closePatientInfo()
+    {
+        if (uimanager.currentInteraction == this)
+        {
             interacting = false;
             uimanager.PatientInteractionCanvas.enabled = false;
             uimanager.currentInteraction = null;
-            
         }
-
     }
     
 }
