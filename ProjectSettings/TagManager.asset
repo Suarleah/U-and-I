@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Interactable
+  - PatientInteractionCanvas
   layers:
   - Default
   - TransparentFX

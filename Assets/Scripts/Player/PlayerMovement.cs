@@ -11,7 +11,8 @@ using FishNet.Connection;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    public float speed = 5f;
+    //public float speed = 5f;
+    [SerializeField] private PlayerStats stats;
     public InputActionAsset inputAsset;
     private InputAction moveAction;
     private Rigidbody2D playerRb;
@@ -21,6 +22,9 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private CinemachineCamera cinemachineCamera;
 
     private readonly SyncVar<string> playerName = new SyncVar<string>();
+
+
+    public bool canMove; //added this since in some situations we might not want to allow player to move
 
     void Awake()
     {
@@ -48,25 +52,28 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner) return;
+        if (!IsOwner)return;
 
         Vector2 dir = moveAction.ReadValue<Vector2>();
-        playerRb.linearVelocity = dir * speed;
-        Animate();
-
-        if (dir.x < 0) // If I pressing left
+        if (canMove)
         {
-            visual.transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-            // flip me visual... ARHHH!!!!!
+            playerRb.linearVelocity = dir * stats.speed.Value;
+            Animate();
 
-        }
-        if (dir.x > 0) // If I pressing right
-        {
-            visual.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
-            // Yee Scallywags better be setting me rotation back to normal!! YARHHH!!!!
-        }
+            if (dir.x < 0) // If I pressing left
+            {
+                visual.transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+                // flip me visual... ARHHH!!!!!
 
-        // Rigid body synced automatically by the NetworkTransform component :D
+            }
+            if (dir.x > 0) // If I pressing right
+            {
+                visual.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+                // Yee Scallywags better be setting me rotation back to normal!! YARHHH!!!!
+            }
+
+            // Rigid body synced automatically by the NetworkTransform component :D
+        }
     }
 
     private void Animate()
@@ -94,6 +101,7 @@ public class PlayerMovement : NetworkBehaviour
     public void SetNameServerRpc(string name)
     {
         playerName.Value = name;
+        stats.playerName.Value = name;
     }
 
     /* [ServerRpc] 

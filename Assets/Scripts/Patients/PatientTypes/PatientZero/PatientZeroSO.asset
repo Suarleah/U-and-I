@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db88e271c50be48bfba77367e6b5241a, type: 3}
+  m_Name: PatientZeroSO
+  m_EditorClassIdentifier: Assembly-CSharp::PatientSO
+  prefab: {fileID: 0}
+  id: 0
+  namee: PatientZero
+  desc: The first patient
+  log1: likes to go to airports
+  log2: favorite food is bats
+  log3: Anti-vaxxer
+  log4: Likes pina coladas
+  log5: and getting caught in the rain

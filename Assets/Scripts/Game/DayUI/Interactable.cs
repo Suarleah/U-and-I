@@ -3,23 +3,29 @@ using UnityEngine.InputSystem;
 using FishNet;
 using FishNet.Object;
 
-public class Interactable : MonoBehaviour
+public class Interactable : NetworkBehaviour
 {
-    [SerializeField]Canvas c; //own canvas
-    [SerializeField] GameObject spawnedObject; // just a temporary thing for testing
+    public Canvas c; //own canvas
+    public UIManager uimanager;
+
+    //[SerializeField] GameObject spawnedObject; // just a temporary thing for testing
     public bool closest = false; // if its the closest interactable to the player
 
     public InputActionAsset inputAsset;
 
-    GameObject player;
+    public GameObject player;
     InputAction interactAction; // right now this is the E key
 
+    public bool interacting; // particularly for opening menus, only 1 interactable should be interacting at a time, but any signal given 
 
     private void Awake()
     {
         interactAction = inputAsset.FindAction("Interact");
         player = FishNet.InstanceFinder.ClientManager.Connection.FirstObject.gameObject;
+
         interactAction.canceled += released;
+
+        uimanager = FindFirstObjectByType<UIManager>();
     }
 
     // Update is called once per frame
@@ -36,27 +42,44 @@ public class Interactable : MonoBehaviour
         } else
         {
             c.gameObject.SetActive(false);
-
             
         }
         
     }
 
-    public void released(InputAction.CallbackContext c)
+    public virtual void released(InputAction.CallbackContext c)
     {
-        if (closest)
+        if (closest && !uimanager.currentInteraction) // cant overlap the patient overlays
         {
+            Interact();
             //Debug.Log("interacted!");
-            GameObject netObj = Instantiate(spawnedObject, gameObject.transform.position, gameObject.transform.rotation);
-            FishNet.InstanceFinder.ServerManager.Spawn(netObj);
+            //GameObject netObj = Instantiate(spawnedObject, gameObject.transform.position, gameObject.transform.rotation);
+            //FishNet.InstanceFinder.ServerManager.Spawn(netObj);
+
+        } else if (uimanager.currentInteraction == this) //pressing interact in the interaction menu closes it. Idk if its stupid or not to have this keybind
+        {
+            interacting = false;
+            uimanager.currentInteraction = null;
         }
+
+    }
+
+    public virtual void Interact() //what happens when you actually interact with the object
+    {
+
     }
    
 
     //action when in proximity
-    public void proximity()
+    public virtual void proximity()
     {
         c.gameObject.SetActive(true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void UIButtonPressed(string info) //when a UI button is pressed, this can be called. 
+    {
+
     }
         
 }

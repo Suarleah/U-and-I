@@ -1,10 +1,17 @@
 using UnityEngine;
 using FishNet;
+using FishNet.Object;
 
-public class UiManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     public GameObject player;
+    public Interactable currentInteraction; //the interactable that is currently being interacted with, if any (mostly because interactables can be spawned in, the UImanager must keep track of this)
+
+    public Canvas PatientInteractionCanvas;
+
+
     //public Canvas c;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -17,7 +24,13 @@ public class UiManager : MonoBehaviour
     {
         ProximityUICheck();
     }
-   
+
+    
+    public void UIButtonPressed(string info) //info is usually just the button name, 
+    {
+        currentInteraction.UIButtonPressed(info);
+    }
+
 
     //some objects have UI popups when you're near them. This checks nearby objects and displays the UI of the nearest one within a certain range.
     void ProximityUICheck()
