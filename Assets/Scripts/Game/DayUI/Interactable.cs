@@ -76,7 +76,7 @@ public class Interactable : NetworkBehaviour
         c.gameObject.SetActive(true);
     }
 
-    public virtual void closeCanvas()
+    public virtual void Close()
     {
         c.gameObject.SetActive(false);
     }
@@ -86,5 +86,6 @@ public class Interactable : NetworkBehaviour
     {
 
     }
+
         
 }

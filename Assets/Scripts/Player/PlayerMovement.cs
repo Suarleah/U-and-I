@@ -12,11 +12,12 @@ using FishNet.Connection;
 public class PlayerMovement : NetworkBehaviour
 {
     //public float speed = 5f;
-    [SerializeField] private PlayerStats stats;
+    [SerializeField] public PlayerStats stats;
     public InputActionAsset inputAsset;
     private InputAction moveAction;
     private Rigidbody2D playerRb;
     public GameObject visual;
+    public GameObject ghostVisual;
     private TextMeshProUGUI nameText;
     private Animator animator;
     [SerializeField] private CinemachineCamera cinemachineCamera;
@@ -52,8 +53,14 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner)return;
-
+        if (!IsOwner) return;
+        if (stats.isDead.Value)
+        {
+            ghostUpdate();
+            return;
+        }
+        ghostVisual.SetActive(false);
+        visual.SetActive(true);
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
         {
@@ -76,10 +83,43 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    private void ghostUpdate()
+    {
+        ghostVisual.SetActive(true);
+        visual.SetActive(false);
+        Vector2 dir = moveAction.ReadValue<Vector2>();
+        if (canMove)
+        {
+            playerRb.linearVelocity = dir * stats.speed.Value;
+            ghostAnimate();
+
+            if (dir.x < 0) // If I pressing left
+            {
+                ghostVisual.transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+                // flip me visual... ARHHH!!!!!
+
+            }
+            if (dir.x > 0) // If I pressing right
+            {
+                ghostVisual.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+                
+            }
+
+           
+        }
+    }
+
     private void Animate()
     {
         // No need to sync because of NetworkAnimator component on Visual :)
         animator.SetBool("moving", moveAction.ReadValue<Vector2>().magnitude != 0);
+        // Playing run animation if the player is pressing the move button
+    }
+
+    private void ghostAnimate()
+    {
+        // No need to sync because of NetworkAnimator component on Visual :)
+        //animator.SetBool("moving", moveAction.ReadValue<Vector2>().magnitude != 0);
         // Playing run animation if the player is pressing the move button
     }
 
@@ -88,10 +128,11 @@ public class PlayerMovement : NetworkBehaviour
         nameText.text = next;
     }
 
-    public void DisableMyInput()
+    public void DisableMyInput() //i dont recommend using these because it will disable the entire input asset, ie: player wont be able to pause while this is disabled
     {
         inputAsset.Disable();
     }
+
     public void EnableMyInput()
     {
         inputAsset.Enable();

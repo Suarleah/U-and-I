@@ -7,6 +7,7 @@ using FishNet.Object;
 using FishNet.Transporting;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManager : NetworkBehaviour
 {
@@ -15,6 +16,8 @@ public class GameManager : NetworkBehaviour
 
     public static GameManager Instance;
 
+    public List<PlayerMovement> players; //list of all players in the game
+
 
     //not really necessary and can be renamed but i did it just in case
     [SerializeField] private FishNet.Managing.NetworkManager NetworkManagerInstance;
@@ -22,6 +25,24 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         NetworkManagerInstance = InstanceFinder.NetworkManager;  
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void playerDied(GameObject player) //players call this whenever they die
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (!players[i].stats.isDead.Value)
+            {
+                return;
+            }
+        }
+
+
+        //if every player is dead, end game here but i have no method to end the game so i have nothing here
+        //StartCoroutine(EndGame());
+        Debug.Log("Game over!");
     }
 
     public override void OnStartServer()
@@ -45,6 +66,8 @@ public class GameManager : NetworkBehaviour
             return;
         }
 
+        players.Add(player);
+
         player.transform.position = spawnPoints[spawnNum].transform.position;
         //NetworkTransform test = player.gameObject.GetComponent<NetworkTransform>();
         Vector2 pos = new Vector2(spawnPoints[spawnNum].transform.position.x, spawnPoints[spawnNum].transform.position.y);
@@ -59,4 +82,6 @@ public class GameManager : NetworkBehaviour
         // Perhaps can be replaced with something related to each players NetworkTransform
         player.transform.position = newPos;
     }
+
+
 }

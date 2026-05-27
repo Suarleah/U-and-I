@@ -116,8 +116,7 @@ public class Patient : NetworkBehaviour
         patience.Value = 0;
         wanderUp = true;
         interactable.enabled = false;
-        interactable.closePatientInfo();
-        interactable.closeCanvas();
+        interactable.Close();
         
     }
 

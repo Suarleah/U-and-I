@@ -24,9 +24,15 @@ public class PatientInteractable : Interactable
         }
         else if (uimanager.currentInteraction == this) //pressing interact in the interaction menu closes it. Idk if its stupid or not to have this keybind
         {
-            closePatientInfo();
+            Close();
         }
 
+    }
+
+    public override void Close()
+    {
+        base.Close();
+        closePatientInfo();
     }
 
     public void closePatientInfo()

@@ -12,19 +12,18 @@ public class PatientZeroInteractable : PatientInteractable
         }
         if (info == "damage")
         {
-            player.GetComponent<PlayerStats>().health.Value -= 20;
+            player.GetComponent<PlayerStats>().TakeDamage(20, new DamageDetails());
         }
 
         if (info == "heal")
         {
-            player.GetComponent<PlayerStats>().health.Value += 20;
+            player.GetComponent<PlayerStats>().Heal(20, new DamageDetails());
         }
 
         if (info == "losePatience")
         {
             self.patience.Value -= 20;
         }
-
 
     }
 }

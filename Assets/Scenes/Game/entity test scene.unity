@@ -458,6 +458,7 @@ MonoBehaviour:
   - {fileID: 871162360}
   - {fileID: 1236804011}
   - {fileID: 1552161035}
+  players: []
   NetworkManagerInstance: {fileID: 0}
 --- !u!4 &188045175
 Transform:

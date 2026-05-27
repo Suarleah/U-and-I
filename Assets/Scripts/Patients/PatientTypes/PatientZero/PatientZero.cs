@@ -16,7 +16,7 @@ public class PatientZero : Patient
         patience.Value += Time.deltaTime;
         if (patience.Value >= maxPatience)
         {
-            Contain();
+            StartCoroutine(Contain());
             return;
         }
         if (aggroedPlayer)
