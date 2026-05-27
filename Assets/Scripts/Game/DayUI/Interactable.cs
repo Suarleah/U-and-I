@@ -47,7 +47,7 @@ public class Interactable : MonoBehaviour
         if (closest)
         {
             //Debug.Log("interacted!");
-            GameObject netObj = Instantiate(spawnedObject, gameObject.transform.position, Quaternion.identity);
+            GameObject netObj = Instantiate(spawnedObject, gameObject.transform.position, gameObject.transform.rotation);
             FishNet.InstanceFinder.ServerManager.Spawn(netObj);
         }
     }
