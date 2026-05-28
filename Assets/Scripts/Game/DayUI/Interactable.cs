@@ -31,10 +31,13 @@ public class Interactable : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (closest && !uimanager.currentInteraction) 
+        if (closest) 
         {
             c.gameObject.SetActive(true);
-            
+            if (Vector2.Distance(gameObject.transform.position, player.transform.position) > 5f)
+            {
+                closest = false;
+            }
 
         } else
         {
@@ -42,10 +45,7 @@ public class Interactable : NetworkBehaviour
             
         }
 
-        if (Vector2.Distance(gameObject.transform.position, player.transform.position) > 5f)
-        {
-            closest = false;
-        }
+        
 
     }
 

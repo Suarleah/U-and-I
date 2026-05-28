@@ -86,14 +86,14 @@ public class UIManager : MonoBehaviour
 
         if (curobj) //if an interactable is in range and the closest, and the player isnt already interacting with something else
         {
-            if (currentInteraction)
+            /*if (currentInteraction)
             {
                 curobj.GetComponent<Interactable>().closest = false;
             } else
             {
                 curobj.GetComponent<Interactable>().closest = true;
-            }
-            
+            }*/
+            curobj.GetComponent<Interactable>().closest = true;
         } 
     }
 }
