@@ -18,7 +18,7 @@ public class Interactable : NetworkBehaviour
 
     public bool interacting; // particularly for opening menus, only 1 interactable should be interacting at a time, but any signal given 
 
-    private void Awake()
+    public virtual void Awake()
     {
         interactAction = inputAsset.FindAction("Interact");
         player = FishNet.InstanceFinder.ClientManager.Connection.FirstObject.gameObject;
@@ -31,20 +31,22 @@ public class Interactable : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (closest) 
+        if (closest && !uimanager.currentInteraction) 
         {
             c.gameObject.SetActive(true);
-            if (Vector2.Distance(gameObject.transform.position, player.transform.position) > 5f)
-            {
-                closest = false;
-            }
+            
 
         } else
         {
             c.gameObject.SetActive(false);
             
         }
-        
+
+        if (Vector2.Distance(gameObject.transform.position, player.transform.position) > 5f)
+        {
+            closest = false;
+        }
+
     }
 
     public virtual void released(InputAction.CallbackContext c)
@@ -58,8 +60,7 @@ public class Interactable : NetworkBehaviour
 
         } else if (uimanager.currentInteraction == this) //pressing interact in the interaction menu closes it. Idk if its stupid or not to have this keybind
         {
-            interacting = false;
-            uimanager.currentInteraction = null;
+            Close();
         }
 
     }
@@ -76,9 +77,18 @@ public class Interactable : NetworkBehaviour
         c.gameObject.SetActive(true);
     }
 
-    public virtual void Close()
+    public void closeInteractionPrompt() //close the little tooltip that says "press E to interact!"
     {
         c.gameObject.SetActive(false);
+    }
+
+    public virtual void Close() // close anything that opens up when interacting with this object, ie: patient info
+    {
+        if (uimanager.currentInteraction == this) //pressing interact in the interaction menu closes it. Idk if its stupid or not to have this keybind
+        {
+            interacting = false;
+            uimanager.currentInteraction = null;
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
