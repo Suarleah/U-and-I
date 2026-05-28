@@ -8,8 +8,8 @@ public class PatientInteractable : Interactable
     public override void Interact()
     {
         interacting = true;
-        uimanager.currentInteraction = this;
-        uimanager.PatientInteractionCanvas.enabled = true;
+        UIManager.Instance.currentInteraction = this;
+        UIManager.Instance.PatientInteractionCanvas.enabled = true;
     }
 
 
@@ -22,9 +22,9 @@ public class PatientInteractable : Interactable
 
     public void closePatientInfo()
     {
-        if (uimanager.currentInteraction == this)
+        if (UIManager.Instance.currentInteraction == this)
         {
-            uimanager.PatientInteractionCanvas.enabled = false;
+            UIManager.Instance.PatientInteractionCanvas.enabled = false;
         }
     }
     

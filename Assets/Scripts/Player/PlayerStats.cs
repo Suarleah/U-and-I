@@ -31,7 +31,7 @@ public class PlayerStats : NetworkBehaviour
         base.OnStartServer();
         // Initialize the server variable
         playerName.Value = "";
-        speed.Value = 5f;
+        speed.Value = 10f;
         maxHealth.Value = 100;
         health.Value = 100;
         isDead.Value = false;

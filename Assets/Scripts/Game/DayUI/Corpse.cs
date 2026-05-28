@@ -37,7 +37,7 @@ public class Corpse : Interactable
         attach(player);
     }
 
-    //[ServerRpc(RequireOwnership = false)] 
+    [ObserversRpc] 
     public void attach(GameObject p) //attaches to the player object
     {
         DistanceJoint2D joint = gameObject.AddComponent<DistanceJoint2D>();
@@ -58,10 +58,10 @@ public class Corpse : Interactable
         joint.breakAction = JointBreakAction2D.CallbackOnly;*/
 
         joints.Add(joint);
-        uimanager.currentInteraction = this;
+        UIManager.Instance.currentInteraction = this;
     }
 
-    //[ServerRpc(RequireOwnership = false)]
+    [ObserversRpc]
     public void detach(GameObject p) //detaches from the player object
     {
 
@@ -69,7 +69,7 @@ public class Corpse : Interactable
         {
             if (joints[i].connectedBody == p.GetComponent<Rigidbody2D>())
             {
-                uimanager.currentInteraction = null;
+                UIManager.Instance.currentInteraction = null;
                 GameObject.Destroy(joints[i]);
                 joints.Remove(joints[i]);
                 break;
