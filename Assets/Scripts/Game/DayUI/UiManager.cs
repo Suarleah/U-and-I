@@ -36,6 +36,14 @@ public class UIManager : MonoBehaviour
             
     }
 
+    public void Close()
+    {
+        if (currentInteraction)
+        {
+            currentInteraction.Close();
+        }
+    }
+
     
     public void UIButtonPressed(string info) //info is usually just the button name, 
     {

@@ -37,7 +37,7 @@ public class Corpse : Interactable
         attach(player);
     }
 
-    [ServerRpc(RequireOwnership = false)] 
+    //[ServerRpc(RequireOwnership = false)] 
     public void attach(GameObject p) //attaches to the player object
     {
         DistanceJoint2D joint = gameObject.AddComponent<DistanceJoint2D>();
@@ -61,7 +61,7 @@ public class Corpse : Interactable
         uimanager.currentInteraction = this;
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    //[ServerRpc(RequireOwnership = false)]
     public void detach(GameObject p) //detaches from the player object
     {
 

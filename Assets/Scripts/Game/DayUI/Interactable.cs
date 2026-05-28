@@ -91,7 +91,6 @@ public class Interactable : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
     public virtual void UIButtonPressed(string info) //when a UI button is pressed, this can be called. 
     {
 

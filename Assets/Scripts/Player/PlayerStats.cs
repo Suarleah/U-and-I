@@ -24,6 +24,8 @@ public class PlayerStats : NetworkBehaviour
     public bool localisDead;
     //public Item[] inventory;
 
+    public GameObject corpsePrefab;
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -66,15 +68,17 @@ public class PlayerStats : NetworkBehaviour
         }
     }
 
-    
     public void Die()
     {
-        Corpse corpse = new Corpse();
-        corpse.corpseOwner = this;
-        corpse.transform.position = transform.position;
+        corpsePrefab.GetComponent<Corpse>().corpseOwner = this;
+        corpsePrefab.transform.position = transform.position;
+        GameObject corpse = Instantiate(corpsePrefab);
+        
+
         FishNet.InstanceFinder.ServerManager.Spawn(corpse);
         isDead.Value = true;
-        UIManager.Instance.currentInteraction.Close();
+
+        UIManager.Instance.Close();
         GameManager.Instance.playerDied(gameObject);
 
     }
@@ -83,8 +87,14 @@ public class PlayerStats : NetworkBehaviour
     public void Respawn(Vector3 pos)
     {
         health.Value = maxHealth.Value;
-        transform.position = pos;
+        moveClient(pos);
         isDead.Value = false;
+    }
+
+    [ObserversRpc]
+    public void moveClient(Vector2 pos)
+    {
+        transform.position = pos;
     }
 }
 

@@ -3,7 +3,6 @@ using FishNet.Object;
 
 public class PatientZeroInteractable : PatientInteractable
 {
-    [ServerRpc(RequireOwnership = false)]
     public override void UIButtonPressed(string info)
     {
         if (info == "money")
