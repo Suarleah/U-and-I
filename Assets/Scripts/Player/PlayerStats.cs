@@ -69,10 +69,22 @@ public class PlayerStats : NetworkBehaviour
     
     public void Die()
     {
+        Corpse corpse = new Corpse();
+        corpse.corpseOwner = this;
+        corpse.transform.position = transform.position;
+        FishNet.InstanceFinder.ServerManager.Spawn(corpse);
         isDead.Value = true;
         UIManager.Instance.currentInteraction.Close();
         GameManager.Instance.playerDied(gameObject);
 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void Respawn(Vector3 pos)
+    {
+        health.Value = maxHealth.Value;
+        transform.position = pos;
+        isDead.Value = false;
     }
 }
 

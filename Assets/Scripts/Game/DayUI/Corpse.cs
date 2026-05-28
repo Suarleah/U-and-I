@@ -1,16 +1,25 @@
 using UnityEngine;
 using FishNet.Object;
 using System.Collections.Generic;
+using TMPro;
+using TMPro;
 
 public class Corpse : Interactable
 {
-    PlayerStats corpseOwner; //the player whose corpse it is
+    public PlayerStats corpseOwner; //the player whose corpse it is
+    [SerializeField] TMP_Text nameplate;
 
     List<Joint2D> joints; //what the player uses to drag the corpse around
 
     public override void Awake()
     {
+
         base.Awake();
+        if (corpseOwner)
+        {
+            nameplate.text = corpseOwner.playerName.Value + "'s corpse";
+        }
+        
         joints = new List<Joint2D>();
     }
 

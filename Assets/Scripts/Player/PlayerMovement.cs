@@ -85,7 +85,11 @@ public class PlayerMovement : NetworkBehaviour
 
     private void ghostUpdate()
     {
-        ghostVisual.SetActive(true);
+        if (IsOwner || FishNet.InstanceFinder.ClientManager.Connection.FirstObject.GetComponent<PlayerStats>().isDead.Value) //if youre the dead player, or if youre also dead, then you can see the ghost
+        {
+            ghostVisual.SetActive(true); 
+        }
+        
         visual.SetActive(false);
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
@@ -108,6 +112,8 @@ public class PlayerMovement : NetworkBehaviour
            
         }
     }
+
+    
 
     private void Animate()
     {
