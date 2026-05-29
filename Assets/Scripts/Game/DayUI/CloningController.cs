@@ -6,9 +6,6 @@ public class CloningController : Interactable
 
     public override void Interact()
     {
-        if (cloneZone.corpses.Count > 0)
-        {
-            cloneZone.CloneAll();
-        }
+        cloneZone.CloneAll();
     }
 }

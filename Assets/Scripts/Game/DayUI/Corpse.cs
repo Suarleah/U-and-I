@@ -10,7 +10,8 @@ using FishNet.Object.Synchronizing;
 
 public class Corpse : Interactable
 {
-    public readonly SyncVar<PlayerStats> corpseOwner = new SyncVar<PlayerStats>(); //the player whose corpse it is
+    public readonly SyncVar<GameObject> corpseOwner = new SyncVar<GameObject>(); //the player whose corpse it is
+    public GameObject localCorpseOwner;
     public TMP_Text nameplate;
 
     [SerializeField] DistanceJoint2D joint; //what the player uses to drag the corpse around
@@ -20,7 +21,7 @@ public class Corpse : Interactable
         base.Awake();
         if (corpseOwner.Value)
         {
-            nameplate.text = corpseOwner.Value.playerName.Value + "'s corpse";
+            nameplate.text = corpseOwner.Value.GetComponent<PlayerStats>().playerName.Value + "'s corpse";
         }
     }
 
@@ -40,6 +41,7 @@ public class Corpse : Interactable
             nameplate.text = corpseOwner.Value.playerName.Value + "'s corpse";
         }
     }*/
+    
     public override void Interact()
     {
         if (joint.connectedBody == player.GetComponent<Rigidbody2D>())

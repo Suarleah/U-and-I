@@ -73,23 +73,25 @@ public class PlayerStats : NetworkBehaviour
     {
         
         isDead.Value = true;
-
         CloseLocalUIManager(base.Owner);
         GameManager.Instance.playerDied(gameObject);
+
         corpsePrefab.transform.position = transform.position;
         GameObject corpse = Instantiate(corpsePrefab);
-        corpse.GetComponent<Corpse>().corpseOwner.Value = (base.GetComponent<PlayerStats>());
-        SetCorpseOwner(corpse.GetComponent<Corpse>());
+        
         FishNet.InstanceFinder.ServerManager.Spawn(corpse);
+
+        corpse.GetComponent<Corpse>().corpseOwner.Value = gameObject;
+        SetCorpseName(corpse.GetComponent<Corpse>());
  
     }
 
     
     [ObserversRpc]
-    public void SetCorpseOwner(Corpse corpse)
+    public void SetCorpseName(Corpse corpse)
     {
         
-        corpse.nameplate.text = base.GetComponent<PlayerStats>().playerName.Value + "'s corpse";
+        corpse.nameplate.text = this.playerName.Value + "'s Corpse";
     }
 
 

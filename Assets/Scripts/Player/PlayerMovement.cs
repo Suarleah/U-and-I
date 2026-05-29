@@ -53,14 +53,14 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner) return;
+        
+        setGhostSpriteEnabled(false);
+        setPlayerSpriteEnabled(true);
         if (stats.isDead.Value)
         {
             ghostUpdate();
-            return;
         }
-        setGhostSpriteEnabled(false);
-        setPlayerSpriteEnabled(true);
+        if (!IsOwner) return;
         
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
@@ -91,27 +91,6 @@ public class PlayerMovement : NetworkBehaviour
             setGhostSpriteEnabled(true);
         }
         setPlayerSpriteEnabled(false);
-        
-        Vector2 dir = moveAction.ReadValue<Vector2>();
-        if (canMove)
-        {
-            playerRb.linearVelocity = dir * stats.speed.Value;
-            ghostAnimate();
-
-            if (dir.x < 0) // If I pressing left
-            {
-                ghostVisual.transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-                // flip me visual... ARHHH!!!!!
-
-            }
-            if (dir.x > 0) // If I pressing right
-            {
-                ghostVisual.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
-                
-            }
-
-           
-        }
     }
 
     
@@ -180,7 +159,7 @@ public class PlayerMovement : NetworkBehaviour
     private void setPlayerSpriteEnabled (bool enabled)
     {
         visual.GetComponent<SpriteRenderer>().enabled = enabled; //set ghost visual and all related to invisible
-        foreach (SpriteRenderer sprite in ghostVisual.GetComponentsInChildren<SpriteRenderer>())
+        foreach (SpriteRenderer sprite in visual.GetComponentsInChildren<SpriteRenderer>())
         {
             sprite.enabled = enabled;
         }
