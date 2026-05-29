@@ -980,7 +980,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2087,6 +2087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1292935785}
   - component: {fileID: 1292935784}
+  - component: {fileID: 1292935786}
   m_Layer: 0
   m_Name: Clone Zone
   m_TagString: Untagged
@@ -2168,6 +2169,52 @@ Transform:
   - {fileID: 1379624160}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1292935786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292935783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1292935784}
+  _networkObjectCache: {fileID: 0}
+  _componentConfiguration: 0
+  _synchronizeParent: 0
+  _packing:
+    Position: 1
+    Rotation: 1
+    Scale: 0
+  _useScaledTime: 1
+  _interpolation: 2
+  _extrapolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  _clientAuthoritative: 1
+  _sendToOwner: 1
+  _interval: 1
+  _synchronizePosition: 1
+  _positionSensitivity: 0.001
+  _positionSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeRotation: 1
+  _rotationSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeScale: 1
+  _scaleSensitivity: 0.001
+  _scaleSnapping:
+    X: 0
+    Y: 0
+    Z: 0
 --- !u!1 &1294984808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2405,7 +2452,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

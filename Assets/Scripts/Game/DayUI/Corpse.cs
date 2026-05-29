@@ -7,41 +7,40 @@ using TMPro;
 using FishNet.Transporting;
 using UnityEditor.MemoryProfiler;
 using FishNet.Object.Synchronizing;
+using FishNet.CodeAnalysis.Annotations;
+using System;
 
 public class Corpse : Interactable
 {
-    public readonly SyncVar<GameObject> corpseOwner = new SyncVar<GameObject>(); //the player whose corpse it is
+    public readonly SyncVar<NetworkObject> corpseOwner = new SyncVar<NetworkObject>(); //the player whose corpse it is
     public GameObject localCorpseOwner;
     public TMP_Text nameplate;
 
     [SerializeField] DistanceJoint2D joint; //what the player uses to drag the corpse around
 
-    private void Awake()
+    public override void Awake()
     {
         base.Awake();
         if (corpseOwner.Value)
         {
-            nameplate.text = corpseOwner.Value.GetComponent<PlayerStats>().playerName.Value + "'s corpse";
+           // nameplate.text = corpseOwner.Value.GetComponent<PlayerStats>().playerName.Value + "'s corpse";
         }
+        corpseOwner.OnChange += setCorpseNameForClient;
     }
 
-    /*[ServerRpc(RequireOwnership = false)]
-    public void setCorpseOwner(PlayerStats p)
+    public void setCorpseOwner(NetworkObject p)
     {
+        //Debug.Log("'s corpse");
+        //Debug.Log(p.GetComponent<PlayerStats>().playerName.Value + "'s corpse");
         corpseOwner.Value = p;
-        setCorpseOwnerClients(p);
     }
 
-    [ObserversRpc]
-    public void setCorpseOwnerClients(PlayerStats p)
+
+    public void setCorpseNameForClient(NetworkObject prev, NetworkObject next, bool asServer)
     {
-        
-        if (corpseOwner.Value)
-        {
-            nameplate.text = corpseOwner.Value.playerName.Value + "'s corpse";
-        }
-    }*/
-    
+        nameplate.text = next.GetComponent<PlayerStats>().playerName.Value;
+    }
+
     public override void Interact()
     {
         if (joint.connectedBody == player.GetComponent<Rigidbody2D>())

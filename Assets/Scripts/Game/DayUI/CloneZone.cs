@@ -21,7 +21,7 @@ public class CloneZone : NetworkBehaviour
         }
         if (collision.gameObject.GetComponent<Corpse>())
         {
-            AddCorpseFromList(collision.gameObject.GetComponent<Corpse>());
+            AddCorpseToList(collision.gameObject.GetComponent<Corpse>());
         }
     }
 
@@ -33,20 +33,24 @@ public class CloneZone : NetworkBehaviour
         }
         if (collision.gameObject.GetComponent<Corpse>())
         {
+            Debug.Log("OnTriggerExit");
             RemoveCorpseFromList(collision.gameObject.GetComponent<Corpse>());
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void AddCorpseFromList(Corpse corpse)
+    //[ServerRpc(RequireOwnership = false)]
+    public void AddCorpseToList(Corpse corpse)
     {
         corpses.Add(corpse);
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    //[ServerRpc(RequireOwnership = false)]
     public void RemoveCorpseFromList(Corpse corpse)
     {
-        corpses.Remove(corpse);
+        if (corpses.Contains(corpse)){
+            corpses.Remove(corpse);
+        }
+        
     }
 
 
@@ -57,10 +61,15 @@ public class CloneZone : NetworkBehaviour
         {
             return;
         }
-        while (corpses.Count > 0)
+        for (int i = corpses.Count - 1; i >= 0; i--)
         {
-            corpses[0].corpseOwner.Value.GetComponent<PlayerStats>().Respawn(corpses[0].transform.position);
-            corpses[0].NetworkObject.Despawn();
+            if (corpses.Count > i + 1) //remove extras if the ontrigger doesnt trigger in time
+            {
+                corpses.Remove(corpses[i+1]);
+            }
+            corpses[i].corpseOwner.Value.gameObject.GetComponent<PlayerStats>().Respawn(corpses[0].transform.position);
+            corpses[i].NetworkObject.Despawn();
+            Debug.Log("Despawned");
             //corpses.RemoveAt(0); //dont need to remove because it removes itself from ontriggerexit2d
 
         }

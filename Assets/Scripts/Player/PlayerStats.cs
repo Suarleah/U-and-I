@@ -80,19 +80,19 @@ public class PlayerStats : NetworkBehaviour
         GameObject corpse = Instantiate(corpsePrefab);
         
         FishNet.InstanceFinder.ServerManager.Spawn(corpse);
-
-        corpse.GetComponent<Corpse>().corpseOwner.Value = gameObject;
-        SetCorpseName(corpse.GetComponent<Corpse>());
+        corpse.GetComponent<Corpse>().setCorpseOwner(base.NetworkObject);
+        /*corpse.GetComponent<Corpse>().corpseOwner.Value = gameObject;
+        SetCorpseName(corpse.GetComponent<Corpse>());*/
  
     }
 
     
-    [ObserversRpc]
+    /*[ObserversRpc]
     public void SetCorpseName(Corpse corpse)
     {
         
         corpse.nameplate.text = this.playerName.Value + "'s Corpse";
-    }
+    }*/
 
 
     [TargetRpc]
