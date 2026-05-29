@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using FishNet;
 using FishNet.Connection;
+using FishNet.Demo.AdditiveScenes;
 
 
 public class PlayerStats : NetworkBehaviour
@@ -52,7 +53,7 @@ public class PlayerStats : NetworkBehaviour
     public void TakeDamage(int amt, DamageDetails deets)
     {
         health.Value -= amt;
-        if (health.Value <= 0)
+        if (health.Value <= 0 && !isDead.Value)
         {
             Die();
         }
@@ -70,17 +71,32 @@ public class PlayerStats : NetworkBehaviour
 
     public void Die()
     {
-        corpsePrefab.GetComponent<Corpse>().corpseOwner = this;
-        corpsePrefab.transform.position = transform.position;
-        GameObject corpse = Instantiate(corpsePrefab);
         
-
-        FishNet.InstanceFinder.ServerManager.Spawn(corpse);
         isDead.Value = true;
 
-        UIManager.Instance.Close();
+        CloseLocalUIManager(base.Owner);
         GameManager.Instance.playerDied(gameObject);
+        corpsePrefab.transform.position = transform.position;
+        GameObject corpse = Instantiate(corpsePrefab);
+        corpse.GetComponent<Corpse>().corpseOwner.Value = (base.GetComponent<PlayerStats>());
+        SetCorpseOwner(corpse.GetComponent<Corpse>());
+        FishNet.InstanceFinder.ServerManager.Spawn(corpse);
+ 
+    }
 
+    
+    [ObserversRpc]
+    public void SetCorpseOwner(Corpse corpse)
+    {
+        
+        corpse.nameplate.text = base.GetComponent<PlayerStats>().playerName.Value + "'s corpse";
+    }
+
+
+    [TargetRpc]
+    public void CloseLocalUIManager(NetworkConnection conn)
+    {
+         UIManager.Instance.Close();
     }
 
     [ServerRpc(RequireOwnership = false)]

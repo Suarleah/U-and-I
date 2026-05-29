@@ -59,8 +59,9 @@ public class PlayerMovement : NetworkBehaviour
             ghostUpdate();
             return;
         }
-        ghostVisual.SetActive(false);
-        visual.SetActive(true);
+        setGhostSpriteEnabled(false);
+        setPlayerSpriteEnabled(true);
+        
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
         {
@@ -87,10 +88,10 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (IsOwner || FishNet.InstanceFinder.ClientManager.Connection.FirstObject.GetComponent<PlayerStats>().isDead.Value) //if youre the dead player, or if youre also dead, then you can see the ghost
         {
-            ghostVisual.SetActive(true); 
+            setGhostSpriteEnabled(true);
         }
+        setPlayerSpriteEnabled(false);
         
-        visual.SetActive(false);
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
         {
@@ -164,4 +165,24 @@ public class PlayerMovement : NetworkBehaviour
         playerRb.position = pos;
     }
     */
+
+    private void setGhostSpriteEnabled(bool enabled)
+    {
+        ghostVisual.GetComponent<SpriteRenderer>().enabled = enabled; //set ghost visual and all related to invisible
+        foreach (SpriteRenderer sprite in ghostVisual.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.enabled = enabled;
+        }
+        
+        
+    }
+
+    private void setPlayerSpriteEnabled (bool enabled)
+    {
+        visual.GetComponent<SpriteRenderer>().enabled = enabled; //set ghost visual and all related to invisible
+        foreach (SpriteRenderer sprite in ghostVisual.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.enabled = enabled;
+        }
+    }
 }

@@ -92,8 +92,10 @@ public class Patient : NetworkBehaviour
         
     }
 
-    public virtual IEnumerator Contain() //recontain a patient 
+    public virtual IEnumerator Contain() //recontain a patient  on server
     {
+        
+
         if (!IsServerStarted)
         {
             yield break; ;
@@ -102,24 +104,49 @@ public class Patient : NetworkBehaviour
         patience.Value = maxPatience;
         transform.position = spawn.position;
         wanderUp = true;
-        interactable.enabled = true;
         
+        ContainAllClients();
+  
+        
+    }
+
+    [ObserversRpc]
+    public virtual void ContainAllClients() //functions that contain has to do for all clients
+    {
+        interactable.enabled = true; //locally re enable interactions
     }
 
     public virtual IEnumerator Escape()//patient escapes;
     {
+        
         if (!IsServerStarted)
         {
-            yield break;
+           yield break;
         }
         escaped = true;
         patience.Value = 0;
         wanderUp = true;
-        interactable.enabled = false;
-        interactable.closeInteractionPrompt();
-        interactable.Close();
+        EscapeAllClients();
         
     }
+
+    [ObserversRpc]
+    public virtual void EscapeAllClients() //functions that contain has to do for all clients
+    {
+        interactable.enabled = false; //locally disable all interactions
+        interactable.closeInteractionPrompt();
+        interactable.Close();
+
+    }
+
+
+    [ServerRpc]
+    public virtual void changePatience(float amt)
+    {
+        patience.Value+=amt;
+    }
+    
+
 
     public virtual IEnumerator roomWander() //just ambient movement for the patient to do while contained
     {

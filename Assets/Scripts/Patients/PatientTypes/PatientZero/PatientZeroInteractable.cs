@@ -21,8 +21,10 @@ public class PatientZeroInteractable : PatientInteractable
 
         if (info == "losePatience")
         {
-            self.patience.Value -= 20;
+            self.changePatience(-20);
         }
 
     }
+
+
 }

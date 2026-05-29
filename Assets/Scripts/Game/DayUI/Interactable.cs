@@ -91,6 +91,12 @@ public class Interactable : NetworkBehaviour
         }
     }
 
+    [ObserversRpc]
+    public virtual void CloseAllClients()
+    {
+        Close();
+    }
+
     public virtual void UIButtonPressed(string info) //when a UI button is pressed, this can be called. 
     {
 

@@ -41,7 +41,7 @@ public class CloneZone : NetworkBehaviour
     {
         while (corpses.Count > 0)
         {
-            corpses[0].corpseOwner.Respawn(corpses[0].transform.position);
+            corpses[0].corpseOwner.Value.Respawn(corpses[0].transform.position);
             corpses[0].NetworkObject.Despawn();
             //corpses.RemoveAt(0); //dont need to remove because it removes itself from ontriggerexit2d
 

@@ -6,25 +6,40 @@ using TMPro;
 using TMPro;
 using FishNet.Transporting;
 using UnityEditor.MemoryProfiler;
+using FishNet.Object.Synchronizing;
 
 public class Corpse : Interactable
 {
-    public PlayerStats corpseOwner; //the player whose corpse it is
-    [SerializeField] TMP_Text nameplate;
+    public readonly SyncVar<PlayerStats> corpseOwner = new SyncVar<PlayerStats>(); //the player whose corpse it is
+    public TMP_Text nameplate;
 
     [SerializeField] DistanceJoint2D joint; //what the player uses to drag the corpse around
 
-    public override void Awake()
+    private void Awake()
     {
-
         base.Awake();
-        if (corpseOwner)
+        if (corpseOwner.Value)
         {
-            nameplate.text = corpseOwner.playerName.Value + "'s corpse";
+            nameplate.text = corpseOwner.Value.playerName.Value + "'s corpse";
         }
-        
     }
 
+    /*[ServerRpc(RequireOwnership = false)]
+    public void setCorpseOwner(PlayerStats p)
+    {
+        corpseOwner.Value = p;
+        setCorpseOwnerClients(p);
+    }
+
+    [ObserversRpc]
+    public void setCorpseOwnerClients(PlayerStats p)
+    {
+        
+        if (corpseOwner.Value)
+        {
+            nameplate.text = corpseOwner.Value.playerName.Value + "'s corpse";
+        }
+    }*/
     public override void Interact()
     {
         if (joint.connectedBody == player.GetComponent<Rigidbody2D>())
