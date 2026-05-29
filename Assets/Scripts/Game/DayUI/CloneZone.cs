@@ -67,7 +67,7 @@ public class CloneZone : NetworkBehaviour
             {
                 corpses.Remove(corpses[i+1]);
             }
-            corpses[i].corpseOwner.Value.gameObject.GetComponent<PlayerStats>().Respawn(corpses[0].transform.position);
+            corpses[i].corpseOwner.Value.gameObject.GetComponent<PlayerStats>().Respawn(corpses[i].transform.position);
             corpses[i].NetworkObject.Despawn();
             Debug.Log("Despawned");
             //corpses.RemoveAt(0); //dont need to remove because it removes itself from ontriggerexit2d
