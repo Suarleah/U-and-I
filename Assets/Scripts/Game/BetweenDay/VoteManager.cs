@@ -11,16 +11,16 @@ using System.Collections;
 using UnityEngine.UI;
 using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class VoteManager : NetworkBehaviour
 {
     [Header("Voting Screen")]
     public GameObject playerName;
     public Transform playerList;
-    public readonly SyncVar<int> colorIndex = new SyncVar<int>(0);
     public Color[] playerColors;
     [SerializeField] GameObject cursorPrefab;
-    private int playersToLoad;
+    public int playersToLoad = 0;
     public List<NetworkObject> networkObjects = new List<NetworkObject>();
     public Canvas voteCanvas;
 
@@ -34,15 +34,13 @@ public class VoteManager : NetworkBehaviour
     public GameObject shop; private Canvas shopC; // shop and its canvas
     public String sceneToLoad; // Next scene
     private SceneLoadData sld;
-    public readonly SyncVar<int> posIndex = new SyncVar<int>(0);
     public Transform[] spawnPoints;
 
     async void Start()
     {
-        playersToLoad = NetworkManager.GetComponent<RelayManager>().maxPlayers;
 
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
-
+        playersToLoad = RelayManager.Instance.currentPlayersCount;
 
         sld = new SceneLoadData(sceneToLoad);
         sld.ReplaceScenes = ReplaceOption.All;
@@ -55,69 +53,67 @@ public class VoteManager : NetworkBehaviour
         ReadyToStart();
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void UpdateIndexes()
-    {
-        colorIndex.Value++;
-        posIndex.Value++;
-    }
-
     [Server]
     public void PlayerDoneLoading(ClientPresenceChangeEventArgs arrghs) // yarrrr!!!!
     {
         GameObject localPlayer = arrghs.Connection.FirstObject.gameObject;
         networkObjects.Add(localPlayer.GetComponent<NetworkObject>());
         playersToLoad--;
+        Debug.Log(playersToLoad);
 
         if (playersToLoad == 0)
         {
+            Debug.Log("I'm going to all players");
             AllPlayersDoneLoading();
         }
 
     }
 
-    [ServerRpc]
-    void AllPlayersDoneLoading()
+    [Server]
+    async Task AllPlayersDoneLoading()
     {
-        foreach (NetworkObject no in networkObjects)
+        for (int i = 0; i < networkObjects.Count; i++)
         {
+            // For each player whom is connected
+            NetworkObject no = networkObjects[i];
+            // The object I am talking about is from my array of objects
+
             GameObject localPlayer = no.gameObject;
-            localPlayer.SetActive(false);
-            localPlayer.transform.position = spawnPoints[posIndex.Value].position;
-            // Get local player, disable, move to desired location for shopping
+            // The local object is the local connections object
 
             GameObject name = Instantiate(playerName, playerList);
-            Spawn(name, no.ClientManager.Connection);
-            name.transform.SetParent(playerList, false);
+            Spawn(name, no.Owner);
+            // make a name and then make that name spawn on the network
+            
             String myName = localPlayer.GetComponentInChildren<TextMeshProUGUI>().text;
             // Create their name and then spawn in on the network, get the players local name above their head
 
             GameObject cursor = Instantiate(cursorPrefab, voteCanvas.transform);
-            Spawn(cursor, no.ClientManager.Connection);
-            cursor.transform.SetParent(voteCanvas.transform, false);
+            Spawn(cursor, no.Owner);
             // create a cursor and then spawn it over the network
+            
+            cursor.GetComponent<NetworkCursor>().SetColor(playerColors[i]);
+            
 
-            UpdateForClients(localPlayer.GetComponent<NetworkObject>(), cursor.GetComponent<NetworkObject>(),
-                name.GetComponent<NetworkObject>(), myName);
+            UpdateValuesOnClient(localPlayer.GetComponent<NetworkObject>(), cursor.GetComponent<NetworkObject>(),
+                name.GetComponent<NetworkObject>(), myName, i);
             // Apperently you cannot pass GameObjects into RPC.....
             // Actually fuck this stupid bullshit
 
-            UpdateIndexes(); // Only gets called on the server dont call it or ill fucking kill you
         }
     }
 
     [ObserversRpc]
-    void UpdateForClients(NetworkObject localPlayer, NetworkObject cursor, NetworkObject nameText, String name)
+    void UpdateValuesOnClient(NetworkObject localPlayer, NetworkObject cursor, NetworkObject nameText, String name, int i)
     {
         localPlayer.gameObject.SetActive(false);
-        localPlayer.transform.position = spawnPoints[posIndex.Value].position;
+        localPlayer.transform.position = spawnPoints[i].position;
         // Move the player again because IDGAF
 
-        cursor.GetComponentInChildren<Image>().color = playerColors[colorIndex.Value];
         cursor.transform.SetParent(voteCanvas.transform, false);
         // The cursors color fene;jibr;g
 
-        nameText.GetComponentInChildren<TextMeshProUGUI>().color = playerColors[colorIndex.Value];
+        nameText.GetComponentInChildren<TextMeshProUGUI>().color = playerColors[i];
         nameText.GetComponentInChildren<TextMeshProUGUI>().text = name;
         nameText.transform.SetParent(playerList, false);
 

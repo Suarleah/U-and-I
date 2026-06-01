@@ -13,6 +13,7 @@ public class RelayManager : MonoBehaviour
     public static RelayManager Instance;
     // There should only be one of these
     public int maxPlayers = 4;
+    public int currentPlayersCount = 0;
 
     void Awake()
     {
@@ -55,6 +56,10 @@ public class RelayManager : MonoBehaviour
     public async Task JoinRelayAsync(string joinCode)
     {
         JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+        if (allocation == null)
+        {
+            return;
+        }
 
         UnityTransport transport = InstanceFinder.NetworkManager.TransportManager.GetTransport<UnityTransport>();
         transport.SetRelayServerData(new RelayServerData(allocation, "dtls"));
