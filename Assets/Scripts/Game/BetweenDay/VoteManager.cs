@@ -10,15 +10,18 @@ using FishNet.Connection;
 using System.Collections;
 using UnityEngine.UI;
 using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 
 public class VoteManager : NetworkBehaviour
 {
     [Header("Voting Screen")]
     public GameObject playerName;
     public Transform playerList;
-    public readonly SyncVar<int> colorIndex= new SyncVar<int>(0);
+    public readonly SyncVar<int> colorIndex = new SyncVar<int>(0);
     public Color[] playerColors;
     [SerializeField] GameObject cursorPrefab;
+    private int playersToLoad;
+    public List<NetworkObject> networkObjects = new List<NetworkObject>();
     public Canvas voteCanvas;
 
     [Header("Shop Screen")]
@@ -31,11 +34,13 @@ public class VoteManager : NetworkBehaviour
     public GameObject shop; private Canvas shopC; // shop and its canvas
     public String sceneToLoad; // Next scene
     private SceneLoadData sld;
-    public readonly SyncVar<int> posIndex= new SyncVar<int>(0);
+    public readonly SyncVar<int> posIndex = new SyncVar<int>(0);
     public Transform[] spawnPoints;
 
     async void Start()
     {
+        playersToLoad = NetworkManager.GetComponent<RelayManager>().maxPlayers;
+
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
 
 
@@ -58,31 +63,47 @@ public class VoteManager : NetworkBehaviour
     }
 
     [Server]
-    public void PlayerDoneLoading(ClientPresenceChangeEventArgs arrghs)
+    public void PlayerDoneLoading(ClientPresenceChangeEventArgs arrghs) // yarrrr!!!!
     {
         GameObject localPlayer = arrghs.Connection.FirstObject.gameObject;
-        
-        localPlayer.SetActive(false);
-        localPlayer.transform.position = spawnPoints[posIndex.Value].position;
-        // Get local player, disable, move to desired location for shopping
+        networkObjects.Add(localPlayer.GetComponent<NetworkObject>());
+        playersToLoad--;
 
-        GameObject name = Instantiate(playerName, playerList);
-        Spawn(name, arrghs.Connection);
-        name.transform.SetParent(playerList, false);
-        String myName = localPlayer.GetComponentInChildren<TextMeshProUGUI>().text;
-        // Create their name and then spawn in on the network, get the players local name above their head
+        if (playersToLoad == 0)
+        {
+            AllPlayersDoneLoading();
+        }
 
-        GameObject cursor = Instantiate(cursorPrefab, voteCanvas.transform);
-        Spawn(cursor, arrghs.Connection);
-        cursor.transform.SetParent(voteCanvas.transform, false);
-        // create a cursor and then spawn it over the network
+    }
 
-        UpdateForClients(localPlayer.GetComponent<NetworkObject>(), cursor.GetComponent<NetworkObject>(),
-            name.GetComponent<NetworkObject>(), myName);
+    [ServerRpc]
+    void AllPlayersDoneLoading()
+    {
+        foreach (NetworkObject no in networkObjects)
+        {
+            GameObject localPlayer = no.gameObject;
+            localPlayer.SetActive(false);
+            localPlayer.transform.position = spawnPoints[posIndex.Value].position;
+            // Get local player, disable, move to desired location for shopping
+
+            GameObject name = Instantiate(playerName, playerList);
+            Spawn(name, no.ClientManager.Connection);
+            name.transform.SetParent(playerList, false);
+            String myName = localPlayer.GetComponentInChildren<TextMeshProUGUI>().text;
+            // Create their name and then spawn in on the network, get the players local name above their head
+
+            GameObject cursor = Instantiate(cursorPrefab, voteCanvas.transform);
+            Spawn(cursor, no.ClientManager.Connection);
+            cursor.transform.SetParent(voteCanvas.transform, false);
+            // create a cursor and then spawn it over the network
+
+            UpdateForClients(localPlayer.GetComponent<NetworkObject>(), cursor.GetComponent<NetworkObject>(),
+                name.GetComponent<NetworkObject>(), myName);
             // Apperently you cannot pass GameObjects into RPC.....
             // Actually fuck this stupid bullshit
 
-        UpdateIndexes(); // Only gets called on the server dont call it or ill fucking kill you
+            UpdateIndexes(); // Only gets called on the server dont call it or ill fucking kill you
+        }
     }
 
     [ObserversRpc]
@@ -100,7 +121,7 @@ public class VoteManager : NetworkBehaviour
         nameText.GetComponentInChildren<TextMeshProUGUI>().text = name;
         nameText.transform.SetParent(playerList, false);
 
-        
+
     }
 
 
