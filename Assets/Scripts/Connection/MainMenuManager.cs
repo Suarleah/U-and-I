@@ -22,7 +22,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("Lobby Screen")]
     public TMP_InputField changeName; // Where player changes name
 
-    public int playersReady = 0; // Used for starting game
+    public int playersReady = -1; // Used for starting game
     private bool startingGame; // Used for starting game
     public Image progressBox; // Loading progress bar for when all players are ready
     public TextMeshProUGUI playersReadyText;
@@ -50,7 +50,7 @@ public class MainMenuManager : MonoBehaviour
         InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;
         InstanceFinder.NetworkManager.SceneManager.OnClientLoadedStartScenes += ClientJoined;
         // When a scene starts loading and ends loading, not actually switching the scene just loading it asynchronously
-        
+
         sld = new SceneLoadData(sceneToLoad);
         sld.ReplaceScenes = ReplaceOption.All;
 
@@ -80,6 +80,7 @@ public class MainMenuManager : MonoBehaviour
             ReadyManager.Instance.UpdatePlayerReadyText(playersReady, InstanceFinder.NetworkManager.ClientManager.Clients.Count);
         }
 
+        RelayManager.Instance.currentPlayersCount++;
     }
 
     public void StartGame()
