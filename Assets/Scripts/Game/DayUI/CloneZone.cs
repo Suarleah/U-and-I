@@ -15,10 +15,20 @@ public class CloneZone : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!IsServerStarted)
+        /*if (!IsServerStarted)
         {
             return;
-        }
+        }*/
+        string s;
+        if (IsServerStarted)
+            {
+                 s = "server";
+            }
+            else
+            {
+                 s = "client";
+            }
+            Debug.Log("OnTriggerEnter" + s);
         if (collision.gameObject.GetComponent<Corpse>())
         {
             AddCorpseToList(collision.gameObject.GetComponent<Corpse>());
@@ -27,13 +37,22 @@ public class CloneZone : NetworkBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!IsServerStarted)
+        /*if (!IsServerStarted)
         {
             return;
-        }
+        }*/
         if (collision.gameObject.GetComponent<Corpse>())
         {
-            Debug.Log("OnTriggerExit");
+            string s;
+            if (IsServerStarted)
+            {
+                 s = "server";
+            }
+            else
+            {
+                 s = "client";
+            }
+            Debug.Log("OnTriggerExit" + s);
             RemoveCorpseFromList(collision.gameObject.GetComponent<Corpse>());
         }
     }
@@ -69,7 +88,6 @@ public class CloneZone : NetworkBehaviour
             }
             corpses[i].corpseOwner.Value.gameObject.GetComponent<PlayerStats>().Respawn(corpses[i].transform.position);
             corpses[i].NetworkObject.Despawn();
-            Debug.Log("Despawned");
             //corpses.RemoveAt(0); //dont need to remove because it removes itself from ontriggerexit2d
 
         }
