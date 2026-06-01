@@ -15,35 +15,14 @@ public class CloneZone : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        /*if (!IsServerStarted)
+        if (!IsServerStarted)
         {
             return;
-        }*/
-        string s;
-        if (IsServerStarted)
-            {
-                 s = "server";
-            }
-            else
-            {
-                 s = "client";
-            }
-            Debug.Log("OnTriggerEnter" + s);
-        if (collision.gameObject.GetComponent<Corpse>())
-        {
-            AddCorpseToList(collision.gameObject.GetComponent<Corpse>());
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        /*if (!IsServerStarted)
-        {
-            return;
-        }*/
+        
         if (collision.gameObject.GetComponent<Corpse>())
         {
-            string s;
+            /*string s;
             if (IsServerStarted)
             {
                  s = "server";
@@ -52,18 +31,41 @@ public class CloneZone : NetworkBehaviour
             {
                  s = "client";
             }
-            Debug.Log("OnTriggerExit" + s);
+            Debug.Log("OnTriggerEnter" + s);*/
+            AddCorpseToList(collision.gameObject.GetComponent<Corpse>());
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!IsServerStarted)
+        {
+            return;
+        }
+        if (collision.gameObject.GetComponent<Corpse>())
+        {
+            /*string s;
+            if (IsServerStarted)
+            {
+                 s = "server";
+            }
+            else
+            {
+                 s = "client";
+            }
+            Debug.Log("OnTriggerExit" + s);*/
             RemoveCorpseFromList(collision.gameObject.GetComponent<Corpse>());
         }
     }
 
-    //[ServerRpc(RequireOwnership = false)]
+    [Server]
     public void AddCorpseToList(Corpse corpse)
     {
+        Debug.Log("addcorpse");
         corpses.Add(corpse);
     }
 
-    //[ServerRpc(RequireOwnership = false)]
+    [Server]
     public void RemoveCorpseFromList(Corpse corpse)
     {
         if (corpses.Contains(corpse)){
@@ -76,6 +78,15 @@ public class CloneZone : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void CloneAll()
     {
+        for (int i = corpses.Count - 1; i >= 0; i--) //in case of extra corpses that havent been removed properly, clear all null corpses
+        {
+            if (!corpses[i]) 
+            {
+                corpses.Remove(corpses[i]);
+            }
+            
+
+        }
         if (corpses.Count <= 0)
         {
             return;
@@ -88,6 +99,11 @@ public class CloneZone : NetworkBehaviour
             }
             corpses[i].corpseOwner.Value.gameObject.GetComponent<PlayerStats>().Respawn(corpses[i].transform.position);
             corpses[i].NetworkObject.Despawn();
+            if (corpses.Count > i)
+            {
+                corpses.RemoveAt(i);
+            }
+            
             //corpses.RemoveAt(0); //dont need to remove because it removes itself from ontriggerexit2d
 
         }
