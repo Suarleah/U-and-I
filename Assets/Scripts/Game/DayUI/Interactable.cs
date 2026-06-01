@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using FishNet;
 using FishNet.Object;
+using System.Collections.Generic;
+using System.Collections;
+using FishNet.Object.Synchronizing;
+using System.Globalization;
 
 public class Interactable : NetworkBehaviour
 {
@@ -17,17 +21,25 @@ public class Interactable : NetworkBehaviour
 
     public bool interacting; // particularly for opening menus, only 1 interactable should be interacting at a time, but any signal given 
 
+    public bool deadUI; // if this UI is meant to be accessed while dead or alive.
+
+    public readonly SyncVar<bool> onCD = new SyncVar<bool>();
+    public bool localOnCD;
+    public float cooldown;
+
     public virtual void Awake()
     {
         interactAction = inputAsset.FindAction("Interact");
         player = FishNet.InstanceFinder.ClientManager.Connection.FirstObject.gameObject;
 
+        onCD.OnChange += OnCDChanged;
         interactAction.canceled += released;
     }
 
     // Update is called once per frame
     void Update()
     {
+        localOnCD = onCD.Value;
         if (closest) 
         {
             c.gameObject.SetActive(true);
@@ -86,6 +98,7 @@ public class Interactable : NetworkBehaviour
     {
         if (UIManager.Instance.currentInteraction == this) //pressing interact in the interaction menu closes it. Idk if its stupid or not to have this keybind
         {
+            closest = false;
             interacting = false;
             UIManager.Instance.currentInteraction = null;
         }
@@ -102,5 +115,29 @@ public class Interactable : NetworkBehaviour
 
     }
 
-        
+    
+    [Server]
+    public virtual IEnumerator goOnCooldown(float seconds)
+    {
+        setCD(true);
+
+        yield return new WaitForSeconds(seconds);
+
+        setCD(false);
+    }
+    
+    [Server]
+    public virtual void setCD(bool val)
+    {
+        onCD.Value = val;
+    }
+
+    public void OnCDChanged(bool prev, bool next, bool asServer)
+    {
+        if (next) // if its going on cooldown
+        {
+            Close();
+        }
+    }
+    
 }

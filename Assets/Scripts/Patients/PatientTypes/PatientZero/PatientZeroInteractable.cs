@@ -1,30 +1,38 @@
 using UnityEngine;
 using FishNet.Object;
+using UnityEditor;
 
 public class PatientZeroInteractable : PatientInteractable
 {
-    public override void UIButtonPressed(string info)
+
+    
+     [ServerRpc(RequireOwnership = false)]
+    public override void PatientButtonExecute(string info, GameObject p)
     {
+        if (onCD.Value)
+        {
+            return;
+        }
         if (info == "money")
         {
             return;
         }
         if (info == "damage")
         {
-            player.GetComponent<PlayerStats>().TakeDamage(20, new DamageDetails());
+            p.GetComponent<PlayerStats>().TakeDamage(50, new DamageDetails());
         }
 
         if (info == "heal")
         {
-            player.GetComponent<PlayerStats>().Heal(20, new DamageDetails());
+            p.GetComponent<PlayerStats>().Heal(50, new DamageDetails());
         }
 
         if (info == "losePatience")
         {
-            self.changePatience(-20);
+            self.changePatience(-50);
         }
-
-    }
-
+        StartCoroutine(goOnCooldown(10f));
+        
+    } 
 
 }

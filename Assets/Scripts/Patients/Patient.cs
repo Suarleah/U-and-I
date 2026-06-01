@@ -146,7 +146,7 @@ public class Patient : NetworkBehaviour
         patience.Value+=amt;
     }
     
-
+ 
 
     public virtual IEnumerator roomWander() //just ambient movement for the patient to do while contained
     {
