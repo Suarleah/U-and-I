@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using FishNet;
 using FishNet.Connection;
+using FishNet.Demo.AdditiveScenes;
 
 
 public class PlayerStats : NetworkBehaviour
@@ -24,12 +25,14 @@ public class PlayerStats : NetworkBehaviour
     public bool localisDead;
     //public Item[] inventory;
 
+    public GameObject corpsePrefab;
+
     public override void OnStartServer()
     {
         base.OnStartServer();
         // Initialize the server variable
         playerName.Value = "";
-        speed.Value = 5f;
+        speed.Value = 10f;
         maxHealth.Value = 100;
         health.Value = 100;
         isDead.Value = false;
@@ -50,7 +53,7 @@ public class PlayerStats : NetworkBehaviour
     public void TakeDamage(int amt, DamageDetails deets)
     {
         health.Value -= amt;
-        if (health.Value <= 0)
+        if (health.Value <= 0 && !isDead.Value)
         {
             Die();
         }
@@ -66,25 +69,50 @@ public class PlayerStats : NetworkBehaviour
         }
     }
 
-    
     public void Die()
     {
-        Corpse corpse = new Corpse();
-        corpse.corpseOwner = this;
-        corpse.transform.position = transform.position;
-        FishNet.InstanceFinder.ServerManager.Spawn(corpse);
+        
         isDead.Value = true;
-        UIManager.Instance.currentInteraction.Close();
+        CloseLocalUIManager(base.Owner);
         GameManager.Instance.playerDied(gameObject);
 
+        corpsePrefab.transform.position = transform.position;
+        GameObject corpse = Instantiate(corpsePrefab);
+        
+        FishNet.InstanceFinder.ServerManager.Spawn(corpse);
+        corpse.GetComponent<Corpse>().setCorpseOwner(base.NetworkObject);
+        /*corpse.GetComponent<Corpse>().corpseOwner.Value = gameObject;
+        SetCorpseName(corpse.GetComponent<Corpse>());*/
+ 
+    }
+
+    
+    /*[ObserversRpc]
+    public void SetCorpseName(Corpse corpse)
+    {
+        
+        corpse.nameplate.text = this.playerName.Value + "'s Corpse";
+    }*/
+
+
+    [TargetRpc]
+    public void CloseLocalUIManager(NetworkConnection conn)
+    {
+         UIManager.Instance.Close();
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void Respawn(Vector3 pos)
     {
         health.Value = maxHealth.Value;
-        transform.position = pos;
+        moveClient(pos);
         isDead.Value = false;
+    }
+
+    [ObserversRpc]
+    public void moveClient(Vector2 pos)
+    {
+        transform.position = pos;
     }
 }
 

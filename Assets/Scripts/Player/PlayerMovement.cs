@@ -53,14 +53,15 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner) return;
+        
+        setGhostSpriteEnabled(false);
+        setPlayerSpriteEnabled(true);
         if (stats.isDead.Value)
         {
             ghostUpdate();
-            return;
         }
-        ghostVisual.SetActive(false);
-        visual.SetActive(true);
+        if (!IsOwner) return;
+        
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
         {
@@ -87,30 +88,9 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (IsOwner || FishNet.InstanceFinder.ClientManager.Connection.FirstObject.GetComponent<PlayerStats>().isDead.Value) //if youre the dead player, or if youre also dead, then you can see the ghost
         {
-            ghostVisual.SetActive(true); 
+            setGhostSpriteEnabled(true);
         }
-        
-        visual.SetActive(false);
-        Vector2 dir = moveAction.ReadValue<Vector2>();
-        if (canMove)
-        {
-            playerRb.linearVelocity = dir * stats.speed.Value;
-            ghostAnimate();
-
-            if (dir.x < 0) // If I pressing left
-            {
-                ghostVisual.transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-                // flip me visual... ARHHH!!!!!
-
-            }
-            if (dir.x > 0) // If I pressing right
-            {
-                ghostVisual.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
-                
-            }
-
-           
-        }
+        setPlayerSpriteEnabled(false);
     }
 
     
@@ -164,4 +144,24 @@ public class PlayerMovement : NetworkBehaviour
         playerRb.position = pos;
     }
     */
+
+    private void setGhostSpriteEnabled(bool enabled)
+    {
+        ghostVisual.GetComponent<SpriteRenderer>().enabled = enabled; //set ghost visual and all related to invisible
+        foreach (SpriteRenderer sprite in ghostVisual.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.enabled = enabled;
+        }
+        
+        
+    }
+
+    private void setPlayerSpriteEnabled (bool enabled)
+    {
+        visual.GetComponent<SpriteRenderer>().enabled = enabled; //set ghost visual and all related to invisible
+        foreach (SpriteRenderer sprite in visual.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.enabled = enabled;
+        }
+    }
 }
