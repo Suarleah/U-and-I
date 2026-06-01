@@ -9,8 +9,8 @@ public class CursorSpawner : MonoBehaviour
 
     private void Awake()
     {
-        GameObject cursor = Instantiate(cursorPrefab);
-        cursor.transform.SetParent(c.transform);
+        GameObject cursor = Instantiate(cursorPrefab, c.transform);
+        //cursor.transform.SetParent(c.transform);     Replaced with the ,c.transform above
         FishNet.InstanceFinder.ServerManager.Spawn(cursor, FishNet.InstanceFinder.ClientManager.Connection); //spawn a cursor, give ownership to client
     }
 }

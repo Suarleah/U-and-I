@@ -9,15 +9,17 @@ using Unity.Services.Core;
 using FishNet.Connection;
 using System.Collections;
 using UnityEngine.UI;
+using FishNet.Object.Synchronizing;
 
 public class VoteManager : NetworkBehaviour
 {
     [Header("Voting Screen")]
     public GameObject playerName;
-    public GameObject cursor; // Should be white
     public Transform playerList;
-    private static int colorIndex;
+    public readonly SyncVar<int> colorIndex= new SyncVar<int>(0);
     public Color[] playerColors;
+    [SerializeField] GameObject cursorPrefab;
+    public Canvas voteCanvas;
 
     [Header("Shop Screen")]
     public int playersReady = 0; // Used for starting game
@@ -26,16 +28,14 @@ public class VoteManager : NetworkBehaviour
     public TextMeshProUGUI playersReadyText;
     private ReadyManager readyManager;
     private Coroutine countdownCoroutine;
-    public GameObject shop;
-    [SerializeField]private Canvas shopC; // Lobby and its canvas
+    public GameObject shop; private Canvas shopC; // shop and its canvas
     public String sceneToLoad; // Next scene
     private SceneLoadData sld;
-    private static int posIndex;
+    public readonly SyncVar<int> posIndex= new SyncVar<int>(0);
     public Transform[] spawnPoints;
 
     async void Start()
     {
-
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
 
 
@@ -50,29 +50,60 @@ public class VoteManager : NetworkBehaviour
         ReadyToStart();
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void UpdateIndexes()
     {
-        colorIndex++;
-        posIndex++;
+        colorIndex.Value++;
+        posIndex.Value++;
     }
 
-    [ObserversRpc]
+    [Server]
     public void PlayerDoneLoading(ClientPresenceChangeEventArgs arrghs)
     {
         GameObject localPlayer = arrghs.Connection.FirstObject.gameObject;
-
+        
         localPlayer.SetActive(false);
-        localPlayer.transform.position = spawnPoints[posIndex].position;
-        
-        TextMeshProUGUI name = Instantiate(playerName, playerList).GetComponentInChildren<TextMeshProUGUI>();
-        // name is the text of the playerName prefab that shows up in the list of players
-        name.text = localPlayer.GetComponentInChildren<TextMeshProUGUI>().text;
-        // the playerName text shows up as the same text that appears ervoe clients text above their head in game
-        
-        playerName.GetComponentInChildren<Image>().color = playerColors[colorIndex];
-        UpdateIndexes();
+        localPlayer.transform.position = spawnPoints[posIndex.Value].position;
+        // Get local player, disable, move to desired location for shopping
+
+        GameObject name = Instantiate(playerName, playerList);
+        Spawn(name, arrghs.Connection);
+        name.transform.SetParent(playerList, false);
+        String myName = localPlayer.GetComponentInChildren<TextMeshProUGUI>().text;
+        // Create their name and then spawn in on the network, get the players local name above their head
+
+        GameObject cursor = Instantiate(cursorPrefab, voteCanvas.transform);
+        Spawn(cursor, arrghs.Connection);
+        cursor.transform.SetParent(voteCanvas.transform, false);
+        // create a cursor and then spawn it over the network
+
+        UpdateForClients(localPlayer.GetComponent<NetworkObject>(), cursor.GetComponent<NetworkObject>(),
+            name.GetComponent<NetworkObject>(), myName);
+            // Apperently you cannot pass GameObjects into RPC.....
+            // Actually fuck this stupid bullshit
+
+        UpdateIndexes(); // Only gets called on the server dont call it or ill fucking kill you
     }
+
+    [ObserversRpc]
+    void UpdateForClients(NetworkObject localPlayer, NetworkObject cursor, NetworkObject nameText, String name)
+    {
+        localPlayer.gameObject.SetActive(false);
+        localPlayer.transform.position = spawnPoints[posIndex.Value].position;
+        // Move the player again because IDGAF
+
+        cursor.GetComponentInChildren<Image>().color = playerColors[colorIndex.Value];
+        cursor.transform.SetParent(voteCanvas.transform, false);
+        // The cursors color fene;jibr;g
+
+        nameText.GetComponentInChildren<TextMeshProUGUI>().color = playerColors[colorIndex.Value];
+        nameText.GetComponentInChildren<TextMeshProUGUI>().text = name;
+        nameText.transform.SetParent(playerList, false);
+
+        
+    }
+
+
     public void StartGame()
     {
         ReadyManager.Instance.StartGame(sld);

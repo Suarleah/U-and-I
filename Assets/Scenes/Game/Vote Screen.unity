@@ -1328,8 +1328,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0}
-  m_SizeDelta: {x: 300, y: 300}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 400, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &659644935
 MonoBehaviour:
@@ -1344,7 +1344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
-    m_Left: 10
+    m_Left: 5
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
@@ -2139,52 +2139,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1006471539
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1006471540}
-  - component: {fileID: 1006471541}
-  m_Layer: 0
-  m_Name: CursorSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1006471540
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006471539}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 352.95312, y: -1.23996, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1006471541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006471539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09796cad9137473697d2efb1b552ba2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  cursorPrefab: {fileID: 7254687362810724716, guid: 5384b9a8b875d4e289f29a3d5716f89b, type: 3}
-  c: {fileID: 1313232066}
 --- !u!1 &1146161550
 GameObject:
   m_ObjectHideFlags: 0
@@ -3442,18 +3396,19 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1425628595}
   _networkObjectCache: {fileID: 0}
   playerName: {fileID: 4181413843244208788, guid: b2377bf8db49d44e29560bddf7bcd2dd, type: 3}
-  cursor: {fileID: 0}
   playerList: {fileID: 659644934}
   playerColors:
-  - {r: 0.7216981, g: 0.30297703, b: 0.30297703, a: 0}
-  - {r: 0.24110004, g: 0.28396964, b: 0.5943396, a: 0}
-  - {r: 0.21382163, g: 0.7311321, b: 0.35169485, a: 0}
-  - {r: 1, g: 0.066037714, b: 0.70181596, a: 0}
+  - {r: 0.7216981, g: 0.30297703, b: 0.30297703, a: 1}
+  - {r: 0.24110004, g: 0.28396964, b: 0.5943396, a: 1}
+  - {r: 0.21382163, g: 0.7311321, b: 0.35169485, a: 1}
+  - {r: 1, g: 0.066037714, b: 0.70181596, a: 1}
+  - {r: 0.72156864, g: 0.3019608, b: 0.3019608, a: 1}
+  cursorPrefab: {fileID: 7254687362810724716, guid: 5384b9a8b875d4e289f29a3d5716f89b, type: 3}
+  voteCanvas: {fileID: 1313232066}
   playersReady: 0
   progressBox: {fileID: 1176104141}
   playersReadyText: {fileID: 930738611}
   shop: {fileID: 627515213}
-  shopC: {fileID: 289315967}
   sceneToLoad: entity test scene
   spawnPoints:
   - {fileID: 1804925464}
@@ -4040,4 +3995,3 @@ SceneRoots:
   - {fileID: 1425628594}
   - {fileID: 1643282577}
   - {fileID: 591927931}
-  - {fileID: 1006471540}
