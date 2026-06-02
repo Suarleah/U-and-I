@@ -19,6 +19,7 @@ public class RelayManager : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        InstanceFinder.NetworkManager.ClientManager.OnClientTimeOut += PlayerLeft;
     }
 
     public async Task InitializeAsync()
@@ -28,7 +29,7 @@ public class RelayManager : MonoBehaviour
 
         if (!AuthenticationService.Instance.IsSignedIn)
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            // if we can't sign in then we go anonyumus
+        // if we can't sign in then we go anonyumus
 
         Debug.Log("My player ID is: super cool, it is: " + AuthenticationService.Instance.PlayerId);
     }
@@ -48,22 +49,44 @@ public class RelayManager : MonoBehaviour
         InstanceFinder.ClientManager.StartConnection();
         // Find the static server and connection managers and start AS THE HOST
 
-        Debug.Log("Join code: "+ joinCode);
+        Debug.Log("Join code: " + joinCode);
 
         return joinCode;
     }
 
-    public async Task JoinRelayAsync(string joinCode)
+    public async Task<bool> JoinRelayAsync(string joinCode)
     {
-        JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
-        if (allocation == null)
+        if (string.IsNullOrWhiteSpace(joinCode))
         {
-            return;
+            return false;
+            // If they didn't type anything in then they didn't join
+        }
+            
+
+        JoinAllocation allocation;
+
+        try
+        {
+            allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            // try to do this
+        }
+        catch (RelayServiceException e)
+        {
+            // If they fail to join then they didn't join
+            return false;
+
         }
 
         UnityTransport transport = InstanceFinder.NetworkManager.TransportManager.GetTransport<UnityTransport>();
         transport.SetRelayServerData(new RelayServerData(allocation, "dtls"));
 
         InstanceFinder.ClientManager.StartConnection();
+        return true;
+        // If they joined then they joined
+    }
+
+    public void PlayerLeft()
+    {
+        currentPlayersCount--;
     }
 }

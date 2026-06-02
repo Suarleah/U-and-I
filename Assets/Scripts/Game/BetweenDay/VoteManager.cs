@@ -16,12 +16,14 @@ using System.Threading.Tasks;
 public class VoteManager : NetworkBehaviour
 {
     [Header("Voting Screen")]
+    private PatientManager patientManager;
     public GameObject playerName;
     public Transform playerList;
     public Color[] playerColors;
     [SerializeField] GameObject cursorPrefab;
     public int playersToLoad = 0;
     public List<NetworkObject> networkObjects = new List<NetworkObject>();
+    public GameObject[] patientChoices;
     public Canvas voteCanvas;
 
     [Header("Shop Screen")]
@@ -41,11 +43,19 @@ public class VoteManager : NetworkBehaviour
 
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
         playersToLoad = RelayManager.Instance.currentPlayersCount;
+        patientManager = PatientManager.Instance;
 
         sld = new SceneLoadData(sceneToLoad);
         sld.ReplaceScenes = ReplaceOption.All;
 
         shopC = shop.GetComponentInChildren<Canvas>();
+
+        List<PatientSO> ethanPoop = patientManager.getRandomUnusedPatients(patientChoices.Length);
+        for (int i = patientChoices.Length - 1; i >= 0; i--)
+        {
+            Voter v = patientChoices[i].GetComponent<Voter>();
+            v.me = ethanPoop[i];
+        }
     }
 
     async void Update()
@@ -128,7 +138,7 @@ public class VoteManager : NetworkBehaviour
 
     public void ReadyToStart()
     {
-        if (playersReady != InstanceFinder.NetworkManager.ClientManager.Clients.Count && playersReady != 0)
+        if (playersReady != RelayManager.Instance.currentPlayersCount && playersReady != 0)
         {
             // If the number of players who are ready is not the same as the number of players in the game
             if (countdownCoroutine != null)
@@ -140,7 +150,7 @@ public class VoteManager : NetworkBehaviour
             startingGame = false;
         }
 
-        if (playersReady == InstanceFinder.NetworkManager.ClientManager.Clients.Count && !startingGame && playersReady != 0)
+        if (playersReady == RelayManager.Instance.currentPlayersCount && !startingGame && playersReady != 0)
         {
             // If the number of players who are ready is the same as the number of players in the game
             countdownCoroutine = StartCoroutine(startCountdown());
@@ -166,11 +176,5 @@ public class VoteManager : NetworkBehaviour
     PlayerMovement FindLocalPlayer()
     {
         return FishNet.InstanceFinder.ClientManager.Connection.FirstObject.gameObject.GetComponent<PlayerMovement>();
-        /*
-        foreach (PlayerMovement p in FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None))
-        {
-            if (p.IsOwner) return p;
-        }
-        return null;*/
     }
 }
