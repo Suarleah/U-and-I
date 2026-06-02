@@ -11,7 +11,6 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
     public GameObject textDesc;
     public Transform voteHolder;
     readonly SyncVar<int> votesForMe = new SyncVar<int>(0);
-    public int LOOKATMYNUNUMBERCHANGE;
     public PatientSO me;
     public PatientManager patientManager;
 
@@ -21,11 +20,6 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
 
         patientManager = PatientManager.Instance;
 
-    }
-
-    void Update()
-    {
-        LOOKATMYNUNUMBERCHANGE = votesForMe.Value;
     }
 
     [ServerRpc]
