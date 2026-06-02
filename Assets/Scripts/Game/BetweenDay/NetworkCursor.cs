@@ -8,11 +8,12 @@ using UnityEngine.UI;
 
 public class NetworkCursor : NetworkBehaviour
 {
-
+    public Image myVote; // Icon that shows who you voted for
     private Image myColon;
     private RectTransform myRect;
     private Camera canvasRefCam; private Canvas myCanvas; private RectTransform canvasRect;
     readonly SyncVar<Color> netColor = new SyncVar<Color>(Color.white);
+    public Voter myPrevVote;
     async void Awake()
     {
         myColon = gameObject.GetComponent<UnityEngine.UI.Image>();
@@ -54,15 +55,18 @@ public class NetworkCursor : NetworkBehaviour
     public void SetColor(Color c)
     {
         netColor.Value = c; // This updates automatically on clients
+        myVote.color = c;
     }
     public void OnColorChanged(Color prev, Color next, bool asServer)
     { // Whenever a color changes, if I'm not the owner of the object who changed then half its opacity
         if (!IsOwner)
         {
             myColon.color = new Color(next.r, next.g, next.b, 0.5f); // half opacity for plebians
+            myVote.color = next;
         } else // If I do own the object
         {
             myColon.color = next; // full opacity for yourself
+            myVote.color = next;
         }
            
     }

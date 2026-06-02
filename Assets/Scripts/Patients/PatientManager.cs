@@ -4,7 +4,7 @@ using System.Collections.Generic;
 //this is a script to keep track of patients which the players have accumulated so far
 public class PatientManager : MonoBehaviour
 {
-
+    public static PatientManager Instance;
     public List<PatientSO> allPatients; //all patients that exist in the game
 
     public List<PatientSO> currentPatients; //patients the players currently have
@@ -14,7 +14,9 @@ public class PatientManager : MonoBehaviour
 
     private void Awake()
     {
-        unusedPatients.AddRange(allPatients);
+        Instance = this;
+       // unusedPatients.AddRange(allPatients);
+       availPatients = new List<PatientSO>();
     }
 
     public List<PatientSO> getRandomUnusedPatients (int count) //gets x patients that the players dont currently have
@@ -39,7 +41,7 @@ public class PatientManager : MonoBehaviour
 
             availPatients.Remove(availPatients[r]);
         }
-
+        Debug.Log(ret);
         return ret;
     }
 

@@ -139,11 +139,19 @@ public class MainMenuManager : MonoBehaviour
     public async void OnJoinClicked()
     {
         loading.SetActive(true);
-        await RelayManager.Instance.JoinRelayAsync(joinCodeInput.text.Trim().ToUpper());
-        menu.SetActive(false);
-        lobby.SetActive(true);
-        // GET CODE FROM THE RELAY MANAGER
+        
+        bool iJoined = await RelayManager.Instance.JoinRelayAsync(joinCodeInput.text.Trim().ToUpper());
+        if (iJoined)
+        {
+            menu.SetActive(false);
+            lobby.SetActive(true);
+        } else
+        {
+            // Show an error perhaps....
+        }
+
         loading.SetActive(false);
+        
     }
 
     PlayerMovement FindLocalPlayer()
