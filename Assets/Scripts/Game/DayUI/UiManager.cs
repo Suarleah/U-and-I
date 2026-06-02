@@ -68,8 +68,9 @@ public class UIManager : MonoBehaviour
         {
             if (colliders[i].gameObject.GetComponent<Interactable>())
             {
-                if (!colliders[i].gameObject.GetComponent<Interactable>().enabled)
+                if (!colliders[i].gameObject.GetComponent<Interactable>().enabled || colliders[i].gameObject.GetComponent<Interactable>().onCD.Value)
                 {
+                    colliders[i].gameObject.GetComponent<Interactable>().closest = false;
                     continue;
                 }
                 if (Vector2.Distance(colliders[i].transform.position, player.transform.position)< mindist)

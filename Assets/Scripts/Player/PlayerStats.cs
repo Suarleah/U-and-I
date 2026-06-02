@@ -49,7 +49,7 @@ public class PlayerStats : NetworkBehaviour
         
     }
 
-    [ServerRpc]
+    [Server]
     public void TakeDamage(int amt, DamageDetails deets)
     {
         health.Value -= amt;
@@ -59,7 +59,7 @@ public class PlayerStats : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [Server]
     public void Heal(int amt, DamageDetails deets)
     {
         health.Value += amt;
@@ -69,6 +69,7 @@ public class PlayerStats : NetworkBehaviour
         }
     }
 
+    [Server]
     public void Die()
     {
         

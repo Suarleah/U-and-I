@@ -101,7 +101,7 @@ public class CloneZone : NetworkBehaviour
             corpses[i].NetworkObject.Despawn();
             if (corpses.Count > i)
             {
-                corpses.RemoveAt(i);
+                corpses.RemoveAt(i); //if not properly removed from ontriggerexit2d
             }
             
             //corpses.RemoveAt(0); //dont need to remove because it removes itself from ontriggerexit2d

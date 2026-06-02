@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FishNet.Object;
 
 public class PatientInteractable : Interactable
 {
@@ -26,6 +27,17 @@ public class PatientInteractable : Interactable
         {
             UIManager.Instance.PatientInteractionCanvas.enabled = false;
         }
+    }
+    
+    public override void UIButtonPressed(string info)
+    {
+        PatientButtonExecute(info, player);
+        Close();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void PatientButtonExecute(string info, GameObject p){
+        
     }
     
 }

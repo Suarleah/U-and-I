@@ -38,7 +38,7 @@ public class Corpse : Interactable
 
     public void setCorpseNameForClient(NetworkObject prev, NetworkObject next, bool asServer)
     {
-        nameplate.text = next.GetComponent<PlayerStats>().playerName.Value;
+        nameplate.text = next.GetComponent<PlayerStats>().playerName.Value + "'s corpse";
     }
 
     public override void Interact()
