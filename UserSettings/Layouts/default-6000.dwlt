@@ -643,23 +643,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 682
-      height: 377.5
-    m_Scale: {x: 0.6990741, y: 0.6990741}
-    m_Translation: {x: 341, y: 188.75}
+      width: 465.5
+      height: 360.5
+    m_Scale: {x: 0.48489583, y: 0.48489583}
+    m_Translation: {x: 232.75, y: 180.25}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -487.78806
-      y: -270
-      width: 975.5761
-      height: 540
+      x: -480
+      y: -371.72934
+      width: 960
+      height: 743.4587
     m_MinimalGUI: 1
-  m_defaultScale: 0.6990741
-  m_LastWindowPixelSize: {x: 682, y: 398.5}
+  m_defaultScale: 0.48489583
+  m_LastWindowPixelSize: {x: 465.5, y: 381.5}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -1393,9 +1393,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 1.4407042, y: -2.4379852, z: 1542.7592}
+    m_Target: {x: 0, y: 0, z: 0}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0}
+    m_Value: {x: 1.4407042, y: -2.4379852, z: 1542.7592}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1446,9 +1446,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 11.660883
+    m_Target: 10
     speed: 2
-    m_Value: 10
+    m_Value: 11.660883
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1593,51 +1593,7 @@ MonoBehaviour:
       m_Data: 56612
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 54904
-    - m_Data: 54906
-    - m_Data: 54908
-    - m_Data: 54910
-    - m_Data: 54912
-    - m_Data: 54914
-    - m_Data: 54916
-    - m_Data: 54918
-    - m_Data: 54920
-    - m_Data: 54922
-    - m_Data: 54924
-    - m_Data: 54926
-    - m_Data: 54928
-    - m_Data: 54930
-    - m_Data: 54932
-    - m_Data: 54934
-    - m_Data: 54936
-    - m_Data: 54938
-    - m_Data: 54940
-    - m_Data: 54942
-    - m_Data: 54944
-    - m_Data: 54946
-    - m_Data: 54948
-    - m_Data: 54950
-    - m_Data: 54952
-    - m_Data: 54954
-    - m_Data: 54956
-    - m_Data: 54958
-    - m_Data: 54960
-    - m_Data: 54962
-    - m_Data: 54964
-    - m_Data: 54966
-    - m_Data: 54968
-    - m_Data: 54970
-    - m_Data: 54972
-    - m_Data: 54974
-    - m_Data: 54976
-    - m_Data: 54978
-    - m_Data: 54980
-    - m_Data: 54982
-    - m_Data: 54984
-    - m_Data: 54986
-    - m_Data: 54988
-    - m_Data: 54990
-    - m_Data: 54992
+    - m_Data: 55160
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1671,51 +1627,7 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 54904
-    - m_Data: 54906
-    - m_Data: 54908
-    - m_Data: 54910
-    - m_Data: 54912
-    - m_Data: 54914
-    - m_Data: 54916
-    - m_Data: 54918
-    - m_Data: 54920
-    - m_Data: 54922
-    - m_Data: 54924
-    - m_Data: 54926
-    - m_Data: 54928
-    - m_Data: 54930
-    - m_Data: 54932
-    - m_Data: 54934
-    - m_Data: 54936
-    - m_Data: 54938
-    - m_Data: 54940
-    - m_Data: 54942
-    - m_Data: 54944
-    - m_Data: 54946
-    - m_Data: 54948
-    - m_Data: 54950
-    - m_Data: 54952
-    - m_Data: 54954
-    - m_Data: 54956
-    - m_Data: 54958
-    - m_Data: 54960
-    - m_Data: 54962
-    - m_Data: 54964
-    - m_Data: 54966
-    - m_Data: 54968
-    - m_Data: 54970
-    - m_Data: 54972
-    - m_Data: 54974
-    - m_Data: 54976
-    - m_Data: 54978
-    - m_Data: 54980
-    - m_Data: 54982
-    - m_Data: 54984
-    - m_Data: 54986
-    - m_Data: 54988
-    - m_Data: 54990
-    - m_Data: 54992
+    - m_Data: 55160
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

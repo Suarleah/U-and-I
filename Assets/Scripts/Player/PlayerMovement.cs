@@ -86,7 +86,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void ghostUpdate()
     {
-        if (IsOwner || FishNet.InstanceFinder.ClientManager.Connection.FirstObject.GetComponent<PlayerStats>().isDead.Value) //if youre the dead player, or if youre also dead, then you can see the ghost
+        if (InstanceFinder.ClientManager.Connection.FirstObject.GetComponent<PlayerStats>().isDead.Value) //if youre the dead player, or if youre also dead, then you can see the ghost
         {
             setGhostSpriteEnabled(true);
         }
@@ -158,7 +158,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void setPlayerSpriteEnabled (bool enabled)
     {
-        visual.GetComponent<SpriteRenderer>().enabled = enabled; //set ghost visual and all related to invisible
+        visual.GetComponent<SpriteRenderer>().enabled = enabled; //set player visual and all related to invisible
         foreach (SpriteRenderer sprite in visual.GetComponentsInChildren<SpriteRenderer>())
         {
             sprite.enabled = enabled;
