@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class ItemInteractable : Interactable
 {
-    ItemSO itemSO;
+    public ItemSO itemSO;
     
 
     public override void Interact()
     {
-        InventoryManager inv = player.GetComponent<InventoryManager>();
+        InventoryManager inv = player.GetComponentInChildren<InventoryManager>();
         TryPickUpItem(itemSO, inv); 
     }
 
@@ -18,7 +18,7 @@ public class ItemInteractable : Interactable
         //get current client's item inventory
         ItemSO[] items = inv.items.Value;
 
-        //check for stackable items
+        //check for stackable items, if theres a stack they can stack onto
         if (item.stackable)
         {
             for (int i = 0; i < items.Length; i++)
@@ -29,7 +29,7 @@ public class ItemInteractable : Interactable
                     {
                         inv.AddItemToStack(i, item);
                         Despawn(gameObject);
-                        Destroy(gameObject);
+                        return;
                     }
                 }
                 
@@ -42,9 +42,11 @@ public class ItemInteractable : Interactable
             {
                 inv.AddItem(i, item);
                 Despawn(gameObject);
-                Destroy(gameObject);
+                return;
             }
         }
+
+        //inventory full
     }
 
 

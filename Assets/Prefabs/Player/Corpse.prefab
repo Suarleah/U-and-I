@@ -174,10 +174,10 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 712866118981197321
+  <AssetPathHash>k__BackingField: 1092121037602109342
   SceneId: 0
   SerializedTransformProperties:
-    Position: {x: 0.13506085, y: 26.493038, z: 0}
+    Position: {x: -5.878942, y: 15.782054, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
@@ -201,7 +201,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584210735342667548
+  _initializedTimestamp: -8584210692484666088
 --- !u!61 &6365325623619155502
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -721,7 +721,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584210735342667548
+  _initializedTimestamp: -8584210692484666088
 --- !u!1 &3170633782136169208
 GameObject:
   m_ObjectHideFlags: 0

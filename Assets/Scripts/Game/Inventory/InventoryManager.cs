@@ -20,6 +20,7 @@ public class InventoryManager : NetworkBehaviour
 
     public readonly SyncVar<ItemSO[]> items = new SyncVar<ItemSO[]>();
 
+    public ItemSO[] localItems = new ItemSO[4];
     public int selectedSlot; //player currently held Item
     public ItemSO selectedItem; //player currently held Item
 
@@ -38,7 +39,11 @@ public class InventoryManager : NetworkBehaviour
         dropItem.canceled += DropItem;
         scrollWheel.performed += ScrollWheel;
     }
-    
+
+    void Update()
+    { 
+        //localItems = items.Value; //purely for the sake of testing. Delegates dont work on syncvar arrays, they work on synclists, but i tried a synclist and it was really fucked up so i gave up
+    }
 
     public void DropItem(InputAction.CallbackContext c)
     {

@@ -111,7 +111,7 @@ public class PlayerMovement : NetworkBehaviour
 
     void OnNameChanged(string prev, string next, bool asServer)
     { // Sync vars send these 3 values
-        nameText.text = next + "'s corpse";
+        nameText.text = next;
     }
 
     public void DisableMyInput() //i dont recommend using these because it will disable the entire input asset, ie: player wont be able to pause while this is disabled

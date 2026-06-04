@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1117dd79caed3949abdf12674fe3b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MetaVoiceChat.NetProviders.FishNet.FishNetNetProvider
-  _componentIndexCache: 7
+  _componentIndexCache: 8
   _addedNetworkObject: {fileID: 6584228753299874231}
   _networkObjectCache: {fileID: 6584228753299874231}
 --- !u!1 &292691030964568455
@@ -161,10 +161,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b52debffdee1458a8baba7ba7c9bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
-  _componentIndexCache: 255
+  _componentIndexCache: 9
   _addedNetworkObject: {fileID: 6584228753299874231}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6584228753299874231}
   inputs: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  invSize: 4
+  localItems: []
   selectedSlot: 0
   selectedItem: {fileID: 0}
 --- !u!1 &1344917166564693499
@@ -284,9 +286,9 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 3
+  <PrefabId>k__BackingField: 2
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 2092870565765373345
+  <AssetPathHash>k__BackingField: 5306845881338098766
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -307,7 +309,9 @@ MonoBehaviour:
   - {fileID: 5475773299030236992}
   - {fileID: 7790982156565938253}
   - {fileID: 1943782440999332493}
+  - {fileID: 7838922034214687731}
   - {fileID: 994599382751459509}
+  - {fileID: 79447831205223472}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -318,7 +322,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584216074688083788
+  _initializedTimestamp: -8584210694012960848
 --- !u!61 &1004006887785250234
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -604,9 +608,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
-  _componentIndexCache: 255
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 6584228753299874231}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6584228753299874231}
   _componentConfiguration: 3
   _synchronizeParent: 0
   _packing:
