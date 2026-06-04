@@ -151,9 +151,7 @@ public class PlayerMovement : NetworkBehaviour
         foreach (SpriteRenderer sprite in ghostVisual.GetComponentsInChildren<SpriteRenderer>())
         {
             sprite.enabled = enabled;
-        }
-        
-        
+        }   
     }
 
     private void setPlayerSpriteEnabled (bool enabled)

@@ -36,7 +36,7 @@ public class InventoryManager : NetworkBehaviour
         selectSlotFour = inputs.FindAction("SelectInvSlot4");
 
         dropItem.canceled += DropItem;
-        scrollWheel.WasPerformedThisFrame();
+        scrollWheel.performed += ScrollWheel;
     }
     
 
@@ -47,7 +47,9 @@ public class InventoryManager : NetworkBehaviour
 
     public void ScrollWheel(InputAction.CallbackContext c)
     {
+        
         Vector2 scroll = c.ReadValue<Vector2>();
+        //Debug.Log(scroll + "");
         selectedSlot += (int)(scroll.y); 
         if (selectedSlot < 0)
         {
