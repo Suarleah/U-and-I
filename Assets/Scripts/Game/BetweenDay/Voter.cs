@@ -10,14 +10,15 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
     // We should make them pay taxes since we give them representation
     public GameObject textDesc;
     public Transform voteHolder;
-    readonly SyncVar<int> votesForMe = new SyncVar<int>(0);
+    public readonly SyncVar<int> votesForMe = new SyncVar<int>(0);
     public PatientSO me;
     public PatientManager patientManager;
+    public VoteManager voteManager;
 
 
     async void Start()
     {
-
+        voteManager = VoteManager.Instance;
         patientManager = PatientManager.Instance;
 
     }
@@ -29,7 +30,9 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        WhoClickedMe(); 
+        WhoClickedMe();
+        voteManager.votesCast++; 
+        voteManager.DidAllPlayersVote();
     }
     [ObserversRpc]
     public void ClickedMeClient(NetworkObject cursorObject)

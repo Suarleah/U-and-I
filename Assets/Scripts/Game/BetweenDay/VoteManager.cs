@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 public class VoteManager : NetworkBehaviour
 {
+
+    public static VoteManager Instance;
+
     [Header("Voting Screen")]
     private PatientManager patientManager;
     public GameObject playerName;
@@ -22,6 +25,7 @@ public class VoteManager : NetworkBehaviour
     public Color[] playerColors;
     [SerializeField] GameObject cursorPrefab;
     public int playersToLoad = 0;
+    public int votesCast = 0;
     public List<NetworkObject> networkObjects = new List<NetworkObject>();
     public GameObject[] patientChoices;
     public Canvas voteCanvas;
@@ -43,6 +47,7 @@ public class VoteManager : NetworkBehaviour
 
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
         playersToLoad = RelayManager.Instance.currentPlayersCount;
+        Instance = this;
         patientManager = PatientManager.Instance;
 
         sld = new SceneLoadData(sceneToLoad);
@@ -77,6 +82,28 @@ public class VoteManager : NetworkBehaviour
             AllPlayersDoneLoading();
         }
 
+    }
+
+    public void DidAllPlayersVote()
+    {
+        if (votesCast == RelayManager.Instance.currentPlayersCount)
+        {
+            AllPlayersVoted();
+        }
+    }
+    public void AllPlayersVoted()
+    {
+        int i = UnityEngine.Random.Range(10, 20);
+
+        foreach (GameObject o in patientChoices)
+        {
+            if (o.GetComponent<Voter>().votesForMe.Value == 0)
+            {
+               return;
+            }
+
+            
+        }
     }
 
     [Server]
@@ -126,7 +153,6 @@ public class VoteManager : NetworkBehaviour
         nameText.GetComponentInChildren<TextMeshProUGUI>().color = playerColors[i];
         nameText.GetComponentInChildren<TextMeshProUGUI>().text = name;
         nameText.transform.SetParent(playerList, false);
-
 
     }
 
