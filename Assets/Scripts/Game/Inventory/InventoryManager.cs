@@ -11,6 +11,7 @@ using GameKit.Dependencies.Utilities;
 
 public class InventoryManager : NetworkBehaviour
 {
+
     public InputActionAsset inputs;
     InputAction dropItem;
     InputAction scrollWheel;
@@ -40,6 +41,7 @@ public class InventoryManager : NetworkBehaviour
         selectSlotFour = inputs.FindAction("SelectInvSlot4");
 
         dropItem.canceled += DropItem;
+        leftClick.canceled += LeftClick;
         scrollWheel.performed += ScrollWheel;
         selectSlotOne.canceled += SelectSlotOne;
         selectSlotTwo.canceled += SelectSlotTwo;
@@ -96,6 +98,15 @@ public class InventoryManager : NetworkBehaviour
     public void DropItem(InputAction.CallbackContext c)
     {
         TryDropItem(selectedSlot, selectedItem); // so technically selected item does like nothing but i have it just in case
+    }
+
+    public void LeftClick(InputAction.CallbackContext c)
+    {
+        //first check if its hovered over an inventory slot, but next
+
+        //use it from the player
+        
+        items[selectedSlot].Use(new UseInfo(FishNet.InstanceFinder.ClientManager.Connection.FirstObject, this, selectedSlot));
     }
 
     public void ScrollWheel(InputAction.CallbackContext c)
@@ -161,7 +172,7 @@ public class InventoryManager : NetworkBehaviour
             {
                 if (items[i])
                 {
-                    if (items[i].inventoryItemPrefab == item.inventoryItemPrefab && items[i].count < items[i].stackMax)
+                    if (items[i].itemInteractablePrefab == item.itemInteractablePrefab && items[i].count < items[i].stackMax)
                     {
                         AddItemToStack(i, item);
                         Despawn(caller);
