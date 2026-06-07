@@ -33,7 +33,7 @@ public class Interactable : NetworkBehaviour
         player = FishNet.InstanceFinder.ClientManager.Connection.FirstObject.gameObject;
 
         onCD.OnChange += OnCDChanged;
-        interactAction.canceled += released;
+        interactAction.performed += released;
     }
 
     // Update is called once per frame

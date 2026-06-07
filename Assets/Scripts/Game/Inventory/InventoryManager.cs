@@ -7,6 +7,7 @@ using System;
 using FishNet.Component.Prediction;
 using System.Collections.Generic;
 using GameKit.Dependencies.Utilities;
+using UnityEngine.SocialPlatforms;
 
 
 public class InventoryManager : NetworkBehaviour
@@ -41,12 +42,12 @@ public class InventoryManager : NetworkBehaviour
         selectSlotFour = inputs.FindAction("SelectInvSlot4");
 
         dropItem.canceled += DropItem;
-        leftClick.canceled += LeftClick;
+        leftClick.performed += LeftClick;
         scrollWheel.performed += ScrollWheel;
-        selectSlotOne.canceled += SelectSlotOne;
-        selectSlotTwo.canceled += SelectSlotTwo;
-        selectSlotThree.canceled += SelectSlotThree;
-        selectSlotFour.canceled += SelectSlotFour;
+        selectSlotOne.performed += SelectSlotOne;
+        selectSlotTwo.performed += SelectSlotTwo;
+        selectSlotThree.performed += SelectSlotThree;
+        selectSlotFour.performed += SelectSlotFour;
 
 
         items.OnChange += OnInventoryChange;
@@ -68,7 +69,7 @@ public class InventoryManager : NetworkBehaviour
 
     private void OnInventoryChange(SyncListOperation op, int index, ItemSO oldItem, ItemSO newItem, bool asServer)
     {
-        switch (op)
+        /*switch (op)
         {
             case SyncListOperation.Add:
                 Debug.Log("added to inv!");
@@ -91,6 +92,17 @@ public class InventoryManager : NetworkBehaviour
                 // The list was entirely cleared
                 break;
             
+        }*/
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (localItems.Count <= i)
+            {
+                localItems.Add(items[i]);
+            } else
+            {
+                localItems[i] = items[i];
+            }
+            
         }
         selectedItem = items[selectedSlot];
     }
@@ -102,11 +114,22 @@ public class InventoryManager : NetworkBehaviour
 
     public void LeftClick(InputAction.CallbackContext c)
     {
-        //first check if its hovered over an inventory slot, but next
+        //first check if its hovered over an inventory slot, if so, select that inventory slot
 
         //use it from the player
+        if (selectedSlot>= items.Count || !items[selectedSlot])
+        {
+            return;
+        }
         
-        items[selectedSlot].Use(new UseInfo(FishNet.InstanceFinder.ClientManager.Connection.FirstObject, this, selectedSlot));
+        UseOnServer(items[selectedSlot], new UseInfo(FishNet.InstanceFinder.ClientManager.Connection.FirstObject, this, selectedSlot));
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UseOnServer(ItemSO item, UseInfo info)
+    {
+        Debug.Log("TryUse");
+        item.TryUse(info);
     }
 
     public void ScrollWheel(InputAction.CallbackContext c)
