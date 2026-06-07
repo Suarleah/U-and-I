@@ -41,7 +41,7 @@ public class InventoryManager : NetworkBehaviour
         selectSlotThree = inputs.FindAction("SelectInvSlot3");
         selectSlotFour = inputs.FindAction("SelectInvSlot4");
 
-        dropItem.canceled += DropItem;
+        dropItem.performed += DropItem;
         leftClick.performed += LeftClick;
         scrollWheel.performed += ScrollWheel;
         selectSlotOne.performed += SelectSlotOne;
