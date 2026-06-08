@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using FishNet.Object;
+using TMPro;
 
 public class PatientInteractable : Interactable
 {
     public Patient self;
+    public GameObject feedbackText;
 
     public override void Interact()
     {
@@ -38,6 +40,15 @@ public class PatientInteractable : Interactable
     [ServerRpc(RequireOwnership = false)]
     public virtual void PatientButtonExecute(string info, GameObject p){
         
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void GiveFeedback(string feedback){
+        GameObject go = Instantiate(feedbackText);
+        go.transform.position = transform.position;
+        go.GetComponentInChildren<TextMeshProUGUI>().text = feedback;
+        base.ServerManager.Spawn(go);
+        go.GetComponentInChildren<PatientFeedbackText>().Begin();
     }
     
 }

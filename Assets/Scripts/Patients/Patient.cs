@@ -36,6 +36,8 @@ public class Patient : NetworkBehaviour
     public float escapedWanderCooldownMin; //how long in between wandering it waits,, it's a range so its a bit more random
     public float escapedWanderCooldownMax;
 
+    
+
     public override void OnStartServer()
     {
         base.OnStartServer();

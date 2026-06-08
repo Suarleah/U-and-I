@@ -13,6 +13,7 @@ public class PatientZeroInteractable : PatientInteractable
         {
             return;
         }
+        GiveFeedback("Feedback!!");
         if (info == "money")
         {
             return;

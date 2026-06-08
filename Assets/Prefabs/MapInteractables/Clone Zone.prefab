@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6930173946164577851}
   - component: {fileID: 536510957535102208}
   - component: {fileID: 1599996469765208044}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cloner controls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 6081516370040225219}
   - component: {fileID: 805995912267101165}
   - component: {fileID: 8219406416400043890}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cloner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 8362485902314503519}
   - component: {fileID: 1870635911367012481}
   - component: {fileID: 5850154205567165246}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 8916204807680256892}
   - component: {fileID: 6515599930091566352}
   - component: {fileID: 2107799610548015819}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Canvas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 8784890849963335744}
   - component: {fileID: 6764718067897904693}
   - component: {fileID: 5397439388552581498}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Clone Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

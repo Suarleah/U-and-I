@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections;
 using FishNet.Object.Synchronizing;
 using System.Globalization;
+using FishNet.Connection;
 
 public class Interactable : NetworkBehaviour
 {
@@ -78,13 +79,22 @@ public class Interactable : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public virtual void TryInteractServer() //runs checks for the interaction that can only be done on server
+    public virtual void TryInteractServer(NetworkConnection conn = null) //runs checks for the interaction that can only be done on server
     {
         if (!onCD.Value)
         {
-            Interact();
+            TargetInteract(conn);
         }
     }
+    
+    [TargetRpc]
+    public virtual void TargetInteract(NetworkConnection Con)
+    {
+        Interact();
+    }
+
+
+
     public virtual void Interact() //what happens when you actually interact with the object
     {
         
