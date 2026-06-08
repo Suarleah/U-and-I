@@ -11,6 +11,10 @@ public class ClockOutInteractable : Interactable
 
     [ServerRpc(RequireOwnership = false)]
     public void ClockOut(){
+        if (onCD.Value)
+        {
+            return;
+        }
         player.GetComponent<PlayerMovement>().stats.ClockOut();
         StartCoroutine(goOnCooldown(1)); //1 second cooldown to stop accidental double presses essentially, theres no real way that I can think of for them to double clockout
     }

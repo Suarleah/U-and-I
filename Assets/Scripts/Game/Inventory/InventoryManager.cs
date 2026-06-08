@@ -8,6 +8,7 @@ using FishNet.Component.Prediction;
 using System.Collections.Generic;
 using GameKit.Dependencies.Utilities;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.Rendering;
 
 
 public class InventoryManager : NetworkBehaviour
@@ -215,7 +216,6 @@ public class InventoryManager : NetworkBehaviour
                 return;
             }
         }
-
         //inventory full
     }
 
@@ -289,5 +289,26 @@ public class InventoryManager : NetworkBehaviour
         base.ServerManager.Spawn(itemInstance);
     }
 
-
+    [Server]
+    public void DropAll()
+    {
+        for (int i = 0; i < items.Count;i++)
+        {
+            if (!items[i])
+            {
+                continue;
+            }
+            if (items[i].stackable)
+            {
+                for (int j = 0; j < items[i].count; j++)
+                {
+                    TryDropItem(i, items[i]);
+                }
+            } else
+            {
+                TryDropItem(i, items[i]);
+            }
+                
+        }
+    }
 }

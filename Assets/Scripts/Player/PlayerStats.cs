@@ -84,8 +84,12 @@ public class PlayerStats : NetworkBehaviour
         corpsePrefab.transform.position = transform.position;
         GameObject corpse = Instantiate(corpsePrefab);
         
+        InventoryManager inv = gameObject.GetComponentInChildren<InventoryManager>();
+        inv.DropAll();
+
         FishNet.InstanceFinder.ServerManager.Spawn(corpse);
         corpse.GetComponent<Corpse>().setCorpseOwner(base.NetworkObject);
+
         /*corpse.GetComponent<Corpse>().corpseOwner.Value = gameObject;
         SetCorpseName(corpse.GetComponent<Corpse>());*/
  
