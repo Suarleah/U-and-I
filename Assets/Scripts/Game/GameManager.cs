@@ -38,4 +38,21 @@ public class GameManager : NetworkBehaviour
         //StartCoroutine(EndGame());
         Debug.Log("Game over!");
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PlayerClockedOut(GameObject player) //players call this whenever they try to clock out, if all players have clocked out, the day ends
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (!players[i].stats.isClockedOut.Value)
+            {
+                return;
+            }
+        }
+        Debug.Log("All players have clocked out! Day ending!");
+
+        //After clock out, anything that happens will not count (so for the short animation time they cant die or make money or something)
+    }
+
+
 }

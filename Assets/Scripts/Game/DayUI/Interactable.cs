@@ -62,7 +62,7 @@ public class Interactable : NetworkBehaviour
     {
         if (closest && !UIManager.Instance.currentInteraction) // cant overlap the patient overlays
         {
-            Interact();
+            TryInteractServer();
             //Debug.Log("interacted!");
             //GameObject netObj = Instantiate(spawnedObject, gameObject.transform.position, gameObject.transform.rotation);
             //FishNet.InstanceFinder.ServerManager.Spawn(netObj);
@@ -77,9 +77,17 @@ public class Interactable : NetworkBehaviour
 
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void TryInteractServer() //runs checks for the interaction that can only be done on server
+    {
+        if (!onCD.Value)
+        {
+            Interact();
+        }
+    }
     public virtual void Interact() //what happens when you actually interact with the object
     {
-
+        
     }
    
 
