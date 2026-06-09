@@ -192,8 +192,8 @@ MonoBehaviour:
     y: 0
     width: 189
     height: 416.5
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 226}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -218,8 +218,8 @@ MonoBehaviour:
     y: 0
     width: 646
     height: 416.5
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 226}
+  m_MaxSize: {x: 4002, y: 4026}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 15}
@@ -276,8 +276,8 @@ MonoBehaviour:
     y: 0
     width: 393
     height: 689
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 22}
@@ -659,7 +659,7 @@ MonoBehaviour:
       height: 521.702
     m_MinimalGUI: 1
   m_defaultScale: 0.67083335
-  m_LastWindowPixelSize: {x: 1288, y: 781}
+  m_LastWindowPixelSize: {x: 644, y: 390.5}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -728,8 +728,8 @@ MonoBehaviour:
       - m_Data: -12
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: PatientFeedback Text Canvas
-        m_OriginalName: PatientFeedback Text Canvas
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
@@ -737,10 +737,10 @@ MonoBehaviour:
           width: 0
           height: 0
         m_UserData:
-          m_Data: -10536
+          m_Data: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 8}
@@ -1603,15 +1603,12 @@ MonoBehaviour:
       m_Data: 55186
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 54936
-    - m_Data: 54938
-    - m_Data: 54940
-    - m_Data: 54942
-    - m_Data: 54944
-    - m_Data: 54946
-    - m_Data: 55070
-    - m_Data: 1000000000
-    - m_Data: 2147483647
+    - m_Data: 54962
+    - m_Data: 54964
+    - m_Data: 54966
+    - m_Data: 54968
+    - m_Data: 54970
+    - m_Data: 54972
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1645,12 +1642,12 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 54936
-    - m_Data: 54938
-    - m_Data: 54940
-    - m_Data: 54942
-    - m_Data: 54944
-    - m_Data: 54946
+    - m_Data: 54962
+    - m_Data: 54964
+    - m_Data: 54966
+    - m_Data: 54968
+    - m_Data: 54970
+    - m_Data: 54972
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

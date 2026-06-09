@@ -178,6 +178,7 @@ public class InventoryManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)] 
     public void TryPickUpItem(ItemSO item, NetworkObject caller) //if this runs, the object will be destroyed, so it cant be called anymore from server (this is the validity check)
     {
+
         if (!caller)//check if the object which called this method exists + is spawned on server
         {
             return;

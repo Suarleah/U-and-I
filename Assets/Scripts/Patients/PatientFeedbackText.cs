@@ -24,6 +24,5 @@ public class PatientFeedbackText : NetworkBehaviour
         {
             Despawn(base.NetworkObject);
         }
-        
     }
 }

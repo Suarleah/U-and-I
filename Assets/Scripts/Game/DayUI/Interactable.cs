@@ -78,7 +78,7 @@ public class Interactable : NetworkBehaviour
 
     }
 
-    /*[ServerRpc(RequireOwnership = false)]
+    [ServerRpc(RequireOwnership = false)]
     public virtual void TryInteractServer(NetworkConnection conn = null) //runs checks for the interaction that can only be done on server
     {
         if (!onCD.Value)
@@ -88,11 +88,10 @@ public class Interactable : NetworkBehaviour
     }
     
     [TargetRpc]
-    public virtual void TargetInteract(NetworkConnection Con)
+    public virtual void TargetInteract(NetworkConnection conn)
     {
         Interact();
-    }*/
-
+    }
 
 
     public virtual void Interact() //what happens when you actually interact with the object
