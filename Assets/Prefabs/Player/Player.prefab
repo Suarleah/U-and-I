@@ -298,7 +298,7 @@ MonoBehaviour:
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
   <IsNested>k__BackingField: 0
-  WasActiveDuringEdit: 1
+  WasActiveDuringEdit: 0
   WasActiveDuringEdit_Set1: 1
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
@@ -470,7 +470,6 @@ GameObject:
   - component: {fileID: 4673788982896217292}
   - component: {fileID: 1965684708080390347}
   - component: {fileID: 8057699128642763287}
-  - component: {fileID: 422908015099195601}
   - component: {fileID: 7322669611380733904}
   m_Layer: 3
   m_Name: FieldOfView
@@ -529,19 +528,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375445627953458213}
   m_Mesh: {fileID: 0}
---- !u!210 &422908015099195601
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1375445627953458213}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 10
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
 --- !u!23 &7322669611380733904
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -567,7 +553,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ec96d67854dad4950b72646e0a96e4c5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
