@@ -5515,7 +5515,7 @@ GameObject:
   - component: {fileID: 2074464628}
   - component: {fileID: 2074464629}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Squarethat can be hidden by fog of war
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5562,7 +5562,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 7a50911d6277a4142a18da117b16944c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
