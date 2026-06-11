@@ -235,6 +235,7 @@ MonoBehaviour:
   visual: {fileID: 5660681057038499985}
   ghostVisual: {fileID: 4342947600327768424}
   cinemachineCamera: {fileID: 1349247756320619719}
+  visionField: {fileID: 1375445627953458213}
   canMove: 1
 --- !u!114 &6428768581238622022
 MonoBehaviour:
@@ -824,7 +825,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 7d4af58f9d76d44ab85baecaf115c124, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
