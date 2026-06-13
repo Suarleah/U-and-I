@@ -39,14 +39,14 @@
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Crouch",
                     "type": "Button",
                     "id": "27c5f898-bc57-4ee1-8800-db469aca5fe3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -576,7 +576,7 @@
                     "id": "1ab4f212-7a86-4c7b-9359-0fe9bf5de1a1",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -585,7 +585,7 @@
                     "id": "89119fe8-e3f0-44d2-89b3-3a8d54e05a4e",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -594,7 +594,7 @@
                     "id": "81eabaf2-774e-4e5e-97f0-6a5312222b45",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -603,7 +603,7 @@
                     "id": "8c96e5fd-8ca9-4c25-9f97-adbfd019cb86",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -612,7 +612,7 @@
                     "id": "a4c31a2e-300d-4b38-86be-0f97e2fd4212",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -940,7 +940,7 @@
                     "name": "",
                     "id": "4faf7dc9-b979-4210-aa8c-e808e1ef89f5",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Click",
@@ -1048,7 +1048,7 @@
                 },
                 {
                     "name": "",
-                    "id": "11444ec0-ba89-4abd-b452-3b53f7376108",
+                    "id": "6a8a563f-59ba-4524-b9b1-f2eb1906f6cd",
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
@@ -1059,7 +1059,7 @@
                 },
                 {
                     "name": "",
-                    "id": "be2cfd79-112f-44ef-91d3-2bf1dcdaacfa",
+                    "id": "06e6fb62-a03a-4d1e-8a47-6f09c2dd27ca",
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
@@ -1070,7 +1070,7 @@
                 },
                 {
                     "name": "",
-                    "id": "821ffa8d-509e-41da-8878-d296c808c5ca",
+                    "id": "14c41b8d-6374-4ce0-8aa8-74283abed548",
                     "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
@@ -1081,7 +1081,7 @@
                 },
                 {
                     "name": "",
-                    "id": "ee48400a-14d1-4b7f-a5af-7bc8e9fef988",
+                    "id": "6cb739d0-a8e5-4dcb-8894-70ea944180bc",
                     "path": "<Keyboard>/4",
                     "interactions": "",
                     "processors": "",

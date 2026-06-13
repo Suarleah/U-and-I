@@ -22,36 +22,44 @@ public class ItemSO : ScriptableObject
 
     public GameObject inventoryVisual; //theres a better /more concise way to do this but since no assets in imma just do this
 
-    //public readonly SyncVar<bool> onCD = new SyncVar<bool>();
-    public bool localOnCD;
+    //These must only be used on Server
+    public bool onCD;
     public float cooldown;
 
 
-    public virtual void Use(UseInfo info) //the user is going to be a player 99/100 times but just in case I want to make it more flexible
-    {
-        UseOnServer(info);
-    }
 
-    //[ServerRpc(RequireOwnership = false)] 
-    public virtual void UseOnServer(UseInfo info)
+    // This method must only be called on server, cannot make it a serverrpc because it is a scriptable object not a networkobject
+    [Server]
+    public virtual void TryUse(UseInfo info)
     {
         if (info.userInv) //if the user has an inventory manager
         {
-            if (info.userInv.items[info.usedSlot] == this) //check if the item in the slot is still the right one
+            Debug.Log("InvMan");
+            if (info.userInv.items[info.usedSlot].id == this.id) //check if the item in the slot is still the right one
             {
-                Debug.Log("Test Item Used!");
-                info.userInv.RemoveItem(info.usedSlot, this);
-            {
+                Debug.Log("usedSlot");
+                if (!onCD) //check if the item is on cooldown
+                {
+                    Debug.Log("onCD");
+                    Use(info);
+                    if (!reusable)
+                    {
+                        info.userInv.RemoveItem(info.usedSlot, this);
+                    }
+                }
                 
             }
-            }
-            
-            
         }
     }
 
+    [Server]
+    public virtual void Use(UseInfo info)
+    {
+        Debug.Log("Test Item Used!");
+        
+    }
 
-    /*//for items which have a cooldown (idk what items)
+    //all of these methods must only be called on server
     [Server]
     public virtual IEnumerator goOnCooldown(float seconds)
     {
@@ -61,16 +69,12 @@ public class ItemSO : ScriptableObject
 
         setCD(false);
     }
-    
     [Server]
     public virtual void setCD(bool val)
     {
-        onCD.Value = val;
+        onCD = val;
     }
 
-    public void OnCDChanged(bool prev, bool next, bool asServer)
-    {
-        localOnCD = next;
-    }*/
+
     
 }

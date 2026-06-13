@@ -24,6 +24,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private readonly SyncVar<string> playerName = new SyncVar<string>();
 
+    public GameObject visionField; //object that allows player to see through fog of war
 
     public bool canMove; //added this since in some situations we might not want to allow player to move
 
@@ -42,6 +43,11 @@ public class PlayerMovement : NetworkBehaviour
 
         playerName.OnChange += OnNameChanged;
         SetNameServerRpc(AuthenticationService.Instance.PlayerName);
+
+        if (!IsOwner)
+        {
+            visionField.SetActive(false); //only the owner should have that player's vision
+        }
         // Call OnNameChanged when playerName is changed
 
         cinemachineCamera.Priority = IsOwner ? 10 : 0;

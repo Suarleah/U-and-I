@@ -26,13 +26,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!player.GetComponent<PlayerStats>().isDead.Value)
-        {
-            ProximityUICheck();
-        } else
-        {
-            //fun dead ui stuff check
-        }
+        ProximityUICheck();
             
     }
 
@@ -54,7 +48,15 @@ public class UIManager : MonoBehaviour
     //some objects have UI popups when you're near them. This checks nearby objects and displays the UI of the nearest one within a certain range.
     void ProximityUICheck()
     {
-        
+        LayerMask mask;
+        if (player.GetComponent<PlayerStats>().isDead.Value) //some interactables can only be interacted with when alliv  or dead
+        {
+            mask = LayerMask.GetMask("DeadInteractable");
+        } else
+        {
+            mask = LayerMask.GetMask("AliveInteractable") + LayerMask.GetMask("ItemInteractable");
+        }
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.transform.position, 5f);
         if (colliders.Length <= 0)
         {
@@ -62,6 +64,7 @@ public class UIManager : MonoBehaviour
         }
         float mindist = float.MaxValue; 
         GameObject curobj = null; //current closest interactable object
+        
         
 
         for (int i = 0; i < colliders.Length; i++) //find closest

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class UseInfo //information pased to an itemSO when its used
 {
+    public UseInfo() { }
+
     public UseInfo(NetworkObject u, InventoryManager uInv, int uSlot)
     {
         user = u;

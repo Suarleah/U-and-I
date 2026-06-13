@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections;
 using FishNet.Object.Synchronizing;
 using System.Globalization;
+using FishNet.Connection;
 
 public class Interactable : NetworkBehaviour
 {
@@ -33,7 +34,7 @@ public class Interactable : NetworkBehaviour
         player = FishNet.InstanceFinder.ClientManager.Connection.FirstObject.gameObject;
 
         onCD.OnChange += OnCDChanged;
-        interactAction.canceled += released;
+        interactAction.performed += released;
     }
 
     // Update is called once per frame
@@ -77,9 +78,25 @@ public class Interactable : NetworkBehaviour
 
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void TryInteractServer(NetworkConnection conn = null) //runs checks for the interaction that can only be done on server
+    {
+        if (!onCD.Value)
+        {
+            TargetInteract(conn);
+        }
+    }
+    
+    [TargetRpc]
+    public virtual void TargetInteract(NetworkConnection conn)
+    {
+        Interact();
+    }
+
+
     public virtual void Interact() //what happens when you actually interact with the object
     {
-
+        
     }
    
 

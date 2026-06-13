@@ -17,12 +17,15 @@ public class PlayerStats : NetworkBehaviour
     public readonly SyncVar<int> maxHealth = new SyncVar<int>();
     public readonly SyncVar<int> health = new SyncVar<int>();
     public readonly SyncVar<bool> isDead = new SyncVar<bool>();
+    public readonly SyncVar<bool> isClockedOut = new SyncVar<bool>();
+
 
     public string localPlayerName;
     public float localspeed;
     public int localmaxHealth;
     public int localHealth;
     public bool localisDead;
+    public bool localisClockedOut;
     //public Item[] inventory;
 
     public GameObject corpsePrefab;
@@ -36,6 +39,7 @@ public class PlayerStats : NetworkBehaviour
         maxHealth.Value = 100;
         health.Value = 100;
         isDead.Value = false;
+        isClockedOut.Value = false;
     }
 
     private void Update()
@@ -80,11 +84,22 @@ public class PlayerStats : NetworkBehaviour
         corpsePrefab.transform.position = transform.position;
         GameObject corpse = Instantiate(corpsePrefab);
         
+        InventoryManager inv = gameObject.GetComponentInChildren<InventoryManager>();
+        inv.DropAll();
+
         FishNet.InstanceFinder.ServerManager.Spawn(corpse);
         corpse.GetComponent<Corpse>().setCorpseOwner(base.NetworkObject);
+
         /*corpse.GetComponent<Corpse>().corpseOwner.Value = gameObject;
         SetCorpseName(corpse.GetComponent<Corpse>());*/
  
+    }
+
+    [Server]
+    public void ClockOut()
+    {
+        isClockedOut.Value = !isClockedOut.Value; 
+        GameManager.Instance.PlayerClockedOut(gameObject);
     }
 
     

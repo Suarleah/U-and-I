@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3179598261658997742}
   - component: {fileID: 774183097106937986}
   - component: {fileID: 7185498261237859875}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 7699520547417572930}
   - component: {fileID: 8254665830941019978}
   - component: {fileID: 3144391489409239814}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 1753863272105223853}
   - component: {fileID: 6210966468470771201}
   - component: {fileID: 4477608618912529143}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 15096550057979987}
   - component: {fileID: 3948577010694349012}
   - component: {fileID: 5133157734838045663}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PatientZero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -428,9 +428,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a43cf4cba4241feb9d78e385311ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatientZero
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7469166534214679092}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7469166534214679092}
   agent: {fileID: 4959539066434842964}
   interactable: {fileID: 3142274279012729083}
   room: 0
@@ -462,17 +462,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c9f6adbc56540499f1e87f216b9cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatientZeroInteractable
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 7469166534214679092}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7469166534214679092}
   c: {fileID: 3179598261658997742}
   closest: 0
   inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   player: {fileID: 0}
   interacting: 0
   deadUI: 0
+  localOnCD: 0
   cooldown: 0
   self: {fileID: 3274201880209496550}
+  feedbackText: {fileID: 5276331289844314277, guid: 934c55e035a0b4392bf2b893bd222214, type: 3}
 --- !u!195 &4959539066434842964
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -525,22 +527,26 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 18
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 16786984782781877317
   SceneId: 0
   SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Position: {x: -0.36652, y: -21.86948, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
   <IsNested>k__BackingField: 0
   WasActiveDuringEdit: 0
   WasActiveDuringEdit_Set1: 1
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 3274201880209496550}
+  - {fileID: 3142274279012729083}
+  - {fileID: 7098922523306271417}
+  - {fileID: 15096550057979987}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -551,7 +557,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: 0
+  _initializedTimestamp: -8584206492253066228
 --- !u!114 &7098922523306271417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,9 +570,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 7469166534214679092}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7469166534214679092}
   _componentConfiguration: 0
   _synchronizeParent: 0
   _packing:
@@ -610,9 +616,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 7469166534214679092}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7469166534214679092}
   IgnoredParameters: []
   _animator: {fileID: 0}
   _synchronizeWhenDisabled: 0

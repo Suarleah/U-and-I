@@ -6,7 +6,6 @@ public class ItemInteractable : Interactable
 {
     public ItemSO itemSO;
     
-
     public override void Interact()
     {
         InventoryManager inv = player.GetComponentInChildren<InventoryManager>();
