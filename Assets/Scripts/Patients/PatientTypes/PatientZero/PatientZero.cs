@@ -31,6 +31,7 @@ public class PatientZero : Patient
         if (closestPlayer)
         {
             aggroedPlayer = closestPlayer.gameObject;
+            
         }
 
         if (aggroedPlayer)
@@ -104,8 +105,8 @@ public class PatientZero : Patient
     }
 
 
-    /*private void OnCollisionEnter2D(Collision2D other) {
-        PlayerStats stats = other.gameObject.GetComponent<PlayerStats>();
+    /*private void OnTriggerEnter2D(Collider2D other) {
+        PlayerStats stats = other.gameObject.transform.parent.GetComponentInChildren<PlayerStats>();
         if (stats && escaped)
         {
             //if (Vector3.Distance(aggroedPlayer.transform.position, transform.position) <= 2) //if player is close enough

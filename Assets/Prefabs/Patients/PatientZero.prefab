@@ -109,7 +109,7 @@ MonoBehaviour:
   fovRotation: 0
   targetMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 4096
   obstacleMask:
     serializedVersion: 2
     m_Bits: 512
@@ -558,7 +558,7 @@ MonoBehaviour:
   fovRotation: 0
   targetMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 4096
   obstacleMask:
     serializedVersion: 2
     m_Bits: 512
@@ -702,8 +702,8 @@ MonoBehaviour:
   wanderCooldownMax: 10
   wanderUp: 1
   escapedWanderRange: 150
-  escapedWanderCooldownMin: 3
-  escapedWanderCooldownMax: 5
+  escapedWanderCooldownMin: 5
+  escapedWanderCooldownMax: 10
   aggroedPlayer: {fileID: 0}
   sightfov: {fileID: 489929125369284726}
   radialfov: {fileID: 5527681074395406958}

@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
             mask = LayerMask.GetMask("AliveInteractable") + LayerMask.GetMask("ItemInteractable");
         }
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.transform.position, 5f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.transform.position, 5f, mask);
         if (colliders.Length <= 0)
         {
             return; 

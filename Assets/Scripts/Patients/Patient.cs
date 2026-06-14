@@ -274,9 +274,18 @@ public class Patient : NetworkBehaviour
                 if (Vector3.Distance(sightfov.visibleTargets[i].position, transform.position) < Vector3.Distance(closestPlayer.position, transform.position))
                 {
                     closestPlayer = sightfov.visibleTargets[i];
+                    
                 }
             }
         }
+        if (closestPlayer)
+        {
+            if (!closestPlayer.GetComponent<PlayerStats>())
+            {
+                closestPlayer = closestPlayer.transform.parent;
+            }
+        }
+        
         return closestPlayer;
     }
 
