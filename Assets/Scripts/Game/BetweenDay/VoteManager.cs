@@ -84,6 +84,7 @@ public class VoteManager : NetworkBehaviour
 
     }
 
+    [Server]
     public void DidAllPlayersVote()
     {
         if (votesCast == RelayManager.Instance.currentPlayersCount)
@@ -91,19 +92,29 @@ public class VoteManager : NetworkBehaviour
             AllPlayersVoted();
         }
     }
+
+    [Server]
     public void AllPlayersVoted()
     {
-        int i = UnityEngine.Random.Range(10, 20);
-
-        foreach (GameObject o in patientChoices)
+        List<int> votes = new List<int>();
+        for (int i = 0; i < patientChoices.Length; i++)
         {
-            if (o.GetComponent<Voter>().votesForMe.Value == 0)
+            for (int x = 0; x < patientChoices[i].GetComponent<Voter>().votesForMe.Value; x++)
             {
-               return;
+                votes.Add(i);
             }
-
-            
         }
+
+        if (votes.Count == 0)
+        {
+            // Nobody voted, pick a random patient
+            int fallback = UnityEngine.Random.Range(0, patientChoices.Length);
+            patientChoices[fallback].GetComponent<Voter>().TheWinner();
+            return;
+        }
+
+        int winner = UnityEngine.Random.Range(0, votes.Count);
+        patientChoices[votes[winner]].GetComponent<Voter>().TheWinner();
     }
 
     [Server]

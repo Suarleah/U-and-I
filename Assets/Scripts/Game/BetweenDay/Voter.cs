@@ -18,21 +18,19 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
 
     async void Start()
     {
-        voteManager = VoteManager.Instance;
         patientManager = PatientManager.Instance;
 
     }
 
-    [ServerRpc]
+    [Server]
     public void TheWinner()
     {
         patientManager.selectPatient(me);
+        // Load next scene
     }
     public void OnPointerClick(PointerEventData eventData)
     {
         WhoClickedMe();
-        voteManager.votesCast++; 
-        voteManager.DidAllPlayersVote();
     }
     [ObserversRpc]
     public void ClickedMeClient(NetworkObject cursorObject)
@@ -71,10 +69,15 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
             // if they have voted before
             prev.votesForMe.Value--;
             // minus one from their last vote because they are voting for me now
+            VoteManager.Instance.votesCast--;
+            // undo their previous vote count so we don't double count
         }
 
         // I am now their last vote
         clickedMe.myPrevVote = this;
+
+        VoteManager.Instance.votesCast++;
+        VoteManager.Instance.DidAllPlayersVote();
     }
 
 }

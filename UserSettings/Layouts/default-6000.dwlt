@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEditor.dll::UnityEditor.ContainerWindow
   m_PixelRect:
     serializedVersion: 2
-    x: 41
-    y: 58
-    width: 1568
+    x: 1
+    y: 54
+    width: 1278
     height: 745
   m_ShowMode: 4
   m_Title: Hierarchy
@@ -44,7 +44,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1568
+    width: 1278
     height: 745
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -69,7 +69,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1568
+    width: 1278
     height: 36
   m_MinSize: {x: 50, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
@@ -91,7 +91,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 725
-    width: 1568
+    width: 1278
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -114,7 +114,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 36
-    width: 1568
+    width: 1278
     height: 689
   m_MinSize: {x: 300, y: 112}
   m_MaxSize: {x: 24288, y: 16192}
@@ -140,7 +140,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 821
+    width: 669
     height: 689
   m_MinSize: {x: 200, y: 112}
   m_MaxSize: {x: 16192, y: 16192}
@@ -166,7 +166,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 821
+    width: 669
     height: 413
   m_MinSize: {x: 200, y: 56}
   m_MaxSize: {x: 16192, y: 8096}
@@ -190,7 +190,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 197
+    width: 160.5
     height: 413
   m_MinSize: {x: 201, y: 226}
   m_MaxSize: {x: 4001, y: 4026}
@@ -214,9 +214,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 197
+    x: 160.5
     y: 0
-    width: 624
+    width: 508.5
     height: 413
   m_MinSize: {x: 202, y: 226}
   m_MaxSize: {x: 4002, y: 4026}
@@ -244,7 +244,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 413
-    width: 821
+    width: 669
     height: 276
   m_MinSize: {x: 101, y: 126}
   m_MaxSize: {x: 4001, y: 4026}
@@ -272,9 +272,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 821
+    x: 669
     y: 0
-    width: 747
+    width: 609
     height: 689
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
@@ -304,9 +304,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "UnityEditor.MainToolbarWindow\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 41
-    y: 58
-    width: 1568
+    x: 0
+    y: 0
+    width: 1278
     height: 36
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
       height: 564.88745
     m_MinimalGUI: 1
   m_defaultScale: 0.6479167
-  m_LastWindowPixelSize: {x: 1244, y: 774}
+  m_LastWindowPixelSize: {x: 622, y: 387}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -687,9 +687,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 41
-    y: 94
-    width: 196
+    x: 0
+    y: 24
+    width: 159.5
     height: 387
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -764,9 +764,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 238
-    y: 94
-    width: 622
+    x: 161.5
+    y: 24
+    width: 506.5
     height: 387
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -1394,9 +1394,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -77.75517, y: 19.81685, z: -0.38917953}
+    m_Target: {x: -1.933573, y: -0.5322406, z: 1854.2322}
     speed: 2
-    m_Value: {x: -0.11634576, y: 0.16288394, z: 0}
+    m_Value: {x: -77.75517, y: 19.81685, z: -0.38917953}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1447,9 +1447,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 109.62871
+    m_Target: 13.905819
     speed: 2
-    m_Value: 0.8870382
+    m_Value: 109.62871
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1594,14 +1594,52 @@ MonoBehaviour:
       m_Data: 55166
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 55042
-    - m_Data: 55044
-    - m_Data: 55046
-    - m_Data: 55048
-    - m_Data: 55050
-    - m_Data: 55172
-    - m_Data: 1000000000
-    - m_Data: 2147483647
+    - m_Data: 55246
+    - m_Data: 55248
+    - m_Data: 55250
+    - m_Data: 55252
+    - m_Data: 55254
+    - m_Data: 55256
+    - m_Data: 55258
+    - m_Data: 55260
+    - m_Data: 55262
+    - m_Data: 55264
+    - m_Data: 55266
+    - m_Data: 55268
+    - m_Data: 55270
+    - m_Data: 55272
+    - m_Data: 55274
+    - m_Data: 55276
+    - m_Data: 55278
+    - m_Data: 55280
+    - m_Data: 55282
+    - m_Data: 55284
+    - m_Data: 55286
+    - m_Data: 55288
+    - m_Data: 55290
+    - m_Data: 55292
+    - m_Data: 55294
+    - m_Data: 55296
+    - m_Data: 55298
+    - m_Data: 55300
+    - m_Data: 55302
+    - m_Data: 55304
+    - m_Data: 55306
+    - m_Data: 55308
+    - m_Data: 55310
+    - m_Data: 55312
+    - m_Data: 55314
+    - m_Data: 55316
+    - m_Data: 55318
+    - m_Data: 55320
+    - m_Data: 55322
+    - m_Data: 55324
+    - m_Data: 55326
+    - m_Data: 55328
+    - m_Data: 55330
+    - m_Data: 55332
+    - m_Data: 55334
+    - m_Data: 55336
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1635,11 +1673,52 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 55042
-    - m_Data: 55044
-    - m_Data: 55046
-    - m_Data: 55048
-    - m_Data: 55050
+    - m_Data: 55246
+    - m_Data: 55248
+    - m_Data: 55250
+    - m_Data: 55252
+    - m_Data: 55254
+    - m_Data: 55256
+    - m_Data: 55258
+    - m_Data: 55260
+    - m_Data: 55262
+    - m_Data: 55264
+    - m_Data: 55266
+    - m_Data: 55268
+    - m_Data: 55270
+    - m_Data: 55272
+    - m_Data: 55274
+    - m_Data: 55276
+    - m_Data: 55278
+    - m_Data: 55280
+    - m_Data: 55282
+    - m_Data: 55284
+    - m_Data: 55286
+    - m_Data: 55288
+    - m_Data: 55290
+    - m_Data: 55292
+    - m_Data: 55294
+    - m_Data: 55296
+    - m_Data: 55298
+    - m_Data: 55300
+    - m_Data: 55302
+    - m_Data: 55304
+    - m_Data: 55306
+    - m_Data: 55308
+    - m_Data: 55310
+    - m_Data: 55312
+    - m_Data: 55314
+    - m_Data: 55316
+    - m_Data: 55318
+    - m_Data: 55320
+    - m_Data: 55322
+    - m_Data: 55324
+    - m_Data: 55326
+    - m_Data: 55328
+    - m_Data: 55330
+    - m_Data: 55332
+    - m_Data: 55334
+    - m_Data: 55336
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1724,9 +1803,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 41
-    y: 507
-    width: 820
+    x: 0
+    y: 437
+    width: 668
     height: 250
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -2119,9 +2198,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 862
-    y: 94
-    width: 746
+    x: 670
+    y: 24
+    width: 608
     height: 663
   m_SerializedDataModeController:
     m_DataMode: 0
