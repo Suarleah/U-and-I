@@ -4,6 +4,7 @@ using FishNet;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 
 //this is a class for the patient's actual ingame behavior, so movement, attacks, health, etc.
@@ -28,15 +29,31 @@ public class Patient : NetworkBehaviour
     public readonly SyncVar<int> health = new SyncVar<int>();
     public float localhealth;
 
+    public float damage;
+    public float speed;
+    public float chaseSpeed;
+
+
     public float wanderCooldownMin; //how long in between wandering it waits,, it's a range so its a bit more random
     public float wanderCooldownMax;
     public bool wanderUp = true;
 
+
+
+    //generally escaped behavior
     public float escapedWanderRange;
     public float escapedWanderCooldownMin; //how long in between wandering it waits,, it's a range so its a bit more random
     public float escapedWanderCooldownMax;
 
-    
+    public GameObject aggroedPlayer; //if patient is escaped and aggroed, the player will be stored here
+    public FieldOfView sightfov; // the patient sees furhter in the direction theyre facing
+    public FieldOfView radialfov; // tha patient has a small radius around them that they will always be able to see players
+    public float aggroLength;//the patient will stay aggroed until they reach the target's lest seen location. Then, they will have basically the equivalent of cheating, chasing down the player for this amount of time before deaggroing
+    public float aggrotimer; 
+    public bool cheating;
+    public float attackCD;
+    public float attackTimer; //the patient will have to wait between attacks so they dont always just one shot.
+
 
     public override void OnStartServer()
     {
@@ -63,6 +80,13 @@ public class Patient : NetworkBehaviour
         {
             return;
         }
+        if (aggroedPlayer)
+        {
+            agent.speed = chaseSpeed;
+        } else
+        {
+            agent.speed = speed;
+        }
         if (escaped)
         {
             EscapedUpdate();
@@ -83,6 +107,7 @@ public class Patient : NetworkBehaviour
     public virtual void ContainedUpdate()
     {
         patience.Value -= Time.deltaTime;
+        aggroedPlayer = null;
         if (patience.Value <= 0)
         {
             StartCoroutine(Escape());
@@ -105,6 +130,8 @@ public class Patient : NetworkBehaviour
         escaped = false;
         patience.Value = maxPatience;
         transform.position = spawn.position;
+        attackTimer = attackCD;
+        aggrotimer = aggroLength;
         wanderUp = true;
         
         ContainAllClients();
@@ -125,9 +152,39 @@ public class Patient : NetworkBehaviour
         {
            yield break;
         }
+   
         escaped = true;
         patience.Value = 0;
-        wanderUp = true;
+        wanderUp = true; 
+
+
+        cheating = false;
+        attackTimer = attackCD;
+        aggrotimer = aggroLength;
+        //find the closest player on the whole map and chase them for a little (to give the escape a slightly explosive start ya know)
+        PlayerMovement closestPlayer = null;
+        List<PlayerMovement> players = GameManager.Instance.players; 
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (!closestPlayer)
+            {
+                if (!players[i].stats.isDead.Value)
+                {
+                    closestPlayer = players[i];
+                }
+            } else
+            {
+                if (Vector3.Distance(closestPlayer.transform.position, transform.position) > Vector3.Distance(players[i].transform.position, transform.position))
+                {
+                    closestPlayer = players[i];
+                }
+            }
+        }
+        aggroedPlayer = closestPlayer.gameObject;
+        agent.SetDestination(closestPlayer.transform.position);
+
+
+        
         EscapeAllClients();
         
     }
@@ -142,7 +199,7 @@ public class Patient : NetworkBehaviour
     }
 
 
-    [ServerRpc]
+    [Server]
     public virtual void changePatience(float amt)
     {
         patience.Value+=amt;
@@ -167,18 +224,60 @@ public class Patient : NetworkBehaviour
 
     public virtual IEnumerator escapedWander() //just ambient movement for the patient to do while contained
     {
-        wanderUp = false;
+        
         Vector3 randomPoint = transform.position + Random.insideUnitSphere * escapedWanderRange;
         NavMeshHit hit;
 
         // Project that point onto the NavMesh within the specified range
         if (NavMesh.SamplePosition(randomPoint, out hit, escapedWanderRange, NavMesh.AllAreas))
         {
-            agent.SetDestination(hit.position);
-        }
+            NavMeshPath path = new NavMeshPath();
 
-        yield return new WaitForSeconds(Random.Range(escapedWanderCooldownMin, escapedWanderCooldownMax));
-        wanderUp = true;
+            //check if path is possible
+            agent.CalculatePath(hit.position, path);
+            if (path.status == NavMeshPathStatus.PathInvalid || path.status == NavMeshPathStatus.PathPartial)
+            {
+                // Cancel the path and stop the agent
+                agent.ResetPath();
+            }
+            else
+            {
+                // Path is possible, set the destination
+                agent.SetDestination(hit.position);
+                wanderUp = false;
+                yield return new WaitForSeconds(Random.Range(escapedWanderCooldownMin, escapedWanderCooldownMax));
+                wanderUp = true;
+            }
+        }
+    }
+
+    public virtual Transform FindClosestPlayer(){
+        Transform closestPlayer = null;
+        radialfov.FindVisibleTargets();
+        if (radialfov.visibleTargets.Count > 0)
+        {
+            closestPlayer = radialfov.visibleTargets[0];
+            for (int i = 1; i < radialfov.visibleTargets.Count; i++)
+            {
+                if (Vector3.Distance(radialfov.visibleTargets[i].position, transform.position) < Vector3.Distance(closestPlayer.position, transform.position))
+                {
+                    closestPlayer = radialfov.visibleTargets[i];
+                }
+            }
+        }
+        sightfov.FindVisibleTargets();
+        if (sightfov.visibleTargets.Count > 0)
+        {
+            closestPlayer = sightfov.visibleTargets[0];
+            for (int i = 1; i < sightfov.visibleTargets.Count; i++)
+            {
+                if (Vector3.Distance(sightfov.visibleTargets[i].position, transform.position) < Vector3.Distance(closestPlayer.position, transform.position))
+                {
+                    closestPlayer = sightfov.visibleTargets[i];
+                }
+            }
+        }
+        return closestPlayer;
     }
 
 }

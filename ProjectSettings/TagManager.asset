@@ -18,8 +18,8 @@ TagManager:
   - DeadInteractable
   - ItemInteractable
   - Walls
-  - 
-  - 
+  - Ghost
+  - ReadyZone
   - 
   - 
   - 

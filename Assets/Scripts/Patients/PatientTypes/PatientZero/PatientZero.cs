@@ -1,10 +1,10 @@
+using FishNet.Demo.AdditiveScenes;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PatientZero : Patient
 {
-    public GameObject aggroedPlayer; //if patientzero is escaped and aggroed, the player will be stored here
-    public float aggroRange;
-    public float deaggroRange;
+    
 
 
     public override void EscapedUpdate()
@@ -16,30 +16,105 @@ public class PatientZero : Patient
         patience.Value += Time.deltaTime;
         if (patience.Value >= maxPatience)
         {
+            aggrotimer = aggroLength;
             StartCoroutine(Contain());
             return;
         }
+
+        if (attackTimer > 0) //if on cd, cant move (so they dont stick to the player and one shot all the time)
+        {
+            attackTimer -=Time.deltaTime;
+            return;
+        }
+        //find closest player
+        Transform closestPlayer = FindClosestPlayer();
+        if (closestPlayer)
+        {
+            aggroedPlayer = closestPlayer.gameObject;
+        }
+
         if (aggroedPlayer)
         {
-            if (Vector3.Distance(aggroedPlayer.transform.position, transform.position) >= deaggroRange)
+            
+            if (!closestPlayer) //the patient sees no one
             {
-                aggroedPlayer = null;
+                if (!aggroedPlayer.GetComponent<PlayerStats>().isDead.Value)
+                {
+                    cheating = false;
+                    aggroedPlayer = null;
+                    agent.SetDestination(transform.position);
+                }
+                //if it already reached player's last seen location
+                if (!agent.pathPending)
+                {
+                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    {
+                        if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                        {
+                            if (!cheating) //if not already cheating
+                            {
+                                cheating = true; //then cheat
+                            }
+                            
+                        }
+                    }
+                }    
+                if (cheating) //while cheating, the patient chases the last aggroed player even without line of sight
+                {
+                    
+                    agent.SetDestination(aggroedPlayer.transform.position);
+                    
+                    aggrotimer -= Time.deltaTime; 
+                } 
+                
+
             } else
-            {
+            { //if theres a closest player, that means the patient currently sees the target. Chase
                 agent.SetDestination(aggroedPlayer.transform.position);
+                cheating = false;
+                aggrotimer = aggroLength;
+                if (Vector3.Distance(aggroedPlayer.transform.position, transform.position) < 0.5f);
+                {
+                    aggroedPlayer.GetComponent<PlayerStats>().TakeDamage((int)damage, new DamageDetails());
+                    agent.SetDestination(transform.position);
+                    attackTimer = attackCD;
+                }
+
+            }
+            if (aggrotimer <= 0) //when aggro timer reacheds 0, patient gives up and deaggros
+            {
+                cheating = false;
+                aggroedPlayer = null;
+                agent.SetDestination(transform.position);
             }
         }
         else if (!aggroedPlayer)
         {
-            if (Vector3.Distance(FishNet.InstanceFinder.ClientManager.Connection.FirstObject.transform.position, transform.position) <= aggroRange) //right now this just finds the host and chases thjem but soontm i will make it chase nearest
+            cheating = false;
+            attackTimer = attackCD;
+            aggrotimer = aggroLength;
+            if ( wanderUp)
             {
-                aggroedPlayer = FishNet.InstanceFinder.ClientManager.Connection.FirstObject.gameObject;
-            } else if ( wanderUp)
-            {
-                escapedWander();
+                StartCoroutine(escapedWander());
             }
         }
         
+        
     }
+
+
+    /*private void OnCollisionEnter2D(Collision2D other) {
+        PlayerStats stats = other.gameObject.GetComponent<PlayerStats>();
+        if (stats && escaped)
+        {
+            //if (Vector3.Distance(aggroedPlayer.transform.position, transform.position) <= 2) //if player is close enough
+            {
+                //attack (this should always land, i dont really want it to be cheesed for a melee attack)
+                stats.TakeDamage((int)damage, new DamageDetails());
+                agent.SetDestination(transform.position);
+                attackTimer = attackCD;
+            }
+        }
+    }*/
 
 }

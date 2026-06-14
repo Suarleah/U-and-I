@@ -46,9 +46,13 @@ public class FieldOfView : MonoBehaviour {
         DrawFieldOfView();
     }
 
-    void FindVisibleTargets() {
+    public void FindVisibleTargets() {
         visibleTargets.Clear ();
         targetAquired = false;
+        //
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.useTriggers = true; 
+        //
         Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll (new Vector2(transform.position.x, transform.position.y), viewRadius, targetMask);
         for (int i = 0; i < targetsInViewRadius.Length; i++) {
             Transform target = targetsInViewRadius [i].transform;

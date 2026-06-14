@@ -67,7 +67,10 @@ public class PlayerMovement : NetworkBehaviour
             ghostUpdate();
         }
         if (!IsOwner) return;
-        
+
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Player");
+
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
         {
@@ -92,11 +95,16 @@ public class PlayerMovement : NetworkBehaviour
 
     private void ghostUpdate()
     {
+        
         if (InstanceFinder.ClientManager.Connection.FirstObject.GetComponent<PlayerStats>().isDead.Value) //if youre the dead player, or if youre also dead, then you can see the ghost
         {
             setGhostSpriteEnabled(true);
         }
         setPlayerSpriteEnabled(false);
+
+        if (!IsOwner) return;
+        gameObject.layer = LayerMask.NameToLayer("Ghost");
+        gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Ghost");
     }
 
     
