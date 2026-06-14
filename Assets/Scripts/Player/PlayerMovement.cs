@@ -59,7 +59,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        
+        gameObject.layer = LayerMask.NameToLayer("Player");
         setGhostSpriteEnabled(false);
         setPlayerSpriteEnabled(true);
         if (stats.isDead.Value)
@@ -68,8 +68,8 @@ public class PlayerMovement : NetworkBehaviour
         }
         if (!IsOwner) return;
 
-        gameObject.layer = LayerMask.NameToLayer("Player");
-        gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Player");
+        
+        //gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Player");
 
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
@@ -104,7 +104,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (!IsOwner) return;
         gameObject.layer = LayerMask.NameToLayer("Ghost");
-        gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Ghost");
+        //gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Ghost");
     }
 
     

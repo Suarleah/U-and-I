@@ -38,6 +38,7 @@ public class PatientZero : Patient
             
             if (!closestPlayer) //the patient sees no one
             {
+            
                 if (!aggroedPlayer.GetComponent<PlayerStats>().isDead.Value)
                 {
                     cheating = false;
@@ -73,7 +74,7 @@ public class PatientZero : Patient
                 agent.SetDestination(aggroedPlayer.transform.position);
                 cheating = false;
                 aggrotimer = aggroLength;
-                if (Vector3.Distance(aggroedPlayer.transform.position, transform.position) < 0.5f);
+                if (Vector3.Distance(aggroedPlayer.transform.position, transform.position) < 1f)
                 {
                     aggroedPlayer.GetComponent<PlayerStats>().TakeDamage((int)damage, new DamageDetails());
                     agent.SetDestination(transform.position);
