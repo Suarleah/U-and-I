@@ -107,7 +107,7 @@ Transform:
   m_GameObject: {fileID: 2325229387293408457}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.395531, y: 21.806362, z: 0}
+  m_LocalPosition: {x: 2.87, y: -9.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -177,7 +177,7 @@ MonoBehaviour:
   <AssetPathHash>k__BackingField: 1092121037602109342
   SceneId: 0
   SerializedTransformProperties:
-    Position: {x: 2.6783962, y: 16.054817, z: 0}
+    Position: {x: -8.58, y: -6.73, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
@@ -201,7 +201,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584206460246393638
+  _initializedTimestamp: -8584201387141790658
 --- !u!61 &6365325623619155502
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -721,7 +721,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584206460246393638
+  _initializedTimestamp: -8584201387141790658
 --- !u!1 &3170633782136169208
 GameObject:
   m_ObjectHideFlags: 0

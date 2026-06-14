@@ -28,6 +28,8 @@ public class PlayerMovement : NetworkBehaviour
 
     public bool canMove; //added this since in some situations we might not want to allow player to move
 
+    public GameObject networkTrigger; //so players can access a collision trigger event on server, rn being used for enemy line of sight
+
     void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
@@ -59,15 +61,23 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        networkTrigger.SetActive(true);
         setGhostSpriteEnabled(false);
         setPlayerSpriteEnabled(true);
         if (stats.isDead.Value)
         {
+            if (IsServerStarted)
+            {
+                networkTrigger.SetActive(false);
+            }
             ghostUpdate();
         }
         if (!IsOwner) return;
+
         
+        //gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Player");
+
         Vector2 dir = moveAction.ReadValue<Vector2>();
         if (canMove)
         {
@@ -92,11 +102,17 @@ public class PlayerMovement : NetworkBehaviour
 
     private void ghostUpdate()
     {
+        
         if (InstanceFinder.ClientManager.Connection.FirstObject.GetComponent<PlayerStats>().isDead.Value) //if youre the dead player, or if youre also dead, then you can see the ghost
         {
             setGhostSpriteEnabled(true);
         }
         setPlayerSpriteEnabled(false);
+        
+
+        if (!IsOwner) return;
+        gameObject.layer = LayerMask.NameToLayer("Ghost");
+        //gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Ghost");
     }
 
     

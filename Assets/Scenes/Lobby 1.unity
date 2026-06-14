@@ -1002,7 +1002,7 @@ GameObject:
   - component: {fileID: 290264561}
   - component: {fileID: 290264560}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Vision Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2027,7 +2027,7 @@ GameObject:
   - component: {fileID: 745088608}
   - component: {fileID: 745088607}
   - component: {fileID: 745088609}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: StartBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

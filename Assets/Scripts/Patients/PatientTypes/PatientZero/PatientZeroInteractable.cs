@@ -30,7 +30,7 @@ public class PatientZeroInteractable : PatientInteractable
 
         if (info == "losePatience")
         {
-            self.changePatience(-50);
+            self.changePatience(-100);
         }
         StartCoroutine(goOnCooldown(10f));
         
