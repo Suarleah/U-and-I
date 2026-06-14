@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 public class VoteManager : NetworkBehaviour
 {
+
+    public static VoteManager Instance;
+
     [Header("Voting Screen")]
     private PatientManager patientManager;
     public GameObject playerName;
@@ -22,6 +25,7 @@ public class VoteManager : NetworkBehaviour
     public Color[] playerColors;
     [SerializeField] GameObject cursorPrefab;
     public int playersToLoad = 0;
+    public int votesCast = 0;
     public List<NetworkObject> networkObjects = new List<NetworkObject>();
     public GameObject[] patientChoices;
     public Canvas voteCanvas;
@@ -43,6 +47,7 @@ public class VoteManager : NetworkBehaviour
 
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
         playersToLoad = RelayManager.Instance.currentPlayersCount;
+        Instance = this;
         patientManager = PatientManager.Instance;
 
         sld = new SceneLoadData(sceneToLoad);
@@ -77,6 +82,39 @@ public class VoteManager : NetworkBehaviour
             AllPlayersDoneLoading();
         }
 
+    }
+
+    [Server]
+    public void DidAllPlayersVote()
+    {
+        if (votesCast == RelayManager.Instance.currentPlayersCount)
+        {
+            AllPlayersVoted();
+        }
+    }
+
+    [Server]
+    public void AllPlayersVoted()
+    {
+        List<int> votes = new List<int>();
+        for (int i = 0; i < patientChoices.Length; i++)
+        {
+            for (int x = 0; x < patientChoices[i].GetComponent<Voter>().votesForMe.Value; x++)
+            {
+                votes.Add(i);
+            }
+        }
+
+        if (votes.Count == 0)
+        {
+            // Nobody voted, pick a random patient
+            int fallback = UnityEngine.Random.Range(0, patientChoices.Length);
+            patientChoices[fallback].GetComponent<Voter>().TheWinner();
+            return;
+        }
+
+        int winner = UnityEngine.Random.Range(0, votes.Count);
+        patientChoices[votes[winner]].GetComponent<Voter>().TheWinner();
     }
 
     [Server]
@@ -126,7 +164,6 @@ public class VoteManager : NetworkBehaviour
         nameText.GetComponentInChildren<TextMeshProUGUI>().color = playerColors[i];
         nameText.GetComponentInChildren<TextMeshProUGUI>().text = name;
         nameText.transform.SetParent(playerList, false);
-
 
     }
 
