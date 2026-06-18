@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db88e271c50be48bfba77367e6b5241a, type: 3}
   m_Name: PatientZeroSO
   m_EditorClassIdentifier: Assembly-CSharp::PatientSO
-  prefab: {fileID: 0}
+  prefab: {fileID: 9006883238750405188, guid: 0e191b48796e34cb99a53dfdd5b184e6, type: 3}
   id: 0
   namee: PatientZero
   desc: The first patient

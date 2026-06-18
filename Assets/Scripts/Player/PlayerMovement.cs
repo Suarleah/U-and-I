@@ -75,7 +75,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         if (!IsOwner) return;
 
-        
+
         //gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Player");
 
         Vector2 dir = moveAction.ReadValue<Vector2>();

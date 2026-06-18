@@ -65,11 +65,18 @@ public class Patient : NetworkBehaviour
 
     public virtual void Awake()
     {
-
-        transform.position = spawn.position;
+        if (spawn)
+        {
+            transform.position = spawn.position;
+        }
+        
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.SetDestination(transform.position);
+        if (agent.isOnNavMesh)
+        {
+            agent.SetDestination(transform.position);
+        }
+        
     }
 
     public virtual void Update()
