@@ -72,7 +72,7 @@ public class Patient : NetworkBehaviour
         
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        if (agent.isOnNavMesh)
+        if (agent.isOnNavMesh && IsServerStarted)
         {
             agent.SetDestination(transform.position);
         }
