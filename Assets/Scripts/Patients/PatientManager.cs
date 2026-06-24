@@ -24,7 +24,7 @@ public class PatientManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-        // unusedPatients.AddRange(allPatients);
+        unusedPatients.AddRange(allPatients);
         availPatients = new List<PatientSO>();
     }
 
