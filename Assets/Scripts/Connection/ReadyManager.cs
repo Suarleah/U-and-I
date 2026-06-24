@@ -23,8 +23,12 @@ public class ReadyManager : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        GameObject go = Instantiate(patientManager);
-        Spawn(go);
+        if (patientManager)
+        {
+            GameObject go = Instantiate(patientManager);
+            Spawn(go);
+        }
+        
     }
 
     [ServerRpc(RequireOwnership = false)]
