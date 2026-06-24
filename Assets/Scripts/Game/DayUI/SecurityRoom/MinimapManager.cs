@@ -1,16 +1,36 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MinimapManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    //just the code that display all the entitires on the minimap (includes alive players, their corpses and patients, but you cant tell the diff on minimap)
 
-    // Update is called once per frame
+
+    // the patients' floors can be told by their order in patientManager
+
+    GameObject entityMarkerPrefab;
+
+
     void Update()
     {
+        //loop through, mark all players
         
+        List<PlayerMovement> players = GameManager.Instance.players;
+        for (int i = 0; i < players.Count; i++)
+        {
+            
+            if (!players[i].stats.isDead.Value)
+            {
+                
+            }
+        }
+
+        //loop through, mark all patients
+        for (int i = 0; i < PatientManager.Instance.currentPatients.Count; i++)
+        {
+            
+        }
     }
+
+    
 }
