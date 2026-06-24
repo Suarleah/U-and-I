@@ -711,15 +711,7 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -9744
-      - m_Data: -9476
-      - m_Data: -8480
-      - m_Data: -8200
-      - m_Data: -7032
       - m_Data: -1404
-      - m_Data: 57680
-      - m_Data: 58278
-      - m_Data: 60384
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1592,21 +1584,21 @@ MonoBehaviour:
   m_FolderTreeState:
     scrollPos: {x: 0, y: 121.9993}
     m_SelectedIDs:
-    - m_Data: 57894
+    - m_Data: 55444
     m_LastClickedID:
-      m_Data: 57894
+      m_Data: 55444
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 55316
-    - m_Data: 55318
-    - m_Data: 55320
-    - m_Data: 55322
-    - m_Data: 55324
-    - m_Data: 55326
-    - m_Data: 55328
-    - m_Data: 55330
-    - m_Data: 55332
-    - m_Data: 55334
+    - m_Data: 55064
+    - m_Data: 55066
+    - m_Data: 55068
+    - m_Data: 55070
+    - m_Data: 55072
+    - m_Data: 55074
+    - m_Data: 55076
+    - m_Data: 55078
+    - m_Data: 55080
+    - m_Data: 55082
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1640,16 +1632,16 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 55316
-    - m_Data: 55318
-    - m_Data: 55320
-    - m_Data: 55322
-    - m_Data: 55324
-    - m_Data: 55326
-    - m_Data: 55328
-    - m_Data: 55330
-    - m_Data: 55332
-    - m_Data: 55334
+    - m_Data: 55064
+    - m_Data: 55066
+    - m_Data: 55068
+    - m_Data: 55070
+    - m_Data: 55072
+    - m_Data: 55074
+    - m_Data: 55076
+    - m_Data: 55078
+    - m_Data: 55080
+    - m_Data: 55082
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1677,11 +1669,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs:
-    - m_Data: 57980
+    m_SelectedInstanceIDs: []
     m_LastClickedEntityId:
-      m_Data: 57980
-    m_HadKeyboardFocusLastEvent: 1
+      m_Data: 0
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: []
     m_RenameOverlay:
       m_UserAcceptedRename: 0
