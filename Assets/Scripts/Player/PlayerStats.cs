@@ -19,6 +19,8 @@ public class PlayerStats : NetworkBehaviour
     public readonly SyncVar<bool> isDead = new SyncVar<bool>();
     public readonly SyncVar<bool> isClockedOut = new SyncVar<bool>();
 
+    public GameObject myCorpse; //the current corpse of this player
+
 
     public string localPlayerName;
     public float localspeed;
@@ -26,6 +28,8 @@ public class PlayerStats : NetworkBehaviour
     public int localHealth;
     public bool localisDead;
     public bool localisClockedOut;
+
+    public int floor; //what floor this player is currently on
     //public Item[] inventory;
 
     public GameObject corpsePrefab;
@@ -89,7 +93,7 @@ public class PlayerStats : NetworkBehaviour
 
         FishNet.InstanceFinder.ServerManager.Spawn(corpse);
         corpse.GetComponent<Corpse>().setCorpseOwner(base.NetworkObject);
-
+        myCorpse = corpse;
         /*corpse.GetComponent<Corpse>().corpseOwner.Value = gameObject;
         SetCorpseName(corpse.GetComponent<Corpse>());*/
  

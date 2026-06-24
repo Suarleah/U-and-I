@@ -701,6 +701,7 @@ MonoBehaviour:
   wanderCooldownMin: 5
   wanderCooldownMax: 10
   wanderUp: 1
+  floor: 0
   escapedWanderRange: 150
   escapedWanderCooldownMin: 5
   escapedWanderCooldownMax: 10
@@ -735,6 +736,7 @@ MonoBehaviour:
   deadUI: 0
   localOnCD: 0
   cooldown: 0
+  floor: 0
   self: {fileID: 3274201880209496550}
   feedbackText: {fileID: 5276331289844314277, guid: 934c55e035a0b4392bf2b893bd222214, type: 3}
 --- !u!195 &4959539066434842964
@@ -791,7 +793,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 19
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 16786984782781877317
+  <AssetPathHash>k__BackingField: 2056465145993305554
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: -0.36652, y: -21.86948, z: 0}

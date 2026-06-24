@@ -15,6 +15,8 @@ public class FloorManager : MonoBehaviour
     //elevator spawn zone
     public Transform elevatorSpawn;
 
+    public Transform offset; //the offset position of this floor
+
     void Awake()
     {
         MapManager.Instance.floors.Add(this);

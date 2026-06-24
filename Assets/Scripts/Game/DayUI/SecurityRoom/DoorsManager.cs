@@ -2,15 +2,5 @@ using UnityEngine;
 
 public class DoorsManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //this is the script that manages the doors (ie which doors are on cooldown at any given time, which doors are opened/closed for the janitor)
 }

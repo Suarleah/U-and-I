@@ -7,11 +7,19 @@ public class MapManager : MonoBehaviour
 
     public static int patientsperfloor = 5;
 
+    
+
     //manager for each floor
     public List<FloorManager> floors;
 
     void Awake()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        } else
+        {
+            Destroy(gameObject);
+        }
     }
 }

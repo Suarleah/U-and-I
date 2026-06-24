@@ -38,7 +38,7 @@ public class Patient : NetworkBehaviour
     public float wanderCooldownMax;
     public bool wanderUp = true;
 
-
+    public int floor; //the floor this patient is currently on
 
     //generally escaped behavior
     public float escapedWanderRange;

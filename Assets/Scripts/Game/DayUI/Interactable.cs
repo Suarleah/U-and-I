@@ -28,6 +28,8 @@ public class Interactable : NetworkBehaviour
     public bool localOnCD;
     public float cooldown;
 
+    public int floor; //the floor this interactable is currently on
+
     public virtual void Awake()
     {
         interactAction = inputAsset.FindAction("Interact");

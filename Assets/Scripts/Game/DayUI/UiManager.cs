@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public Canvas PatientInteractionCanvas;
+    public Canvas MinimapCanvas;
 
 
 
