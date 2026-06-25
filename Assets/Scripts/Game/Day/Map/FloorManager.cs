@@ -9,9 +9,9 @@ public class FloorManager : MonoBehaviour
     public List<RectTransform> patientRooms;
 
     //doors 
-    public List<GameObject> doors;
+    public List<Door> doors;
     //janitor zones (include the necessary doors to use them, those doors must stay locked during the janitor animation)
-    public List<GameObject> janitorZones;
+    public List<CleaningSection> janitorZones;
     //elevator spawn zone
     public Transform elevatorSpawn;
 

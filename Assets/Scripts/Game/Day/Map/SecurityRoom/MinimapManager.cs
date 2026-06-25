@@ -30,7 +30,7 @@ public class MinimapManager : MonoBehaviour
     {
         if (tickTimer <= 0) //only updates once every half second, maybe less intensive and seems a little more immersive
         {
-            tickTimer = 0.5f;
+            tickTimer = tickTime;
             UpdateMarkers();
         }
         tickTimer -= Time.deltaTime;
