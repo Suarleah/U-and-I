@@ -30,6 +30,10 @@ public class VoteManager : NetworkBehaviour
     public GameObject[] patientChoices;
     public Canvas voteCanvas;
 
+    [Header("Fake Voting Visual")]
+    public int spinCycles = 3; // how many full laps around all patients to do before landing on the winner
+    public float spinInterval = 0.2f; // how long to wait between each pulse during the spin
+
     [Header("Shop Screen")]
     public int playersReady = 0; // Used for starting game
     private bool startingGame; // Used for starting game
@@ -46,7 +50,7 @@ public class VoteManager : NetworkBehaviour
     {
 
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
-        playersToLoad = RelayManager.Instance.currentPlayersCount;
+        playersToLoad = RelayManager.Instance.currentPlayersCount - 1;
         Instance = this;
         patientManager = PatientManager.Instance;
 
@@ -61,6 +65,8 @@ public class VoteManager : NetworkBehaviour
             Voter v = patientChoices[i].GetComponent<Voter>();
             v.me = ethanPoop[i];
         }
+
+
     }
 
     async void Update()
@@ -87,11 +93,13 @@ public class VoteManager : NetworkBehaviour
     [Server]
     public void DidAllPlayersVote()
     {
-        if (votesCast == RelayManager.Instance.currentPlayersCount)
+        if (votesCast == networkObjects.Count)
         {
             AllPlayersVoted();
         }
     }
+
+
 
     [Server]
     public void AllPlayersVoted()
@@ -109,12 +117,73 @@ public class VoteManager : NetworkBehaviour
         {
             // Nobody voted, pick a random patient
             int fallback = UnityEngine.Random.Range(0, patientChoices.Length);
-            patientChoices[fallback].GetComponent<Voter>().TheWinner();
+            StartCoroutine(RevealWinner(fallback)); // play the spin animation, then make "fallback" the winner once it's done
             return;
         }
 
         int winner = UnityEngine.Random.Range(0, votes.Count);
-        patientChoices[votes[winner]].GetComponent<Voter>().TheWinner();
+        StartCoroutine(RevealWinner(votes[winner])); // play the spin animation, then make this patient the winner once it's done
+    }
+
+    [Server]
+    private IEnumerator RevealWinner(int winnerIndex) // server-side coroutine that plays the spin and picks the winner once it's done
+    {
+        VotingVisual(winnerIndex); // tell every client to start playing the spinning reveal animation too
+
+        for (int cycle = 0; cycle < spinCycles; cycle++) // do the same full laps the clients are doing
+        {
+            for (int i = 0; i < patientChoices.Length; i++)
+            {
+                yield return new WaitForSeconds(spinInterval); // wait the same amount of time per step as the clients do
+            }
+        }
+
+        for (int i = 0; i <= winnerIndex; i++) // do the same final lap that stops on the winner
+        {
+            yield return new WaitForSeconds(spinInterval); // wait the same amount of time per step as the clients do
+        }
+
+        patientManager.selectPatient(patientChoices[winnerIndex].GetComponent<Voter>().me);
+    }
+
+    [ObserversRpc]
+    void VotingVisual(int windex) // tells every client to play the reveal animation, landing on windex
+    {
+        StartCoroutine(PlayVotingVisual(windex)); // kick off the actual animation coroutine on this client
+    }
+
+    private IEnumerator PlayVotingVisual(int windex) // the coroutine that actually plays the spinning animation
+    {
+        //Cycle through a few times for bullshit
+        for (int cycle = 0; cycle < spinCycles; cycle++) // do a few full laps through every patient first
+        {
+            for (int i = 0; i < patientChoices.Length; i++)
+            {
+                PulseVoter(i); // grow this patient's vote icons
+                yield return new WaitForSeconds(spinInterval); // wait a bit before moving to the next patient
+            }
+        }
+
+        for (int i = 0; i <= windex; i++) // one final lap that stops right on the actual winner
+        {
+            PulseVoter(i); // grow this patient's vote icons
+            yield return new WaitForSeconds(spinInterval); // wait a bit before moving to the next patient
+        }
+
+    }
+
+    private void PulseVoter(int index) // plays the animation on all of cast vote icons
+    {
+        Voter v = patientChoices[index].GetComponent<Voter>(); // grab the Voter script for this patient
+
+        foreach (Transform child in v.voteHolder) // go through every vote icon currently parented under this patient
+        {
+            Animator childAnim = child.GetComponent<Animator>(); // try to get that vote icon's animator
+            if (childAnim != null) // only trigger it if it actually has one
+            {
+                childAnim.SetTrigger("myTurn"); // play the animation on that vote icon
+            }
+        }
     }
 
     [Server]
@@ -132,16 +201,16 @@ public class VoteManager : NetworkBehaviour
             GameObject name = Instantiate(playerName, playerList);
             Spawn(name, no.Owner);
             // make a name and then make that name spawn on the network
-            
+
             String myName = localPlayer.GetComponentInChildren<TextMeshProUGUI>().text;
             // Create their name and then spawn in on the network, get the players local name above their head
 
             GameObject cursor = Instantiate(cursorPrefab, voteCanvas.transform);
             Spawn(cursor, no.Owner);
             // create a cursor and then spawn it over the network
-            
+
             cursor.GetComponent<NetworkCursor>().SetColor(playerColors[i]);
-            
+
 
             UpdateValuesOnClient(localPlayer.GetComponent<NetworkObject>(), cursor.GetComponent<NetworkObject>(),
                 name.GetComponent<NetworkObject>(), myName, i);
