@@ -56,6 +56,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6f12cd437eb94167a4dbcb12680943c, type: 2}
   currentPatients: []
   unusedPatients: []
+  localSpawnedPatients: []
 --- !u!114 &2762809729653823919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,9 +81,9 @@ MonoBehaviour:
   _enableStateForwarding: 1
   _networkTransform: {fileID: 0}
   _ownerInterpolation: 1
-  _ownerSmoothedProperties: 255
+  _ownerSmoothedProperties: 4294967295
   _adaptiveInterpolation: 3
-  _spectatorSmoothedProperties: 255
+  _spectatorSmoothedProperties: 4294967295
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
