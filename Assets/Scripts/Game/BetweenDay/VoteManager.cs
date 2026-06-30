@@ -32,7 +32,7 @@ public class VoteManager : NetworkBehaviour
 
     [Header("Fake Voting Visual")]
     public int spinCycles = 3; // how many full laps around all patients to do before landing on the winner
-    public float spinInterval = 0.2f; // how long to wait between each pulse during the spin
+    public float spinInterval = 1f; // how long to wait between each pulse during the spin
 
     [Header("Shop Screen")]
     public int playersReady = 0; // Used for starting game
@@ -45,12 +45,14 @@ public class VoteManager : NetworkBehaviour
     public String sceneToLoad; // Next scene
     private SceneLoadData sld;
     public Transform[] spawnPoints;
+    
+
 
     async void Start()
     {
 
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
-        playersToLoad = RelayManager.Instance.currentPlayersCount - 1;
+        playersToLoad = RelayManager.Instance.currentPlayersCount;
         Instance = this;
         patientManager = PatientManager.Instance;
 
@@ -80,7 +82,7 @@ public class VoteManager : NetworkBehaviour
         GameObject localPlayer = arrghs.Connection.FirstObject.gameObject;
         networkObjects.Add(localPlayer.GetComponent<NetworkObject>());
         playersToLoad--;
-        Debug.Log(playersToLoad);
+        //Debug.Log(playersToLoad);
 
         if (playersToLoad == 0)
         {
@@ -104,6 +106,14 @@ public class VoteManager : NetworkBehaviour
     [Server]
     public void AllPlayersVoted()
     {
+        //disabled voting once everyone has voted
+        for (int i = patientChoices.Length - 1; i >= 0; i--)
+        {
+            Voter v = patientChoices[i].GetComponent<Voter>();
+            v.votable = false;
+        }
+
+
         List<int> votes = new List<int>();
         for (int i = 0; i < patientChoices.Length; i++)
         {
@@ -122,6 +132,7 @@ public class VoteManager : NetworkBehaviour
         }
 
         int winner = UnityEngine.Random.Range(0, votes.Count);
+        Debug.Log("winner is:" + winner);
         StartCoroutine(RevealWinner(votes[winner])); // play the spin animation, then make this patient the winner once it's done
     }
 
@@ -159,29 +170,49 @@ public class VoteManager : NetworkBehaviour
         {
             for (int i = 0; i < patientChoices.Length; i++)
             {
-                PulseVoter(i); // grow this patient's vote icons
-                yield return new WaitForSeconds(spinInterval); // wait a bit before moving to the next patient
+                //StartCoroutine(PulseVoter(i)); // grow this patient's vote icons
+                Voter v = patientChoices[i].GetComponent<Voter>(); // grab the Voter script for this patient
+
+                for (int j = 0; j < v.voteHolder.childCount; j++) // go through every vote icon currently parented under this patient
+                {
+                    Animator childAnim = v.voteHolder.GetChild(j).GetComponent<Animator>(); // try to get that vote icon's animator
+                    if (childAnim != null) // only trigger it if it actually has one
+                    {
+                        Debug.Log("cycle: " + cycle + "\n patient #:" + i + "\nvote #:" + j);
+                        childAnim.SetTrigger("myTurn"); // play the animation on that vote icon
+                        yield return new WaitForSeconds(spinInterval);
+                    }
+                }
             }
         }
-
+        
         for (int i = 0; i <= windex; i++) // one final lap that stops right on the actual winner
         {
-            PulseVoter(i); // grow this patient's vote icons
-            yield return new WaitForSeconds(spinInterval); // wait a bit before moving to the next patient
+            //StartCoroutine(PulseVoter(i)); // grow this patient's vote icons
+            Voter v = patientChoices[i].GetComponent<Voter>(); // grab the Voter script for this patient
+                for (int j = 0; j < v.voteHolder.childCount; j++) // go through every vote icon currently parented under this patient
+                {
+                    Animator childAnim = v.voteHolder.GetChild(j).GetComponent<Animator>(); // try to get that vote icon's animator
+                    if (childAnim != null) // only trigger it if it actually has one
+                    {
+                        childAnim.SetTrigger("myTurn"); // play the animation on that vote icon
+                        yield return new WaitForSeconds(spinInterval);
+                    }
+                }
         }
-
+        yield return null;
     }
 
-    private void PulseVoter(int index) // plays the animation on all of cast vote icons
+    private IEnumerator PulseVoter(int index) // plays the animation on all of cast vote icons
     {
         Voter v = patientChoices[index].GetComponent<Voter>(); // grab the Voter script for this patient
-
         foreach (Transform child in v.voteHolder) // go through every vote icon currently parented under this patient
         {
             Animator childAnim = child.GetComponent<Animator>(); // try to get that vote icon's animator
             if (childAnim != null) // only trigger it if it actually has one
             {
                 childAnim.SetTrigger("myTurn"); // play the animation on that vote icon
+                yield return new WaitForSeconds(spinInterval);
             }
         }
     }
@@ -216,8 +247,8 @@ public class VoteManager : NetworkBehaviour
                 name.GetComponent<NetworkObject>(), myName, i);
             // Apperently you cannot pass GameObjects into RPC.....
             // Actually fuck this stupid bullshit
-
         }
+        
     }
 
     [ObserversRpc]

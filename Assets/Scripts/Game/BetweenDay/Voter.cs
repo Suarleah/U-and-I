@@ -15,11 +15,13 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
     public PatientManager patientManager;
     public VoteManager voteManager;
 
+    public bool votable; //only matters on server
+
 
     async void Start()
     {
-        patientManager = PatientManager.Instance;
-
+        patientManager = PatientManager.Instance;   
+        votable = true;
     }
 
     [Server]
@@ -37,12 +39,16 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
     {
         NetworkCursor c = cursorObject.GetComponent<NetworkCursor>();
         c.myVote.transform.SetParent(voteHolder);
-        c.myVote.gameObject.SetActive(true);
+        c.myVote.enabled = (true);
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void WhoClickedMe(NetworkConnection connection = null)
     {
+        if (!votable)
+        {
+            return;
+        }
         NetworkCursor clickedMe = null;
 
         foreach (NetworkObject o in connection.Objects)
@@ -56,7 +62,7 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
         }
         // Get their vote icon, which is their color, and add it as a child of me
         clickedMe.myVote.transform.SetParent(voteHolder);
-        clickedMe.myVote.gameObject.SetActive(true);
+        clickedMe.myVote.enabled = (true);
 
         votesForMe.Value++;
         ClickedMeClient(clickedMe.NetworkObject);
