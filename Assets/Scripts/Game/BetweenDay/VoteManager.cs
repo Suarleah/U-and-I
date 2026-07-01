@@ -27,6 +27,7 @@ public class VoteManager : NetworkBehaviour
     public int playersToLoad = 0;
     public int votesCast = 0;
     public List<NetworkObject> networkObjects = new List<NetworkObject>();
+    public List<GameObject> cursors = new List<GameObject>();
     public GameObject[] patientChoices;
     public Canvas voteCanvas;
 
@@ -35,15 +36,7 @@ public class VoteManager : NetworkBehaviour
     public float spinInterval = 1f; // how long to wait between each pulse during the spin
 
     [Header("Shop Screen")]
-    public int playersReady = 0; // Used for starting game
-    private bool startingGame; // Used for starting game
-    public Image progressBox; // Loading progress bar for when all players are ready
-    public TextMeshProUGUI playersReadyText;
-    private ReadyManager readyManager;
-    private Coroutine countdownCoroutine;
-    public GameObject shop; private Canvas shopC; // shop and its canvas
-    public String sceneToLoad; // Next scene
-    private SceneLoadData sld;
+    private ShopManager shopManager;
     public Transform[] spawnPoints;
     
 
@@ -52,14 +45,10 @@ public class VoteManager : NetworkBehaviour
     {
 
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
-        playersToLoad = RelayManager.Instance.currentPlayersCount;
+        playersToLoad = RelayManager.Instance.currentPlayersCount -1;
         Instance = this;
         patientManager = PatientManager.Instance;
-
-        sld = new SceneLoadData(sceneToLoad);
-        sld.ReplaceScenes = ReplaceOption.All;
-
-        shopC = shop.GetComponentInChildren<Canvas>();
+        shopManager = ShopManager.Instance;
 
         List<PatientSO> ethanPoop = patientManager.getRandomUnusedPatients(patientChoices.Length);
         for (int i = patientChoices.Length - 1; i >= 0; i--)
@@ -69,11 +58,6 @@ public class VoteManager : NetworkBehaviour
         }
 
 
-    }
-
-    async void Update()
-    {
-        ReadyToStart();
     }
 
     [Server]
@@ -154,7 +138,15 @@ public class VoteManager : NetworkBehaviour
             yield return new WaitForSeconds(spinInterval); // wait the same amount of time per step as the clients do
         }
 
+
+
         patientManager.selectPatient(patientChoices[winnerIndex].GetComponent<Voter>().me);
+        foreach (GameObject o in cursors)
+        {
+            Despawn(o);
+        }
+
+        shopManager.BeginShopping();
     }
 
     [ObserversRpc]
@@ -165,6 +157,8 @@ public class VoteManager : NetworkBehaviour
 
     private IEnumerator PlayVotingVisual(int windex) // the coroutine that actually plays the spinning animation
     {
+        Animator childAnim = new Animator();
+
         //Cycle through a few times for bullshit
         for (int cycle = 0; cycle < spinCycles; cycle++) // do a few full laps through every patient first
         {
@@ -175,46 +169,18 @@ public class VoteManager : NetworkBehaviour
 
                 for (int j = 0; j < v.voteHolder.childCount; j++) // go through every vote icon currently parented under this patient
                 {
-                    Animator childAnim = v.voteHolder.GetChild(j).GetComponent<Animator>(); // try to get that vote icon's animator
+                    childAnim = v.voteHolder.GetChild(j).GetComponent<Animator>(); // try to get that vote icon's animator
                     if (childAnim != null) // only trigger it if it actually has one
                     {
-                        Debug.Log("cycle: " + cycle + "\n patient #:" + i + "\nvote #:" + j);
                         childAnim.SetTrigger("myTurn"); // play the animation on that vote icon
                         yield return new WaitForSeconds(spinInterval);
                     }
                 }
             }
         }
-        
-        for (int i = 0; i <= windex; i++) // one final lap that stops right on the actual winner
-        {
-            //StartCoroutine(PulseVoter(i)); // grow this patient's vote icons
-            Voter v = patientChoices[i].GetComponent<Voter>(); // grab the Voter script for this patient
-                for (int j = 0; j < v.voteHolder.childCount; j++) // go through every vote icon currently parented under this patient
-                {
-                    Animator childAnim = v.voteHolder.GetChild(j).GetComponent<Animator>(); // try to get that vote icon's animator
-                    if (childAnim != null) // only trigger it if it actually has one
-                    {
-                        childAnim.SetTrigger("myTurn"); // play the animation on that vote icon
-                        yield return new WaitForSeconds(spinInterval);
-                    }
-                }
-        }
-        yield return null;
-    }
 
-    private IEnumerator PulseVoter(int index) // plays the animation on all of cast vote icons
-    {
-        Voter v = patientChoices[index].GetComponent<Voter>(); // grab the Voter script for this patient
-        foreach (Transform child in v.voteHolder) // go through every vote icon currently parented under this patient
-        {
-            Animator childAnim = child.GetComponent<Animator>(); // try to get that vote icon's animator
-            if (childAnim != null) // only trigger it if it actually has one
-            {
-                childAnim.SetTrigger("myTurn"); // play the animation on that vote icon
-                yield return new WaitForSeconds(spinInterval);
-            }
-        }
+        childAnim.SetTrigger("win");
+        yield return null;
     }
 
     [Server]
@@ -241,6 +207,7 @@ public class VoteManager : NetworkBehaviour
             // create a cursor and then spawn it over the network
 
             cursor.GetComponent<NetworkCursor>().SetColor(playerColors[i]);
+            cursors.Add(cursor);
 
 
             UpdateValuesOnClient(localPlayer.GetComponent<NetworkObject>(), cursor.GetComponent<NetworkObject>(),
@@ -265,49 +232,6 @@ public class VoteManager : NetworkBehaviour
         nameText.GetComponentInChildren<TextMeshProUGUI>().text = name;
         nameText.transform.SetParent(playerList, false);
 
-    }
-
-
-    public void StartGame()
-    {
-        ReadyManager.Instance.StartGame(sld);
-    }
-
-    public void ReadyToStart()
-    {
-        if (playersReady != RelayManager.Instance.currentPlayersCount && playersReady != 0)
-        {
-            // If the number of players who are ready is not the same as the number of players in the game
-            if (countdownCoroutine != null)
-            {
-                StopCoroutine(countdownCoroutine);
-                countdownCoroutine = null;
-            }
-            progressBox.fillAmount = 0;
-            startingGame = false;
-        }
-
-        if (playersReady == RelayManager.Instance.currentPlayersCount && !startingGame && playersReady != 0)
-        {
-            // If the number of players who are ready is the same as the number of players in the game
-            countdownCoroutine = StartCoroutine(startCountdown());
-        }
-    }
-
-    private IEnumerator startCountdown()
-    {
-        startingGame = true;
-        for (float i = 0; i < 1; i += 0.05f)
-        {
-            if (ReadyManager.Instance != null)
-            {
-                ReadyManager.Instance.UpdateBoxClients(i); // Have to do this through a client method so that everyone sees it update
-                yield return new WaitForSeconds(0.05f);
-            }
-
-        }
-        // If we made it through the whole timer, resume the game!!
-        StartGame();
     }
 
     PlayerMovement FindLocalPlayer()
