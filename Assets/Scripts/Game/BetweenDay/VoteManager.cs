@@ -146,7 +146,22 @@ public class VoteManager : NetworkBehaviour
             Despawn(o);
         }
 
+        foreach (NetworkObject n in networkObjects)
+        {
+            n.gameObject.SetActive(true);
+        }
+        SetActiveObservers(networkObjects.ToArray());
+
         shopManager.BeginShopping();
+    }
+
+    [ObserversRpc]
+    private void SetActiveObservers(NetworkObject[] n)
+    {
+        foreach (NetworkObject o in n)
+        {
+            o.gameObject.SetActive(true);
+        }
     }
 
     [ObserversRpc]
