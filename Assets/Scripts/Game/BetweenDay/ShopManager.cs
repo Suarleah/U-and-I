@@ -9,13 +9,14 @@ using UnityEngine.UI;
 public class ShopManager : NetworkBehaviour
 {
     public static ShopManager Instance;
-    public Canvas shopCanvas;
-    public Canvas voteCanvas;
+    public GameObject shopScreen;
+    public GameObject voteScreen;
     public int playersReady = 0; // Used for starting game
     private bool startingGame; // Used for starting game
     public Image progressBox; // Loading progress bar for when all players are ready
     public TextMeshProUGUI playersReadyText;
     private ReadyManager readyManager;
+    private VoteManager voteManager;
     private Coroutine countdownCoroutine;
     public String sceneToLoad; // Next scene
     private SceneLoadData sld;
@@ -26,6 +27,8 @@ public class ShopManager : NetworkBehaviour
 
         sld = new SceneLoadData(sceneToLoad);
         sld.ReplaceScenes = ReplaceOption.All;
+
+        voteManager = VoteManager.Instance;
     }
 
     async void Update()
@@ -37,8 +40,8 @@ public class ShopManager : NetworkBehaviour
     [ObserversRpc]
     public void BeginShopping()
     {
-        voteCanvas.enabled = false;
-        shopCanvas.enabled = true;
+        voteScreen.SetActive(false);
+        shopScreen.SetActive(true);
     }
 
     public void StartGame()
@@ -82,4 +85,5 @@ public class ShopManager : NetworkBehaviour
         // If we made it through the whole timer, resume the game!!
         StartGame();
     }
+    
 }
