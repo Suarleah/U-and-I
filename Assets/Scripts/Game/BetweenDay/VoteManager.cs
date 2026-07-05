@@ -45,7 +45,7 @@ public class VoteManager : NetworkBehaviour
     {
 
         NetworkManager.SceneManager.OnClientPresenceChangeEnd += PlayerDoneLoading;
-        playersToLoad = RelayManager.Instance.currentPlayersCount -1;
+        playersToLoad = RelayManager.Instance.currentPlayersCount;
         Instance = this;
         patientManager = PatientManager.Instance;
         shopManager = ShopManager.Instance;

@@ -27,6 +27,7 @@ public class ReadyManager : NetworkBehaviour
         {
             GameObject go = Instantiate(patientManager);
             Spawn(go);
+            patientManager = go;
         }
         
     }

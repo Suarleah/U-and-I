@@ -13,7 +13,7 @@ public class RelayManager : MonoBehaviour
     public static RelayManager Instance;
     // There should only be one of these
     public int maxPlayers = 4;
-    public int currentPlayersCount = 0;
+    public int currentPlayersCount = -1;
 
     void Awake()
     {

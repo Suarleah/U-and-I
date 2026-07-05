@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using FishNet.Managing.Scened;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ public class ShopManager : NetworkBehaviour
     public static ShopManager Instance;
     public GameObject shopScreen;
     public GameObject voteScreen;
-    public int playersReady = 0; // Used for starting game
+    readonly SyncVar<int> playersReady = new SyncVar<int>(0); // Used for starting game
     private bool startingGame; // Used for starting game
     public Image progressBox; // Loading progress bar for when all players are ready
     public TextMeshProUGUI playersReadyText;
@@ -40,6 +41,7 @@ public class ShopManager : NetworkBehaviour
     [ObserversRpc]
     public void BeginShopping()
     {
+        playersReadyText.text = (playersReady.Value + " / " + RelayManager.Instance.currentPlayersCount);
         voteScreen.SetActive(false);
         shopScreen.SetActive(true);
     }
@@ -51,7 +53,7 @@ public class ShopManager : NetworkBehaviour
 
     public void ReadyToStart()
     {
-        if (playersReady != RelayManager.Instance.currentPlayersCount && playersReady != 0)
+        if (playersReady.Value != RelayManager.Instance.currentPlayersCount && playersReady.Value != 0)
         {
             // If the number of players who are ready is not the same as the number of players in the game
             if (countdownCoroutine != null)
@@ -59,31 +61,47 @@ public class ShopManager : NetworkBehaviour
                 StopCoroutine(countdownCoroutine);
                 countdownCoroutine = null;
             }
-            progressBox.fillAmount = 0;
+            UpdateReadyBox(0);
             startingGame = false;
         }
 
-        if (playersReady == RelayManager.Instance.currentPlayersCount && !startingGame && playersReady != 0)
+        if (playersReady.Value == RelayManager.Instance.currentPlayersCount && !startingGame && playersReady.Value != 0)
         {
             // If the number of players who are ready is the same as the number of players in the game
-            countdownCoroutine = StartCoroutine(startCountdown());
+            countdownCoroutine = StartCoroutine(startCountdown(progressBox));
         }
     }
-
-    private IEnumerator startCountdown()
+    public IEnumerator startCountdown(Image i)
     {
         startingGame = true;
-        for (float i = 0; i < 1; i += 0.05f)
+        for (float f = 0; f < 1; f += 0.05f)
         {
-            if (ReadyManager.Instance != null)
-            {
-                ReadyManager.Instance.UpdateBoxClients(i); // Have to do this through a client method so that everyone sees it update
-                yield return new WaitForSeconds(0.05f);
-            }
+            UpdateReadyBox(f);
+            yield return new WaitForSeconds(0.05f);
 
         }
         // If we made it through the whole timer, resume the game!!
         StartGame();
     }
-    
+
+    [ObserversRpc]
+    private void UpdateReadyBox(float f)
+    {
+        progressBox.fillAmount = f;
+    }
+
+    [ObserversRpc]
+    public void PlayerLeftReadyZone()
+    {
+        playersReady.Value--;
+        playersReadyText.text = playersReady.Value + " / " + (RelayManager.Instance.currentPlayersCount);
+    }
+    [ObserversRpc]
+    public void PlayerEnterReadyZone()
+    {
+        playersReady.Value++;
+        playersReadyText.text = playersReady.Value + " / " + (RelayManager.Instance.currentPlayersCount);
+    }
+
+
 }

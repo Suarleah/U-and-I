@@ -3992,7 +3992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelayManager
   maxPlayers: 4
-  currentPlayersCount: 0
+  currentPlayersCount: -1
 --- !u!1 &1256884735
 GameObject:
   m_ObjectHideFlags: 0
