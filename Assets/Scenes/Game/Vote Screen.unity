@@ -3366,7 +3366,7 @@ MonoBehaviour:
   - {fileID: 195774349}
   voteCanvas: {fileID: 1313232066}
   spinCycles: 3
-  spinInterval: 1
+  spinInterval: 0.5
   spawnPoints:
   - {fileID: 1804925464}
   - {fileID: 237796069}

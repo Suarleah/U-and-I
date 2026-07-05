@@ -170,7 +170,7 @@ public class Patient : NetworkBehaviour
         aggrotimer = aggroLength;
         //find the closest player on the whole map and chase them for a little (to give the escape a slightly explosive start ya know)
         PlayerMovement closestPlayer = null;
-        List<PlayerMovement> players = GameManager.Instance.players; 
+        List<PlayerMovement> players = GameManager.Instance.GetPlayers(); 
         for (int i = 0; i < players.Count; i++)
         {
             if (!closestPlayer)

@@ -52,7 +52,7 @@ public class SpawnManager : NetworkBehaviour
             return;
         }
 
-        GameManager.Instance.players.Add(player);
+        GameManager.Instance.players.Add(player.GetComponent<NetworkObject>().ObjectId);
 
         player.transform.position = spawnPoints[spawnNum].transform.position;
         //NetworkTransform test = player.gameObject.GetComponent<NetworkTransform>();

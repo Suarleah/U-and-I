@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -146,13 +147,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2264040995155266664}
   - component: {fileID: 8044750907726499269}
+  - component: {fileID: 8260457708823568642}
+  - component: {fileID: 4232278299421936745}
   - component: {fileID: 2688575944743280862}
   - component: {fileID: 8136152836363559960}
   - component: {fileID: 1857517800265202415}
-  - component: {fileID: 3695289604458459204}
   - component: {fileID: 4018147449975899396}
   - component: {fileID: 7187599654754686318}
-  - component: {fileID: 6642542610131283819}
   - component: {fileID: 4907829477048295666}
   m_Layer: 0
   m_Name: TestInteractable
@@ -179,6 +180,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8044750907726499269
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -224,6 +226,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -233,8 +236,76 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8260457708823568642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3439975100042412768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe6c52ee1c324db3bba521819f39676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatientInteractable
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2688575944743280862}
+  _networkObjectCache: {fileID: 0}
+  c: {fileID: 644844353463343277}
+  closest: 0
+  inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  player: {fileID: 0}
+  interacting: 0
+  deadUI: 0
+  localOnCD: 0
+  cooldown: 0
+  floor: 0
+  self: {fileID: 4232278299421936745}
+  feedbackText: {fileID: 5276331289844314277, guid: 934c55e035a0b4392bf2b893bd222214, type: 3}
+--- !u!114 &4232278299421936745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3439975100042412768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2287fdc323554001babcbab51ff8e95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Patient
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2688575944743280862}
+  _networkObjectCache: {fileID: 0}
+  agent: {fileID: 4907829477048295666}
+  interactable: {fileID: 8260457708823568642}
+  room: 0
+  spawn: {fileID: 0}
+  roomBounds: {fileID: 0}
+  escaped: 0
+  maxPatience: 100
+  localpatience: 0
+  maxHealth: 100
+  localhealth: 0
+  damage: 50
+  speed: 8
+  chaseSpeed: 10
+  wanderCooldownMin: 10
+  wanderCooldownMax: 15
+  wanderUp: 1
+  floor: 0
+  escapedWanderRange: 100
+  escapedWanderCooldownMin: 10
+  escapedWanderCooldownMax: 15
+  aggroedPlayer: {fileID: 0}
+  sightfov: {fileID: 0}
+  radialfov: {fileID: 0}
+  aggroLength: 5
+  aggrotimer: 0
+  cheating: 0
+  attackCD: 0
+  attackTimer: 0
 --- !u!114 &2688575944743280862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,27 +318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
-  <IsNested>k__BackingField: 0
-  WasActiveDuringEdit: 0
-  WasActiveDuringEdit_Set1: 1
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours:
-  - {fileID: 8136152836363559960}
-  - {fileID: 1857517800265202415}
-  - {fileID: 3695289604458459204}
-  InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
-  RuntimeParentNetworkBehaviour: {fileID: 0}
-  RuntimeChildNetworkBehaviours: []
-  _isNetworked: 1
-  _isSpawnable: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _preventDespawnOnDisconnect: 0
-  _defaultDespawnType: 0
-  _initializedTimestamp: -8584217421857001458
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -295,6 +345,27 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
+  - {fileID: 8136152836363559960}
+  - {fileID: 1857517800265202415}
+  - {fileID: 0}
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedTimestamp: -8584217421857001458
 --- !u!114 &8136152836363559960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,21 +434,6 @@ MonoBehaviour:
   _interpolation: 2
   _clientAuthoritative: 1
   _sendToOwner: 0
---- !u!114 &3695289604458459204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3439975100042412768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf7b69abb8bfa4b50b0202923bd9fcb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 2688575944743280862}
-  _networkObjectCache: {fileID: 2688575944743280862}
 --- !u!61 &4018147449975899396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -451,21 +507,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6642542610131283819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3439975100042412768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71a4cd2b58f7a4a65a91e9324f3d2898, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  c: {fileID: 644844353463343277}
-  closest: 0
-  inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!195 &4907829477048295666
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -621,6 +662,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0

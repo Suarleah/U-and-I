@@ -15,7 +15,7 @@ MonoBehaviour:
   m_PixelRect:
     serializedVersion: 2
     x: 0
-    y: 42
+    y: 58
     width: 1280
     height: 758
   m_ShowMode: 4
@@ -1431,7 +1431,7 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 3.4832363, y: -3.3917253, z: 2842.212}
+    m_Target: {x: -13.692375, y: 4.477328, z: 5696.6}
     speed: 2
     m_Value: {x: 3.4832363, y: -3.3917253, z: 2842.212}
   m_RenderMode: 0
@@ -1484,7 +1484,7 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 20.980114
+    m_Target: 15.404551
     speed: 2
     m_Value: 20.980114
   m_Ortho:
@@ -1667,55 +1667,8 @@ MonoBehaviour:
       m_Data: 67446
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 55350
-    - m_Data: 55352
-    - m_Data: 55354
-    - m_Data: 55356
-    - m_Data: 55358
-    - m_Data: 55360
-    - m_Data: 55362
-    - m_Data: 55364
-    - m_Data: 55366
-    - m_Data: 55368
-    - m_Data: 55370
-    - m_Data: 55372
-    - m_Data: 55374
-    - m_Data: 55376
-    - m_Data: 55378
-    - m_Data: 55380
-    - m_Data: 55382
-    - m_Data: 55384
-    - m_Data: 55386
-    - m_Data: 55388
-    - m_Data: 55390
-    - m_Data: 55392
-    - m_Data: 55394
-    - m_Data: 55396
-    - m_Data: 55398
-    - m_Data: 55400
-    - m_Data: 55402
-    - m_Data: 55404
-    - m_Data: 55406
-    - m_Data: 55408
-    - m_Data: 55410
-    - m_Data: 55412
-    - m_Data: 55414
-    - m_Data: 55416
-    - m_Data: 55418
-    - m_Data: 55420
-    - m_Data: 55422
-    - m_Data: 55424
-    - m_Data: 55426
-    - m_Data: 55428
-    - m_Data: 55430
-    - m_Data: 55432
-    - m_Data: 55434
-    - m_Data: 55436
-    - m_Data: 55438
-    - m_Data: 55440
-    - m_Data: 55442
-    - m_Data: 55444
-    - m_Data: 55446
+    - m_Data: 55346
+    - m_Data: 55348
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1749,55 +1702,8 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 55350
-    - m_Data: 55352
-    - m_Data: 55354
-    - m_Data: 55356
-    - m_Data: 55358
-    - m_Data: 55360
-    - m_Data: 55362
-    - m_Data: 55364
-    - m_Data: 55366
-    - m_Data: 55368
-    - m_Data: 55370
-    - m_Data: 55372
-    - m_Data: 55374
-    - m_Data: 55376
-    - m_Data: 55378
-    - m_Data: 55380
-    - m_Data: 55382
-    - m_Data: 55384
-    - m_Data: 55386
-    - m_Data: 55388
-    - m_Data: 55390
-    - m_Data: 55392
-    - m_Data: 55394
-    - m_Data: 55396
-    - m_Data: 55398
-    - m_Data: 55400
-    - m_Data: 55402
-    - m_Data: 55404
-    - m_Data: 55406
-    - m_Data: 55408
-    - m_Data: 55410
-    - m_Data: 55412
-    - m_Data: 55414
-    - m_Data: 55416
-    - m_Data: 55418
-    - m_Data: 55420
-    - m_Data: 55422
-    - m_Data: 55424
-    - m_Data: 55426
-    - m_Data: 55428
-    - m_Data: 55430
-    - m_Data: 55432
-    - m_Data: 55434
-    - m_Data: 55436
-    - m_Data: 55438
-    - m_Data: 55440
-    - m_Data: 55442
-    - m_Data: 55444
-    - m_Data: 55446
+    - m_Data: 55346
+    - m_Data: 55348
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

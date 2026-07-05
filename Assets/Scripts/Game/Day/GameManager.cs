@@ -12,7 +12,7 @@ public class GameManager : NetworkBehaviour
     public static GameManager Instance;
     public int day; //the day #
 
-    public List<PlayerMovement> players; //list of all players in the game
+    public List<int> players; //list of all players in the game
 
 
 
@@ -27,7 +27,7 @@ public class GameManager : NetworkBehaviour
     {
         for (int i = 0; i < players.Count; i++)
         {
-            if (!players[i].stats.isDead.Value)
+            if (!GetPlayers()[i].stats.isDead.Value)
             {
                 return;
             }
@@ -44,7 +44,7 @@ public class GameManager : NetworkBehaviour
     {
         for (int i = 0; i < players.Count; i++)
         {
-            if (!players[i].stats.isClockedOut.Value)
+            if (!GetPlayers()[i].stats.isClockedOut.Value)
             {
                 return;
             }
@@ -52,6 +52,21 @@ public class GameManager : NetworkBehaviour
         Debug.Log("All players have clocked out! Day ending!");
 
         //After clock out, anything that happens will not count (so for the short animation time they cant die or make money or something)
+    }
+
+    public List<PlayerMovement> GetPlayers()
+    {
+        List<PlayerMovement> result = new List<PlayerMovement>();
+        foreach (int id in players)
+        {
+            NetworkObject netObj;
+            FishNet.InstanceFinder.NetworkManager.ClientManager.Objects.Spawned.TryGetValue(id, out netObj);
+            if (netObj != null)
+{
+                result.Add(netObj.GetComponent<PlayerMovement>());
+            }
+        }
+        return result;
     }
 
 

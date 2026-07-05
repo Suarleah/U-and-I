@@ -64,7 +64,7 @@ public class MinimapManager : MonoBehaviour
         markers.Clear();
 
          //loop through, mark all players
-        List<PlayerMovement> players = GameManager.Instance.players;
+        List<PlayerMovement> players = GameManager.Instance.GetPlayers();
         for (int i = 0; i < players.Count; i++)
         {
             
@@ -94,12 +94,13 @@ public class MinimapManager : MonoBehaviour
         //loop through, mark all patients
         for (int i = 0; i < PatientManager.Instance.spawnedPatients.Count; i++)
         {
-            if (PatientManager.Instance.spawnedPatients[i])
+            List<Patient> patients = PatientManager.Instance.GetAllSpawnedPatients().ToList<Patient>();
+            if (patients[i])
             {
-                if (PatientManager.Instance.spawnedPatients[i].floor == floorNum)
+                if (patients[i].floor == floorNum)
                 {
                 GameObject marker = Instantiate(entityMarkerPrefab, minimapTransform);
-                marker.transform.localPosition = (PatientManager.Instance.spawnedPatients[i].transform.position - floor.offset.position) * scale; //translate realworld position to minimap position
+                marker.transform.localPosition = (patients[i].transform.position - floor.offset.position) * scale; //translate realworld position to minimap position
                 markers.Add(marker);
                 } 
             }

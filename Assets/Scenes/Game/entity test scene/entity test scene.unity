@@ -669,7 +669,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 188485385}
   _networkObjectCache: {fileID: 0}
   day: 0
-  players: []
+  players: 
 --- !u!114 &188485385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1987,8 +1987,10 @@ MonoBehaviour:
   - {fileID: 1270566140}
   patientRooms:
   - {fileID: 102428104}
-  doors: []
-  janitorZones: []
+  doors:
+  - {fileID: 895563187}
+  janitorZones:
+  - {fileID: 1111135470}
   elevatorSpawn: {fileID: 0}
   offset: {fileID: 735821643}
 --- !u!4 &735821643

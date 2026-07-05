@@ -16,7 +16,7 @@ public class PatientManager : NetworkBehaviour
     public List<PatientSO> unusedPatients; //patients the players do not currently have
     private List<PatientSO> availPatients; //used only for the GetRandomUnusedPatients method, keeps track of which patients are being selected as well (so that they dont have the same option repeated)
 
-    public readonly SyncList<Patient> spawnedPatients = new SyncList<Patient>();  //list of patients spawned in the game
+    public readonly SyncList<int> spawnedPatients = new SyncList<int>();  //list of patients spawned in the game
 
     public List<Patient> localSpawnedPatients = new List<Patient>(); //just for testing purposes
 
@@ -41,24 +41,24 @@ public class PatientManager : NetworkBehaviour
         base.OnStartServer();
         if (IsServerInitialized)
         {
-            selectPatient(allPatients[0]);
+        //    selectPatient(allPatients[0]); //this was just used for testing
         }
         spawnedPatients.OnChange += OnSpawnedPatientsChange;
         FishNet.InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;
         
     }
 
-    private void OnSpawnedPatientsChange(SyncListOperation op, int index, Patient oldItem, Patient newItem, bool asServer)
+    private void OnSpawnedPatientsChange(SyncListOperation op, int index, int oldItem, int newItem, bool asServer)
     {
         
         for (int i = 0; i < spawnedPatients.Count; i++)
         {
             if (localSpawnedPatients.Count <= i)
             {
-                localSpawnedPatients.Add(spawnedPatients[i]);
+                localSpawnedPatients.Add(GetPatientFromId(spawnedPatients[i]));
             } else
             {
-                localSpawnedPatients[i] = spawnedPatients[i];
+                localSpawnedPatients[i] = GetPatientFromId(spawnedPatients[i]);
             }
             
         }
@@ -117,7 +117,16 @@ public class PatientManager : NetworkBehaviour
 
     public SyncList<Patient> GetAllSpawnedPatients()
     {
-        return spawnedPatients;
+        SyncList<Patient> result = new SyncList<Patient>();
+        foreach (int id in spawnedPatients)
+        {
+            Patient patient = GetPatientFromId(id);
+            if (patient)
+            {
+                result.Add(patient);
+            }
+        }
+        return result;
     }
 
     [Server]
@@ -133,7 +142,7 @@ public class PatientManager : NetworkBehaviour
     [Server]
     public void DespawnPatient(Patient patient)
     {
-        spawnedPatients.Remove(patient);
+        spawnedPatients.Remove(patient.GetComponent<NetworkObject>().ObjectId);
         Despawn(patient);
     }
 
@@ -146,7 +155,7 @@ public class PatientManager : NetworkBehaviour
         go.GetComponent<Patient>().roomBounds = MapManager.Instance.floors[index / MapManager.patientsperfloor].patientRooms[index % MapManager.patientsperfloor];
         go.transform.position = go.GetComponent<Patient>().spawn.position;
         Spawn(go);
-        spawnedPatients.Add(go.GetComponent<Patient>());
+        spawnedPatients.Add(go.GetComponent<NetworkObject>().ObjectId);
     }
 
     [Server] // this is for patients which are spawned in during the day, ie: if a patient spawns in other patients
@@ -155,8 +164,19 @@ public class PatientManager : NetworkBehaviour
         GameObject go = Instantiate(patient);
         go.transform.position = trans.position;
         Spawn(go);
-        spawnedPatients.Add(go.GetComponent<Patient>());
+        spawnedPatients.Add(go.GetComponent<NetworkObject>().ObjectId);
     }
 
 
+    public Patient GetPatientFromId(int id)
+    {
+        NetworkObject netObj;
+        FishNet.InstanceFinder.NetworkManager.ClientManager.Objects.Spawned.TryGetValue(id, out netObj);
+
+        if (netObj != null)
+        {
+            return netObj.GetComponent<Patient>();
+        }
+        return null;
+    }
 }
