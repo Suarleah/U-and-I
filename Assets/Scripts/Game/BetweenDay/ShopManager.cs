@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using FishNet;
 using FishNet.Managing.Scened;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -41,14 +42,15 @@ public class ShopManager : NetworkBehaviour
     [ObserversRpc]
     public void BeginShopping()
     {
-        playersReadyText.text = (playersReady.Value + " / " + RelayManager.Instance.currentPlayersCount);
+        playersReadyText.text = (playersReady.Value + " / " + InstanceFinder.NetworkManager.ClientManager.Clients.Count);
         voteScreen.SetActive(false);
         shopScreen.SetActive(true);
     }
 
+    [ServerRpc(RequireOwnership = false)]
     public void StartGame()
     {
-        ReadyManager.Instance.StartGame(sld);
+        NetworkManager.SceneManager.LoadGlobalScenes(sld);
     }
 
     public void ReadyToStart()
@@ -91,16 +93,23 @@ public class ShopManager : NetworkBehaviour
     }
 
     [ObserversRpc]
+    private void UpdateReadyText(int i)
+    {
+        playersReadyText.text = (i + " / " + InstanceFinder.NetworkManager.ClientManager.Clients.Count);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
     public void PlayerLeftReadyZone()
     {
         playersReady.Value--;
-        playersReadyText.text = playersReady.Value + " / " + (RelayManager.Instance.currentPlayersCount);
+        UpdateReadyText(playersReady.Value);
     }
-    [ObserversRpc]
+
+    [ServerRpc(RequireOwnership = false)]
     public void PlayerEnterReadyZone()
     {
-        playersReady.Value++;
-        playersReadyText.text = playersReady.Value + " / " + (RelayManager.Instance.currentPlayersCount);
+        playersReady.Value++; 
+        UpdateReadyText(playersReady.Value);
     }
 
 

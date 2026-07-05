@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/Vote Screen.unity
     guid: 16132528ec5da7f4480348b9c368d240
+  - enabled: 1
+    path: Assets/Scenes/Game/Lose Screen.unity
+    guid: 9d3d773d99602764ebb1496bb04e76f0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
