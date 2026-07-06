@@ -115,9 +115,9 @@ public class PatientManager : NetworkBehaviour
         unusedPatients.Remove(patient);
     }
 
-    public SyncList<Patient> GetAllSpawnedPatients()
+    public List<Patient> GetAllSpawnedPatients()
     {
-        SyncList<Patient> result = new SyncList<Patient>();
+        List<Patient> result = new List<Patient>();
         foreach (int id in spawnedPatients)
         {
             Patient patient = GetPatientFromId(id);

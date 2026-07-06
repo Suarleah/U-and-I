@@ -5,6 +5,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Linq;
 
 
 //this is a class for the patient's actual ingame behavior, so movement, attacks, health, etc.
@@ -170,7 +171,7 @@ public class Patient : NetworkBehaviour
         aggrotimer = aggroLength;
         //find the closest player on the whole map and chase them for a little (to give the escape a slightly explosive start ya know)
         PlayerMovement closestPlayer = null;
-        List<PlayerMovement> players = GameManager.Instance.GetPlayers(); 
+        List<PlayerMovement> players = GameManager.Instance.GetPlayers().ToList<PlayerMovement>(); 
         for (int i = 0; i < players.Count; i++)
         {
             if (!closestPlayer)

@@ -94,7 +94,7 @@ public class MinimapManager : MonoBehaviour
         //loop through, mark all patients
         for (int i = 0; i < PatientManager.Instance.spawnedPatients.Count; i++)
         {
-            List<Patient> patients = PatientManager.Instance.GetAllSpawnedPatients().ToList<Patient>();
+            List<Patient> patients = PatientManager.Instance.GetAllSpawnedPatients();
             if (patients[i])
             {
                 if (patients[i].floor == floorNum)

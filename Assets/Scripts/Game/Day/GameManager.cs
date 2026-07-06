@@ -18,7 +18,7 @@ public class GameManager : NetworkBehaviour
     public string winScene; private SceneLoadData win;
     public string loseScene; private SceneLoadData lose;
 
-    public List<int> players; //list of all players in the game
+    public readonly SyncList<int> players = new SyncList<int>(); //list of all players in the game
 
 
 
