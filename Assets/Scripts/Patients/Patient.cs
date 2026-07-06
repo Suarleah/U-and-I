@@ -55,6 +55,7 @@ public class Patient : NetworkBehaviour
     public float attackCD;
     public float attackTimer; //the patient will have to wait between attacks so they dont always just one shot.
 
+    public Coroutine currentWander;
 
     public override void OnStartServer()
     {
@@ -122,7 +123,11 @@ public class Patient : NetworkBehaviour
         }
         else if (wanderUp)
         {
-            StartCoroutine(roomWander());
+            if (currentWander!= null)
+            {
+                StopCoroutine(currentWander);
+            }
+            currentWander = StartCoroutine(roomWander());
         }
         
     }
@@ -276,8 +281,12 @@ public class Patient : NetworkBehaviour
         sightfov.FindVisibleTargets();
         if (sightfov.visibleTargets.Count > 0)
         {
-            closestPlayer = sightfov.visibleTargets[0];
-            for (int i = 1; i < sightfov.visibleTargets.Count; i++)
+            if (!closestPlayer)
+            {
+                closestPlayer = sightfov.visibleTargets[0];
+            }
+            
+            for (int i = 0; i < sightfov.visibleTargets.Count; i++)
             {
                 if (Vector3.Distance(sightfov.visibleTargets[i].position, transform.position) < Vector3.Distance(closestPlayer.position, transform.position))
                 {
@@ -288,7 +297,7 @@ public class Patient : NetworkBehaviour
         }
         if (closestPlayer)
         {
-            if (!closestPlayer.GetComponent<PlayerStats>())
+            if (!closestPlayer.GetComponent<PlayerStats>()) //if colliding with clienthitbox rather than parent hitbox
             {
                 closestPlayer = closestPlayer.transform.parent;
             }

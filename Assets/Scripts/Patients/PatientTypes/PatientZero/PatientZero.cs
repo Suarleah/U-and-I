@@ -40,7 +40,7 @@ public class PatientZero : Patient
             if (!closestPlayer) //the patient sees no one
             {
             
-                if (!aggroedPlayer.GetComponent<PlayerStats>().isDead.Value)
+                if (aggroedPlayer.GetComponent<PlayerStats>().isDead.Value) //if the aggroed player is dead, and theres no other target, reset aggro
                 {
                     cheating = false;
                     aggroedPlayer = null;
@@ -51,7 +51,7 @@ public class PatientZero : Patient
                 {
                     if (agent.remainingDistance <= agent.stoppingDistance)
                     {
-                        if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                        if (!agent.hasPath || agent.velocity.sqrMagnitude <= 0.5f)
                         {
                             if (!cheating) //if not already cheating
                             {
@@ -75,7 +75,7 @@ public class PatientZero : Patient
                 agent.SetDestination(aggroedPlayer.transform.position);
                 cheating = false;
                 aggrotimer = aggroLength;
-                if (Vector3.Distance(aggroedPlayer.transform.position, transform.position) < 1f)
+                if (Vector3.Distance(aggroedPlayer.transform.position, transform.position) < 1f) //while in range, attack
                 {
                     aggroedPlayer.GetComponent<PlayerStats>().TakeDamage((int)damage, new DamageDetails());
                     agent.SetDestination(transform.position);
@@ -97,7 +97,11 @@ public class PatientZero : Patient
             aggrotimer = aggroLength;
             if ( wanderUp)
             {
-                StartCoroutine(escapedWander());
+                if (currentWander!= null)
+                {
+                    StopCoroutine(currentWander);
+                }
+                currentWander = StartCoroutine(escapedWander());
             }
         }
         
