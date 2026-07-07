@@ -3043,6 +3043,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 759576487}
   _networkObjectCache: {fileID: 0}
   patientManager: {fileID: 4360553664395883280, guid: 2b920e79d5a3f4a7a877ee7b2b83191d, type: 3}
+  gameManager: {fileID: 2249856431838784785, guid: faaf1b77c017c43b681e226c83177817, type: 3}
 --- !u!4 &759576489
 Transform:
   m_ObjectHideFlags: 0

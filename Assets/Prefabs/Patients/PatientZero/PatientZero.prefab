@@ -708,7 +708,7 @@ MonoBehaviour:
   aggroedPlayer: {fileID: 0}
   sightfov: {fileID: 489929125369284726}
   radialfov: {fileID: 5527681074395406958}
-  aggroLength: 5
+  aggroLength: 1
   aggrotimer: 0
   cheating: 0
   attackCD: 1
@@ -791,7 +791,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 19
+  <PrefabId>k__BackingField: 3
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 2056465145993305554
   SceneId: 0
@@ -821,7 +821,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584197814978605538
+  _initializedTimestamp: -8584182106661790598
 --- !u!114 &7098922523306271417
 MonoBehaviour:
   m_ObjectHideFlags: 0

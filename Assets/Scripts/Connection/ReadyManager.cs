@@ -7,6 +7,7 @@ public class ReadyManager : NetworkBehaviour
     public static ReadyManager Instance;
     private MainMenuManager mainMenuManager;
     [SerializeField] private GameObject patientManager;
+    [SerializeField] private GameObject gameManager;
 
 
     void Awake()
@@ -17,7 +18,7 @@ public class ReadyManager : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient(); // This is like awake but for when I actually connect
-        mainMenuManager = FindFirstObjectByType<MainMenuManager>();
+        mainMenuManager = FindAnyObjectByType<MainMenuManager>();
     }
 
     public override void OnStartServer()
@@ -28,6 +29,13 @@ public class ReadyManager : NetworkBehaviour
             GameObject go = Instantiate(patientManager);
             Spawn(go);
             patientManager = go;
+        }
+
+        if (gameManager)
+        {
+            GameObject go = Instantiate(gameManager);
+            Spawn(go);
+            gameManager = go;
         }
         
     }

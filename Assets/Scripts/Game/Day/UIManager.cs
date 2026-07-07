@@ -50,12 +50,12 @@ public class UIManager : MonoBehaviour
     void ProximityUICheck()
     {
         LayerMask mask;
-        if (player.GetComponent<PlayerStats>().isDead.Value) //some interactables can only be interacted with when alliv  or dead
+        if (player.GetComponent<PlayerStats>().isDead.Value) //some interactables can only be interacted with when alliv  or dead, note clock out can always be interacted with
         {
-            mask = LayerMask.GetMask("DeadInteractable");
+            mask = LayerMask.GetMask("DeadInteractable") + LayerMask.GetMask("ClockOut");
         } else
         {
-            mask = LayerMask.GetMask("AliveInteractable") + LayerMask.GetMask("ItemInteractable");
+            mask = LayerMask.GetMask("AliveInteractable") + LayerMask.GetMask("ItemInteractable") + LayerMask.GetMask("ClockOut");
         }
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.transform.position, 5f, mask);
