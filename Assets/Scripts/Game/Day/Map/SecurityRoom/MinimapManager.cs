@@ -70,13 +70,17 @@ public class MinimapManager : MonoBehaviour
             
             if (players[i].stats.isDead.Value) //if theyre dead track their corpse
             {
-                GameObject corpse = players[i].stats.myCorpse;
-                if (corpse.GetComponent<Corpse>().floor == floorNum) //if its on the same floor
+                GameObject corpse = players[i].stats.myCorpse.Value;
+                if (corpse)
                 {
-                    GameObject marker = Instantiate(entityMarkerPrefab, minimapTransform);
-                    marker.transform.localPosition = (corpse.transform.position - floor.offset.position) * scale; //translate realworld position to minimap position
-                    markers.Add(marker);
+                    if (corpse.GetComponent<Corpse>().floor == floorNum) //if its on the same floor
+                    {
+                        GameObject marker = Instantiate(entityMarkerPrefab, minimapTransform);
+                        marker.transform.localPosition = (corpse.transform.position - floor.offset.position) * scale; //translate realworld position to minimap position
+                        markers.Add(marker);
+                    }
                 }
+                
                 
                 
             } else //otherwise track their player

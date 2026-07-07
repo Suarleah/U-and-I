@@ -16,7 +16,8 @@ public class PatientZeroInteractable : PatientInteractable
         GiveFeedback("Feedback!!");
         if (info == "money")
         {
-            return;
+            GameManager.Instance.AddCredits(50); //for now just doing it this way, but considering adding the player as a middleman
+            //return;
         }
         if (info == "damage")
         {

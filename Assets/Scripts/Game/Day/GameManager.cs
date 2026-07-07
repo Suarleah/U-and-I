@@ -8,10 +8,12 @@ using System.Collections.Generic;
 using FishNet.Managing.Scened;
 using Unity.VectorGraphics;
 using FishNet.Demo.AdditiveScenes;
+using TMPro;
 
 public class GameManager : NetworkBehaviour
 {
-    public readonly SyncVar<float> money = new SyncVar<float>(); //money is shared across all players
+    public readonly SyncVar<float> credits = new SyncVar<float>(); //company credits are shared across all players (basically just money but evil corporation credits since youre paid in credits which can only be used in the company)
+    [SerializeField] private TextMeshProUGUI creditsText;
     public static GameManager Instance;
     private PatientManager patientManager;
     public int day; //the day #
@@ -32,8 +34,15 @@ public class GameManager : NetworkBehaviour
         lose.ReplaceScenes = ReplaceOption.All;
 
         patientManager = PatientManager.Instance;
+        credits.OnChange += OnChangeCredits;
+
+        creditsText.text = "credits: "+ credits.Value;
     }
 
+    private void OnChangeCredits(float prev, float next, bool asServer)
+    {
+        creditsText.text = "credits: "+ next;
+    }
 
     [ServerRpc(RequireOwnership = false)]
     public void playerDied(GameObject player) //players call this whenever they die
@@ -99,5 +108,16 @@ public class GameManager : NetworkBehaviour
         return result;
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void AddCredits(int amt)
+    {
+        credits.Value += amt;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SubtractCredits(int amt)
+    {
+        credits.Value -= amt;
+    }
 
 }

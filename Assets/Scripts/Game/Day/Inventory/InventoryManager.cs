@@ -148,7 +148,7 @@ public class InventoryManager : NetworkBehaviour
             selectedSlot = items.Count - 1;
         }
         selectedItem = items[selectedSlot];
-        Debug.Log(selectedSlot);
+        //Debug.Log(selectedSlot);
     }
 
     public void SelectSlotOne(InputAction.CallbackContext c)

@@ -19,7 +19,7 @@ public class PlayerStats : NetworkBehaviour
     public readonly SyncVar<bool> isDead = new SyncVar<bool>();
     public readonly SyncVar<bool> isClockedOut = new SyncVar<bool>();
 
-    public GameObject myCorpse; //the current corpse of this player
+    public readonly SyncVar<GameObject> myCorpse = new SyncVar<GameObject>(); //the current corpse of this player
 
 
     public string localPlayerName;
@@ -53,6 +53,7 @@ public class PlayerStats : NetworkBehaviour
         localPlayerName = playerName.Value;
         localspeed = speed.Value;
         localisDead = isDead.Value;
+        localisClockedOut = isClockedOut.Value;
 
         
     }
@@ -93,7 +94,7 @@ public class PlayerStats : NetworkBehaviour
 
         FishNet.InstanceFinder.ServerManager.Spawn(corpse);
         corpse.GetComponent<Corpse>().setCorpseOwner(base.NetworkObject);
-        myCorpse = corpse;
+        myCorpse.Value = corpse;
         /*corpse.GetComponent<Corpse>().corpseOwner.Value = gameObject;
         SetCorpseName(corpse.GetComponent<Corpse>());*/
  
@@ -102,7 +103,8 @@ public class PlayerStats : NetworkBehaviour
     [Server]
     public void ClockOut()
     {
-        isClockedOut.Value = !isClockedOut.Value; 
+        Debug.Log("player clocked out!");
+        isClockedOut.Value = true;  //lets just say once you clock out you cant unclock out
         GameManager.Instance.PlayerClockedOut(gameObject);
     }
 
@@ -113,7 +115,7 @@ public class PlayerStats : NetworkBehaviour
         
         corpse.nameplate.text = this.playerName.Value + "'s Corpse";
     }*/
-
+ 
 
     [TargetRpc]
     public void CloseLocalUIManager(NetworkConnection conn)
