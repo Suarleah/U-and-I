@@ -9,12 +9,14 @@ using FishNet.Managing.Scened;
 using Unity.VectorGraphics;
 using FishNet.Demo.AdditiveScenes;
 using TMPro;
+using System.Xml;
 
 public class GameManager : NetworkBehaviour
 {
     public readonly SyncVar<float> credits = new SyncVar<float>(); //company credits are shared across all players (basically just money but evil corporation credits since youre paid in credits which can only be used in the company)
     [SerializeField] private TextMeshProUGUI creditsText;
     [SerializeField] private TextMeshProUGUI dayText;
+    [SerializeField] private TextMeshProUGUI quotaText;
     public static GameManager Instance;
     private PatientManager patientManager;
     
@@ -25,7 +27,9 @@ public class GameManager : NetworkBehaviour
     public readonly SyncVar<int> day = new SyncVar<int>(); //the day #
     public float daytime ; //the amount of time left in the day
 
+    public readonly SyncVar<int> quota = new SyncVar<int>(); //the day #
 
+    [SerializeField] private List<int> quotas; //list of quotas in order that players need to pass
     void Awake()
     {
         Instance = this;
@@ -38,9 +42,11 @@ public class GameManager : NetworkBehaviour
         patientManager = PatientManager.Instance;
         credits.OnChange += OnChangeCredits;
         day.OnChange += OnChangeDay;
+        quota.OnChange += OnChangeQuota;
 
-        creditsText.text = "credits: "+ credits.Value;
-        dayText.text = "Day: "+ day.Value;
+        creditsText.text = "Credits: " + credits.Value;
+        dayText.text = "Day: " + day.Value;
+        quotaText.text = "Quota: " + quota.Value;
         FishNet.InstanceFinder.SceneManager.OnLoadEnd += OnSceneLoadEnd;
     }
 
@@ -53,6 +59,13 @@ public class GameManager : NetworkBehaviour
                 if (scene.name == "Vote Screen")
                 {
                     day.Value++;
+                    if (quotas.Count > day.Value)
+                    {
+                        quota.Value = quotas[(day.Value-1)/3]; 
+                    } else //if not a set value, just increase exponentially
+                    {
+                        quota.Value = (int)(quota.Value * 1.5f);
+                    }
                     break;
                 }
             }
@@ -67,12 +80,17 @@ public class GameManager : NetworkBehaviour
 
     private void OnChangeDay(int prev, int next, bool asServer)
     {
-        dayText.text = "Day: "+ next;
+        dayText.text = "Day: " + next;
     }
 
     private void OnChangeCredits(float prev, float next, bool asServer)
     {
-        creditsText.text = "credits: "+ next;
+        creditsText.text = "Credits: " + next;
+    }
+    
+    private void OnChangeQuota(int prev, int next, bool asServer)
+    {
+        quotaText.text = "Quota: " + next;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -126,7 +144,20 @@ public class GameManager : NetworkBehaviour
         {
             p.stats.ResetPlayer();
         }
-        NetworkManager.SceneManager.LoadGlobalScenes(win);
+        if (day.Value%3 == 0) //if its a quota day
+        {
+            if (credits.Value <= quota.Value) //check if quota was reached
+            {
+                NetworkManager.SceneManager.LoadGlobalScenes(lose);
+            } else
+            {
+                NetworkManager.SceneManager.LoadGlobalScenes(win);
+            }
+        } else
+        {
+            NetworkManager.SceneManager.LoadGlobalScenes(win);
+        }
+        
         
     }
 
