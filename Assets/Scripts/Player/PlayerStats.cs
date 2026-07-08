@@ -136,6 +136,7 @@ public class PlayerStats : NetworkBehaviour
         health.Value = maxHealth.Value;
         moveClient(pos);
         isDead.Value = false;
+        myCorpse.Value = null;
     }
 
     [ObserversRpc]

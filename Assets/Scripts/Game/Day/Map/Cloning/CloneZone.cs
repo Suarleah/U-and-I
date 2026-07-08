@@ -107,5 +107,6 @@ public class CloneZone : NetworkBehaviour
             //corpses.RemoveAt(0); //dont need to remove because it removes itself from ontriggerexit2d
 
         }
+        GameManager.Instance.SubtractCredits(50);
     }
 }
