@@ -25,7 +25,7 @@ public class CleaningSection : NetworkBehaviour
                 if (!necessaryDoors[i].closed.Value)
                 {
                     activatable.Value = false;
-                    break;
+                    return;
                 }
             }
         }
