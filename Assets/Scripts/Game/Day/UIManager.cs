@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
     }
 
     
-    public void UIButtonPressed(string info) //info is usually just the button name, 
+    public void UIButtonPressed(PatientInteractionInfo info) //info is usually just the button name, 
     {
         currentInteraction.UIButtonPressed(info);
     }

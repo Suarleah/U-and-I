@@ -29,7 +29,7 @@ public class SecurityTerminal : Interactable
         }
     }
 
-    public override void UIButtonPressed(string info)
+    public override void UIButtonPressed(PatientInteractionInfo info)
     {
         //probably do something door related
     }

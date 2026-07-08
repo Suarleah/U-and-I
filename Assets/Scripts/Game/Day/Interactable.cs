@@ -119,7 +119,7 @@ public class Interactable : NetworkBehaviour
         Close();
     }
 
-    public virtual void UIButtonPressed(string info) //when a UI button is pressed, this can be called. 
+    public virtual void UIButtonPressed(PatientInteractionInfo info) //when a UI button is pressed, this can be called. 
     {
 
     }

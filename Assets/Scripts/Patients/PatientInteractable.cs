@@ -31,14 +31,14 @@ public class PatientInteractable : Interactable
         }
     }
     
-    public override void UIButtonPressed(string info)
+    public override void UIButtonPressed(PatientInteractionInfo info)
     {
         PatientButtonExecute(info, player);
         Close();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public virtual void PatientButtonExecute(string info, GameObject p){
+    public virtual void PatientButtonExecute(PatientInteractionInfo info, GameObject p){
         
     }
 
