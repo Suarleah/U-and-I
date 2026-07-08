@@ -6,6 +6,7 @@ public class SecurityTerminal : Interactable
 
     public override void Interact()
     {
+        Debug.Log("Open Minimap!");
         interacting = true;
         UIManager.Instance.currentInteraction = this;
         UIManager.Instance.MinimapCanvas.gameObject.SetActive(true);

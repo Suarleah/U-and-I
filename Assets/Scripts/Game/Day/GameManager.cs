@@ -14,14 +14,16 @@ public class GameManager : NetworkBehaviour
 {
     public readonly SyncVar<float> credits = new SyncVar<float>(); //company credits are shared across all players (basically just money but evil corporation credits since youre paid in credits which can only be used in the company)
     [SerializeField] private TextMeshProUGUI creditsText;
+    [SerializeField] private TextMeshProUGUI dayText;
     public static GameManager Instance;
     private PatientManager patientManager;
-    public int day; //the day #
+    
     public string winScene; private SceneLoadData win;
     public string loseScene; private SceneLoadData lose;
 
     public readonly SyncList<int> players = new SyncList<int>(); //list of all players in the game
-
+    public readonly SyncVar<int> day = new SyncVar<int>(); //the day #
+    public float daytime ; //the amount of time left in the day
 
 
     void Awake()
@@ -35,8 +37,37 @@ public class GameManager : NetworkBehaviour
 
         patientManager = PatientManager.Instance;
         credits.OnChange += OnChangeCredits;
+        day.OnChange += OnChangeDay;
 
         creditsText.text = "credits: "+ credits.Value;
+        dayText.text = "Day: "+ day.Value;
+        FishNet.InstanceFinder.SceneManager.OnLoadEnd += OnSceneLoadEnd;
+    }
+
+    private void OnSceneLoadEnd(SceneLoadEndEventArgs args)
+    {
+        if (args.QueueData.AsServer)
+        {
+            foreach (UnityEngine.SceneManagement.Scene scene in args.LoadedScenes) //for some reason the default is the vector one which doesnt work, thats why i used the full name
+            {
+                if (scene.name == "Vote Screen")
+                {
+                    day.Value++;
+                    break;
+                }
+            }
+
+            foreach (PlayerMovement p in GetPlayers())
+            {
+                p.stats.ResetPlayer();
+            }
+        }
+    }
+
+
+    private void OnChangeDay(int prev, int next, bool asServer)
+    {
+        dayText.text = "Day: "+ next;
     }
 
     private void OnChangeCredits(float prev, float next, bool asServer)
@@ -77,6 +108,7 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void PlayerClockedOut(GameObject player) //players call this whenever they try to clock out, if all players have clocked out, the day ends
     {
+        
         for (int i = 0; i < players.Count; i++)
         {
             if (!GetPlayers()[i].stats.isClockedOut.Value)
@@ -90,7 +122,12 @@ public class GameManager : NetworkBehaviour
     }
     public void AllPlayersClocked()
     {
+        foreach (PlayerMovement p in GetPlayers())
+        {
+            p.stats.ResetPlayer();
+        }
         NetworkManager.SceneManager.LoadGlobalScenes(win);
+        
     }
 
     public List<PlayerMovement> GetPlayers()

@@ -46,6 +46,9 @@ public class SecurityMenu : MonoBehaviour
             {
                 //set open and close buttons to true
                 zoneButtons[i].interactable = (true); 
+            } else
+            {
+                zoneButtons[i].interactable = (false); 
             }
         }
     }

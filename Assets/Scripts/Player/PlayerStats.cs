@@ -38,12 +38,7 @@ public class PlayerStats : NetworkBehaviour
     {
         base.OnStartServer();
         // Initialize the server variable
-        playerName.Value = "";
-        speed.Value = 10f;
-        maxHealth.Value = 100;
-        health.Value = 100;
-        isDead.Value = false;
-        isClockedOut.Value = false;
+        ResetPlayer();
     }
 
     private void Update()
@@ -57,6 +52,18 @@ public class PlayerStats : NetworkBehaviour
 
         
     }
+
+    [Server]
+    public void ResetPlayer()
+    {
+        playerName.Value = "";
+        speed.Value = 10f;
+        maxHealth.Value = 100;
+        health.Value = 100;
+        isDead.Value = false;
+        isClockedOut.Value = false;
+        myCorpse.Value = null;
+    } 
 
     [Server]
     public void TakeDamage(int amt, DamageDetails deets)

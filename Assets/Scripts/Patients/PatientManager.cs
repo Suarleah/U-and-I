@@ -73,6 +73,7 @@ public class PatientManager : NetworkBehaviour
         }
         string targetSceneName = "entity test scene"; 
 
+        spawnedPatients.Clear(); 
         foreach (UnityEngine.SceneManagement.Scene scene in args.LoadedScenes)
         {
             if (scene.name == targetSceneName)

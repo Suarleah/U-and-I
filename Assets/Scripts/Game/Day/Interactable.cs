@@ -37,8 +37,13 @@ public class Interactable : NetworkBehaviour
 
         onCD.OnChange += OnCDChanged;
         interactAction.performed += released;
+        closest = false;
     }
 
+    void OnDestroy()
+    {
+        interactAction.performed -= released;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -65,6 +70,7 @@ public class Interactable : NetworkBehaviour
     {
         if (closest && !UIManager.Instance.currentInteraction) // cant overlap the patient overlays
         {
+            //Debug.Log("closest = " + closest + "\n entity id: " + gameObject.GetEntityId());
             Interact();
             //Debug.Log("interacted!");
             //GameObject netObj = Instantiate(spawnedObject, gameObject.transform.position, gameObject.transform.rotation);
@@ -79,22 +85,6 @@ public class Interactable : NetworkBehaviour
         }
 
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    public virtual void TryInteractServer(NetworkConnection conn = null) //runs checks for the interaction that can only be done on server
-    {
-        if (!onCD.Value)
-        {
-            TargetInteract(conn);
-        }
-    }
-    
-    [TargetRpc]
-    public virtual void TargetInteract(NetworkConnection conn)
-    {
-        Interact();
-    }
-
 
     public virtual void Interact() //what happens when you actually interact with the object
     {
