@@ -31,6 +31,7 @@ public class Patient : NetworkBehaviour
     public float localhealth;
 
     public float damage;
+    public float angularSpeed;
     public float speed;
     public float chaseSpeed;
 
@@ -96,6 +97,7 @@ public class Patient : NetworkBehaviour
         {
             agent.speed = speed;
         }
+        agent.angularSpeed = angularSpeed;
         if (escaped)
         {
             EscapedUpdate();

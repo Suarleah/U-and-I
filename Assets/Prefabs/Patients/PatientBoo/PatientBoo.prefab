@@ -578,8 +578,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7400392250789980530}
   - component: {fileID: 77224146847795703}
-  - component: {fileID: 3274201880209496550}
-  - component: {fileID: 3142274279012729083}
+  - component: {fileID: 463117083035173318}
+  - component: {fileID: 8384602076411664877}
   - component: {fileID: 4959539066434842964}
   - component: {fileID: 7469166534214679092}
   - component: {fileID: 7098922523306271417}
@@ -587,7 +587,7 @@ GameObject:
   - component: {fileID: 3948577010694349012}
   - component: {fileID: 5133157734838045663}
   m_Layer: 6
-  m_Name: PatientZero
+  m_Name: PatientBoo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -670,7 +670,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3274201880209496550
+--- !u!114 &463117083035173318
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -679,14 +679,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 9006883238750405188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a43cf4cba4241feb9d78e385311ba5, type: 3}
+  m_Script: {fileID: 11500000, guid: 06d5f3ff4bdc54cd39f0a9558d4b5742, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatientZero
+  m_EditorClassIdentifier: Assembly-CSharp::PatientBoo
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7469166534214679092}
   _networkObjectCache: {fileID: 7469166534214679092}
   agent: {fileID: 4959539066434842964}
-  interactable: {fileID: 3142274279012729083}
+  interactable: {fileID: 8384602076411664877}
   room: 0
   spawn: {fileID: 0}
   roomBounds: {fileID: 0}
@@ -697,15 +697,15 @@ MonoBehaviour:
   localhealth: 0
   damage: 50
   angularSpeed: 120
-  speed: 3.5
-  chaseSpeed: 8
-  wanderCooldownMin: 5
-  wanderCooldownMax: 10
+  speed: 7
+  chaseSpeed: 10
+  wanderCooldownMin: 10
+  wanderCooldownMax: 15
   wanderUp: 1
   floor: 0
-  escapedWanderRange: 150
+  escapedWanderRange: 200
   escapedWanderCooldownMin: 5
-  escapedWanderCooldownMax: 10
+  escapedWanderCooldownMax: 15
   aggroedPlayer: {fileID: 0}
   sightfov: {fileID: 489929125369284726}
   radialfov: {fileID: 5527681074395406958}
@@ -714,7 +714,9 @@ MonoBehaviour:
   cheating: 0
   attackCD: 1
   attackTimer: 0
---- !u!114 &3142274279012729083
+  viewThreshold: 0
+  maxViewDist: 50
+--- !u!114 &8384602076411664877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -723,9 +725,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9006883238750405188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c9f6adbc56540499f1e87f216b9cae, type: 3}
+  m_Script: {fileID: 11500000, guid: 631026425c74246e5bb46bddf7a41d71, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatientZeroInteractable
+  m_EditorClassIdentifier: Assembly-CSharp::PatientBooInteractable
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 7469166534214679092}
   _networkObjectCache: {fileID: 7469166534214679092}
@@ -736,9 +738,9 @@ MonoBehaviour:
   interacting: 0
   deadUI: 0
   localOnCD: 0
-  cooldown: 0
+  cooldown: 10
   floor: 0
-  self: {fileID: 3274201880209496550}
+  self: {fileID: 463117083035173318}
   feedbackText: {fileID: 5276331289844314277, guid: 934c55e035a0b4392bf2b893bd222214, type: 3}
 --- !u!195 &4959539066434842964
 NavMeshAgent:
@@ -792,9 +794,9 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 3
+  <PrefabId>k__BackingField: 13
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 2056465145993305554
+  <AssetPathHash>k__BackingField: 10415973869109085382
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: -0.36652, y: -21.86948, z: 0}
@@ -808,8 +810,8 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 3274201880209496550}
-  - {fileID: 3142274279012729083}
+  - {fileID: 463117083035173318}
+  - {fileID: 8384602076411664877}
   - {fileID: 7098922523306271417}
   - {fileID: 15096550057979987}
   InitializedParentNetworkBehaviour: {fileID: 0}
@@ -822,7 +824,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584182106661790598
+  _initializedTimestamp: -8584180492114407028
 --- !u!114 &7098922523306271417
 MonoBehaviour:
   m_ObjectHideFlags: 0
