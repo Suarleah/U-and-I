@@ -13,7 +13,7 @@ public class PatientBooInteractable : PatientInteractable
         {
             return;
         }
-        GiveFeedback("Feedback!!");
+        GiveFeedback("Rolled a " + info.rollValue);
         if (info.interactionName == "money")
         {
             GameManager.Instance.AddCredits(50); //for now just doing it this way, but considering adding the player as a middleman

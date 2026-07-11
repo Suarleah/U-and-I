@@ -6,8 +6,8 @@ public class PatientButton : MonoBehaviour
 
     public void pressed()
     {
-        UIManager.Instance.UIButtonPressed(info);
         info.rollValue = Random.Range(1, 7); // roll the dice
+        UIManager.Instance.UIButtonPressed(info);
     }
     
 }

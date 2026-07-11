@@ -12,6 +12,7 @@ public class PatientBoo : Patient
     public override void Update()
     {
         base.Update();
+        //code that determines whether player has this patient in view
         foreach (PlayerMovement p in GameManager.Instance.GetPlayers())
         {
             //first check if player is facing this patient
