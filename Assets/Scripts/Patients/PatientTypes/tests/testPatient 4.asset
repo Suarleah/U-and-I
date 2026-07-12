@@ -16,6 +16,7 @@ MonoBehaviour:
   id: 4
   namee: Patient4
   desc: Patient4
+  myPhoto: {fileID: 21300000, guid: adb7f1e18e34a47479017ab457c6055b, type: 3}
   log1: 
   log2: 
   log3: 

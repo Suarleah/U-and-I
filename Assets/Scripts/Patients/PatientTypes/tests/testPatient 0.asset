@@ -15,7 +15,10 @@ MonoBehaviour:
   prefab: {fileID: 9006883238750405188, guid: 0e191b48796e34cb99a53dfdd5b184e6, type: 3}
   id: 0
   namee: Patient0
-  desc: Patient0
+  desc: My name is Patient Zero, when I was 7 years old my mom died. My class sent
+    me cards while I was out of school to cheer me up; one of my friends sent me
+    a card of Luigi sucking up a ghost from Luigi's Mansion.
+  myPhoto: {fileID: 21300000, guid: adb7f1e18e34a47479017ab457c6055b, type: 3}
   log1: 
   log2: 
   log3: 

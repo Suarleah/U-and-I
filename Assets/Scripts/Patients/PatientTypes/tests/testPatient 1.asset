@@ -15,7 +15,10 @@ MonoBehaviour:
   prefab: {fileID: 9006883238750405188, guid: 0e191b48796e34cb99a53dfdd5b184e6, type: 3}
   id: 1
   namee: Patient1
-  desc: Patient1
+  desc: I'm Patient One, growing up my brother had an acute interest in fire and
+    tornado alarms; he would run around the house screaming making the noises of
+    each siren.
+  myPhoto: {fileID: 21300000, guid: b6d322f36f88b49428385ae1d154020d, type: 3}
   log1: 
   log2: 
   log3: 

@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Voter : NetworkBehaviour, IPointerClickHandler
 {
     // We should make them pay taxes since we give them representation
-    public GameObject textDesc;
+    public GameObject textDesc; public TextMeshProUGUI infoText;
     public Transform voteHolder;
     public readonly SyncVar<int> votesForMe = new SyncVar<int>(0);
     public PatientSO me;
@@ -22,6 +23,8 @@ public class Voter : NetworkBehaviour, IPointerClickHandler
     {
         patientManager = PatientManager.Instance;   
         votable = true;
+
+        infoText = textDesc.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     [Server]

@@ -10,6 +10,7 @@ public class PatientSO : ScriptableObject
     public string namee; // the name of the patient, two "e"s so it doesnt hide Object.name
 
     public string desc; // a brief description of what the patient is for when the players are voting
+    public Sprite myPhoto; // Image of the patient that shows up when voting
 
 
     int observationLevel; //at higher observation levels, players will be able to read more info about how to manage them

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using GameKit.Dependencies.Utilities;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 
 public class InventoryManager : NetworkBehaviour
@@ -30,9 +31,15 @@ public class InventoryManager : NetworkBehaviour
     public int selectedSlot; //player currently held Item
     public ItemSO selectedItem; //player currently held Item
 
+    [Header("Visual")]
+
+    public Canvas inventoryVisual;
+    public Image[] itemIcons;
+    public Image[] selectIcons;
+
     public void Awake()
     {
-        
+
         //set keybinds
         dropItem = inputs.FindAction("Drop");
         scrollWheel = inputs.FindAction("ScrollWheel");
@@ -52,6 +59,8 @@ public class InventoryManager : NetworkBehaviour
 
 
         items.OnChange += OnInventoryChange;
+
+        UpdateSelectIcon(0);
     }
 
     public override void OnStartServer()
@@ -61,7 +70,7 @@ public class InventoryManager : NetworkBehaviour
         if (items.Count >= invSize) //return if inv has already been populated
             return;
         //populate inventory until it's the correct size on server
-        
+
         for (int i = 0; i < invSize; i++)
         {
             items.Add(null);
@@ -99,11 +108,12 @@ public class InventoryManager : NetworkBehaviour
             if (localItems.Count <= i)
             {
                 localItems.Add(items[i]);
-            } else
+            }
+            else
             {
                 localItems[i] = items[i];
             }
-            
+
         }
         selectedItem = items[selectedSlot];
     }
@@ -118,11 +128,11 @@ public class InventoryManager : NetworkBehaviour
         //first check if its hovered over an inventory slot, if so, select that inventory slot
 
         //use it from the player
-        if (selectedSlot>= items.Count || !items[selectedSlot])
+        if (selectedSlot >= items.Count || !items[selectedSlot])
         {
             return;
         }
-        
+
         UseOnServer(items[selectedSlot], new UseInfo(FishNet.InstanceFinder.ClientManager.Connection.FirstObject, this, selectedSlot));
     }
 
@@ -135,10 +145,15 @@ public class InventoryManager : NetworkBehaviour
 
     public void ScrollWheel(InputAction.CallbackContext c)
     {
-        
+        foreach (Image i in selectIcons)
+        {
+            i.enabled = false;
+        }
+
+
         Vector2 scroll = c.ReadValue<Vector2>();
         //Debug.Log(scroll + "");
-        selectedSlot += (int)(scroll.y); 
+        selectedSlot += (int)(scroll.y);
         if (selectedSlot < 0)
         {
             selectedSlot = 0;
@@ -148,6 +163,8 @@ public class InventoryManager : NetworkBehaviour
             selectedSlot = items.Count - 1;
         }
         selectedItem = items[selectedSlot];
+
+        UpdateSelectIcon(selectedSlot);
         //Debug.Log(selectedSlot);
     }
 
@@ -155,35 +172,53 @@ public class InventoryManager : NetworkBehaviour
     {
         selectedSlot = 0;
         selectedItem = items[0];
+        UpdateSelectIcon(0);
     }
 
     public void SelectSlotTwo(InputAction.CallbackContext c)
     {
         selectedSlot = 1;
         selectedItem = items[1];
+        UpdateSelectIcon(1);
     }
-    
+
     public void SelectSlotThree(InputAction.CallbackContext c)
     {
         selectedSlot = 2;
         selectedItem = items[2];
+        UpdateSelectIcon(2);
     }
 
     public void SelectSlotFour(InputAction.CallbackContext c)
     {
         selectedSlot = 3;
         selectedItem = items[3];
+        UpdateSelectIcon(3);
+    }
+
+    private void UpdateSelectIcon(int slot) // Visual
+    {
+        foreach (Image i in selectIcons)
+        {
+            i.enabled = false;
+        }
+
+        if (slot >= 0 && slot < selectIcons.Length)
+        {
+            selectIcons[slot].enabled = true;
+        }
     }
 
 
-    [ServerRpc(RequireOwnership = false)] 
+    [ServerRpc(RequireOwnership = false)]
     public void TryPickUpItem(ItemSO item, NetworkObject caller) //if this runs, the object will be destroyed, so it cant be called anymore from server (this is the validity check)
     {
 
         if (!caller)//check if the object which called this method exists + is spawned on server
         {
             return;
-        } else
+        }
+        else
         {
             if (!caller.IsSpawned)
             {
@@ -205,7 +240,7 @@ public class InventoryManager : NetworkBehaviour
                         return;
                     }
                 }
-                
+
             }
         }
         //otherwise, check for first open spot
@@ -230,7 +265,7 @@ public class InventoryManager : NetworkBehaviour
             {
                 return;
             }
-            
+
             SpawnItemInteractable(items[index]); //first spawn item from inventory, then remove it from inventory
             RemoveItem(index, item);
         }
@@ -249,6 +284,8 @@ public class InventoryManager : NetworkBehaviour
     {
         items[index].count++;
         items.Dirty(index);
+
+        // itemIcon[index].sprite = picture of item....?
     }
 
     [Server]
@@ -270,12 +307,13 @@ public class InventoryManager : NetworkBehaviour
                 items[index].count--;
                 items.Dirty(index);
             }
-        } else
+        }
+        else
         {
             items[index] = null;
             items.Dirty(index);
         }
-        
+
     }
 
     [Server]
@@ -287,14 +325,14 @@ public class InventoryManager : NetworkBehaviour
         }
         GameObject itemInstance = Instantiate(item.itemInteractablePrefab);
         itemInstance.transform.position = transform.position;//spawns it directly on the player, since inventory manager is attached to the player
-        
+
         base.ServerManager.Spawn(itemInstance);
     }
 
     [Server]
     public void DropAll()
     {
-        for (int i = 0; i < items.Count;i++)
+        for (int i = 0; i < items.Count; i++)
         {
             if (!items[i])
             {
@@ -306,11 +344,12 @@ public class InventoryManager : NetworkBehaviour
                 {
                     TryDropItem(i, items[i]);
                 }
-            } else
+            }
+            else
             {
                 TryDropItem(i, items[i]);
             }
-                
+
         }
     }
 }

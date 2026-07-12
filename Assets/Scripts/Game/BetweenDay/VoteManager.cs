@@ -55,6 +55,9 @@ public class VoteManager : NetworkBehaviour
         {
             Voter v = patientChoices[i].GetComponent<Voter>();
             v.me = ethanPoop[i];
+            
+            patientChoices[i].GetComponent<Image>().sprite = ethanPoop[i].myPhoto;
+            v.infoText.text = ethanPoop[i].desc;
         }
 
 

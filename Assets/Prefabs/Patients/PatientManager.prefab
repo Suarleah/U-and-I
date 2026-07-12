@@ -49,11 +49,11 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2762809729653823919}
   _networkObjectCache: {fileID: 2762809729653823919}
   allPatients:
-  - {fileID: 11400000, guid: 89fd81cfb2c01478286a02232a52fb6a, type: 2}
-  - {fileID: 11400000, guid: 693ca963dc8e6484390fd2296ac37fe2, type: 2}
-  - {fileID: 11400000, guid: 693ca963dc8e6484390fd2296ac37fe2, type: 2}
-  - {fileID: 11400000, guid: 693ca963dc8e6484390fd2296ac37fe2, type: 2}
-  - {fileID: 11400000, guid: 693ca963dc8e6484390fd2296ac37fe2, type: 2}
+  - {fileID: 11400000, guid: 76d9bfc0d97bc4f98ad0184d6376d112, type: 2}
+  - {fileID: 11400000, guid: 56ea4783fc91f453399b992016da8c53, type: 2}
+  - {fileID: 11400000, guid: 007987867dd8244c9ae9fc23c6d28b3d, type: 2}
+  - {fileID: 11400000, guid: fd07d25d1c5ca4255bb66513a603cd08, type: 2}
+  - {fileID: 11400000, guid: b6f12cd437eb94167a4dbcb12680943c, type: 2}
   currentPatients: []
   unusedPatients: []
   localSpawnedPatients: []
