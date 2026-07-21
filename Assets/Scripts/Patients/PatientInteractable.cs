@@ -39,8 +39,53 @@ public class PatientInteractable : Interactable
 
     [ServerRpc(RequireOwnership = false)]
     public virtual void PatientButtonExecute(PatientInteractionInfo info, GameObject p){
+        if (onCD.Value)
+        {
+            return;
+        }
+        GiveFeedback("Rolled a " + info.rollValue);
+        if (info.interactionName == "Observe")
+        {
+            InteractObserve(info.rollValue, p);
+        }
+        if (info.interactionName == "Bribe")
+        {
+            InteractBribe(info.rollValue, p);
+        }
+
+        if (info.interactionName == "Therapy")
+        {
+            InteractTherapy(info.rollValue, p);
+        }
+
+        if (info.interactionName == "Electric Chair")
+        {
+            InteractElectricChair(info.rollValue, p);
+        }
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void InteractObserve(int rollValue, GameObject p)
+    {
         
     }
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void InteractBribe(int rollValue, GameObject p)
+    {
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void InteractTherapy(int rollValue, GameObject p)
+    {
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void InteractElectricChair(int rollValue, GameObject p)
+    {
+        
+    }
+
 
     [ServerRpc(RequireOwnership = false)]
     public virtual void GiveFeedback(string feedback){

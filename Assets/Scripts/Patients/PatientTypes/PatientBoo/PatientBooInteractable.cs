@@ -14,22 +14,22 @@ public class PatientBooInteractable : PatientInteractable
             return;
         }
         GiveFeedback("Rolled a " + info.rollValue);
-        if (info.interactionName == "money")
+        if (info.interactionName == "Observe")
         {
             GameManager.Instance.AddCredits(50); //for now just doing it this way, but considering adding the player as a middleman
             //return;
         }
-        if (info.interactionName == "damage")
+        if (info.interactionName == "Bribe")
         {
             p.GetComponent<PlayerStats>().TakeDamage(50, new DamageDetails());
         }
 
-        if (info.interactionName == "heal")
+        if (info.interactionName == "Therapy")
         {
             p.GetComponent<PlayerStats>().Heal(50, new DamageDetails());
         }
 
-        if (info.interactionName == "losePatience")
+        if (info.interactionName == "Electric Chair")
         {
             self.changePatience(-100);
         }

@@ -13,7 +13,7 @@ public class DayTimer : MonoBehaviour
 
     void OnChangeTimer(float prev, float next, bool asServer)
     {
-        Debug.Log("" + next);
+        
         text.text = "time: " + (int)next;
         if (next <= 0)
         {
