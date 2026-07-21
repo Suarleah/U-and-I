@@ -25,7 +25,7 @@ public class GameManager : NetworkBehaviour
 
     public readonly SyncList<int> players = new SyncList<int>(); //list of all players in the game
     public readonly SyncVar<int> day = new SyncVar<int>(); //the day #
-    public float daytime ; //the amount of time left in the day
+    public readonly SyncVar<float> daytime = new SyncVar<float>(); //the amount of time left in the day
 
     public readonly SyncVar<int> quota = new SyncVar<int>(); //the day #
 
@@ -68,6 +68,13 @@ public class GameManager : NetworkBehaviour
                     }
                     break;
                 }
+                if (scene.name == "entity test scene")
+                {
+                    daytime.Value = 300;
+                    break;
+                }
+
+                
             }
 
             foreach (PlayerMovement p in GetPlayers())
@@ -186,6 +193,19 @@ public class GameManager : NetworkBehaviour
     public void SubtractCredits(int amt)
     {
         credits.Value -= amt;
+    }
+
+    void Update()
+    {
+        if (!IsServerStarted)
+        {
+            return;
+        }
+        if (daytime.Value >= 0)
+        {
+            daytime.Value -= Time.deltaTime;
+        }
+        
     }
 
 }
