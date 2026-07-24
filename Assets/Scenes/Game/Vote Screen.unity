@@ -621,7 +621,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16383
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1950,6 +1950,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 972023442}
   _networkObjectCache: {fileID: 0}
   patientManager: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!4 &972023444
 Transform:
   m_ObjectHideFlags: 0

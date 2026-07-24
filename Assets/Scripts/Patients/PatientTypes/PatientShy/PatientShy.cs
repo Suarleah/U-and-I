@@ -23,19 +23,20 @@ public class PatientShy : Patient
         foreach (PlayerMovement p in GameManager.Instance.GetPlayers())
         {
             //first check if player is facing this patient
-            Vector2 directionToEntity = (transform.position - p.transform.position).normalized;
-            Vector2 playerFacingDirection = p.transform.right; 
-             float dotProduct = Vector2.Dot(playerFacingDirection, directionToEntity);
-            float dist = Vector3.Distance(p.transform.position, transform.position);
-            if (dotProduct*p.visual.transform.localScale.x >= viewThreshold && dist <= maxViewDist) //use local scale for direction
-            {
-                //next check if theres anything obstructing the view
-                Vector3 directionToTarget = transform.position - p.transform.position;
+            Vector2 directionToEntity = ((Vector2)transform.position - (Vector2)(p.transform.position)).normalized;
+            Vector2 playerFacingDirection = p.transform.right;
+            float dotProduct = Vector2.Dot(playerFacingDirection, directionToEntity);
+            float dist = Vector2.Distance(p.transform.position, transform.position);
+
+            if (dotProduct * p.visual.transform.localScale.x >= viewThreshold && dist <= maxViewDist) {
+                // Next check if there is anything obstructing the view using Physics2D
+                Vector2 directionToTarget = (Vector2)transform.position - (Vector2)p.transform.position;
                 float distanceToTarget = directionToTarget.magnitude;
-                if (!Physics.Raycast(p.transform.position, directionToTarget.normalized, out RaycastHit hit, distanceToTarget, viewObstructingLayer))
-                {
-                    lookingPlayers.Add(p.gameObject); //add player to the list
-                    
+
+                RaycastHit2D hit = Physics2D.Raycast(p.transform.position, directionToTarget.normalized, distanceToTarget, viewObstructingLayer);
+
+                if (hit.collider == null) {
+                    lookingPlayers.Add(p.gameObject); // Add player to the list
                 }
             }
             

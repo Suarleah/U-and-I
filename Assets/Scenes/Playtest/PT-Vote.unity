@@ -458,6 +458,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3430922164423694350, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
+      propertyPath: infoText
+      value: 
+      objectReference: {fileID: 655575971}
     - target: {fileID: 3990256549016884100, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -601,6 +605,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 140688506967294135, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
   m_PrefabInstance: {fileID: 655575968}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &655575971 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 35258203976207484, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
+  m_PrefabInstance: {fileID: 655575968}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &684006328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,7 +1499,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16383
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2201,7 +2216,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16383
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3032,7 +3047,7 @@ MonoBehaviour:
   voteScreen: {fileID: 2122788089}
   progressBox: {fileID: 31686044}
   playersReadyText: {fileID: 1490328970}
-  sceneToLoad: entity test scene
+  sceneToLoad: PT-Game
 --- !u!4 &1837002026
 Transform:
   m_ObjectHideFlags: 0
@@ -3343,6 +3358,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3430922164423694350, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
+      propertyPath: infoText
+      value: 
+      objectReference: {fileID: 2036167932}
     - target: {fileID: 3990256549016884100, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3486,6 +3505,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 140688506967294135, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
   m_PrefabInstance: {fileID: 2036167929}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2036167932 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 35258203976207484, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
+  m_PrefabInstance: {fileID: 2036167929}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &2079759077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3538,6 +3568,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3430922164423694350, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
+      propertyPath: infoText
+      value: 
+      objectReference: {fileID: 2079759080}
     - target: {fileID: 3990256549016884100, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3681,6 +3715,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 140688506967294135, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
   m_PrefabInstance: {fileID: 2079759077}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2079759080 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 35258203976207484, guid: 9ad688349629f2a45ab8bf4f7b0a2de1, type: 3}
+  m_PrefabInstance: {fileID: 2079759077}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &2122788089
 GameObject:
   m_ObjectHideFlags: 0

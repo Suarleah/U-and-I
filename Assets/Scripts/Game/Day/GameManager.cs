@@ -68,7 +68,25 @@ public class GameManager : NetworkBehaviour
                     }
                     break;
                 }
+
+                if (scene.name == "PT-Vote")
+                {
+                    day.Value++;
+                    if (quotas.Count > day.Value)
+                    {
+                        quota.Value = quotas[(day.Value-1)/3]; 
+                    } else //if not a set value, just increase exponentially
+                    {
+                        quota.Value = (int)(quota.Value * 1.5f);
+                    }
+                    break;
+                }
                 if (scene.name == "entity test scene")
+                {
+                    daytime.Value = 300;
+                    break;
+                }
+                if (scene.name == "PT-Game")
                 {
                     daytime.Value = 300;
                     break;

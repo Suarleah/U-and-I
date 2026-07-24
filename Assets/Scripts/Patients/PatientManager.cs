@@ -43,7 +43,7 @@ public class PatientManager : NetworkBehaviour
         {
             //so the first day isnt too boring, itll start off with 2 extra random patients
             selectPatient(unusedPatients[Random.Range(0,unusedPatients.Count)]); 
-            selectPatient(unusedPatients[Random.Range(0,unusedPatients.Count)]);
+            //selectPatient(unusedPatients[Random.Range(0,unusedPatients.Count)]);
         }
         spawnedPatients.OnChange += OnSpawnedPatientsChange;
         FishNet.InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;
@@ -78,6 +78,10 @@ public class PatientManager : NetworkBehaviour
         foreach (UnityEngine.SceneManagement.Scene scene in args.LoadedScenes)
         {
             if (scene.name == targetSceneName)
+            {
+                SpawnAllPatients();
+            }
+            if (scene.name == "PT-Game")
             {
                 SpawnAllPatients();
             }

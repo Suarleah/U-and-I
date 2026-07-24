@@ -3561,7 +3561,7 @@ MonoBehaviour:
   playersReadyText: {fileID: 1987680832}
   lobby: {fileID: 683393459}
   loading: {fileID: 1006587819}
-  sceneToLoad: Vote Screen
+  sceneToLoad: PT-Vote
 --- !u!4 &1475506719
 Transform:
   m_ObjectHideFlags: 0
@@ -3719,7 +3719,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16383
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -4652,7 +4652,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16383
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5436,7 +5436,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2144975064}
   _networkObjectCache: {fileID: 0}
   patientManager: {fileID: 4360553664395883280, guid: 2b920e79d5a3f4a7a877ee7b2b83191d, type: 3}
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 2249856431838784785, guid: faaf1b77c017c43b681e226c83177817, type: 3}
 --- !u!4 &2144975066
 Transform:
   m_ObjectHideFlags: 0

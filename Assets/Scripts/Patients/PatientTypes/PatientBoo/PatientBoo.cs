@@ -27,7 +27,9 @@ public class PatientBoo : Patient
                 //next check if theres anything obstructing the view
                 Vector3 directionToTarget = transform.position - ptf.position;
                 float distanceToTarget = directionToTarget.magnitude;
-                if (!Physics.Raycast(ptf.position, directionToTarget.normalized, out RaycastHit hit, distanceToTarget, viewObstructingLayer))
+
+                RaycastHit2D hit = Physics2D.Raycast(p.transform.position, directionToTarget.normalized, distanceToTarget, viewObstructingLayer);
+                if (hit.collider == null)
                 {
                     //patient boo freezes and patience doesnt decrease
                     agent.speed = 0f;
