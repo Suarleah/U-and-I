@@ -105,6 +105,11 @@ public class Patient : NetworkBehaviour
         {
             ContainedUpdate();
         }
+
+        if (patience.Value > maxPatience)
+        {
+            patience.Value = maxPatience;
+        }
     }
 
     //method to be overwritten by subclass, what the patient does on update when they are escaped

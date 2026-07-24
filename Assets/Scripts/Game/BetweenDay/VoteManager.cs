@@ -51,7 +51,7 @@ public class VoteManager : NetworkBehaviour
         shopManager = ShopManager.Instance;
 
         List<PatientSO> ethanPoop = patientManager.getRandomUnusedPatients(patientChoices.Length);
-        for (int i = patientChoices.Length - 1; i >= 0; i--)
+        for (int i = ethanPoop.Count - 1; i >= 0; i--)
         {
             Voter v = patientChoices[i].GetComponent<Voter>();
             v.me = ethanPoop[i];

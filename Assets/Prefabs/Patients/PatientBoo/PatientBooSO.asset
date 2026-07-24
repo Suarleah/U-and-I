@@ -16,6 +16,7 @@ MonoBehaviour:
   id: 1
   namee: PatientBoo
   desc: The first patient
+  myPhoto: {fileID: 21300000, guid: 0218602d9c3ad3a47a0a0c0c147579ce, type: 3}
   log1: likes to go to airports
   log2: favorite food is bats
   log3: Anti-vaxxer

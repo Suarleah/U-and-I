@@ -5,36 +5,108 @@ using UnityEditor;
 public class PatientBooInteractable : PatientInteractable
 {
 
-    
-     [ServerRpc(RequireOwnership = false)]
-    public override void PatientButtonExecute(PatientInteractionInfo info, GameObject p)
+    [ServerRpc(RequireOwnership = false)]
+    public override void InteractObserve(int rollValue, GameObject p)
     {
-        if (onCD.Value)
-        {
-            return;
-        }
-        GiveFeedback("Rolled a " + info.rollValue);
-        if (info.interactionName == "Observe")
-        {
-            GameManager.Instance.AddCredits(50); //for now just doing it this way, but considering adding the player as a middleman
-            //return;
-        }
-        if (info.interactionName == "Bribe")
-        {
-            p.GetComponent<PlayerStats>().TakeDamage(50, new DamageDetails());
-        }
+        switch (rollValue)
+            {
+                case (1):
+                    PatientInteractUtilities.RollResult(self, p, 10,  -10,  -10);
+                    break;
+                case (2):
+                    PatientInteractUtilities.RollResult(self, p, 10,  0,  -10);
+                    break;
+                case (3):
+                    PatientInteractUtilities.RollResult(self, p, 10,  10,  0);
+                    break;
+                case (4):
+                    PatientInteractUtilities.RollResult(self, p, 10,  20,  0);
+                    break;
+                case (5):
+                    PatientInteractUtilities.RollResult(self, p, 10,  30,  0);
+                    break;
+                case (6):
+                    PatientInteractUtilities.RollResult(self, p, 10,  35,  0);
+                    break;
+            }
+    }
 
-        if (info.interactionName == "Therapy")
-        {
-            p.GetComponent<PlayerStats>().Heal(50, new DamageDetails());
-        }
+    [ServerRpc(RequireOwnership = false)]
+    public override void InteractBribe(int rollValue, GameObject p)
+    {
+        switch (rollValue)
+            {
+                case (1):
+                    PatientInteractUtilities.RollResult(self, p, 10,  -30,  -50);
+                    break;
+                case (2):
+                    PatientInteractUtilities.RollResult(self, p, 10,  -20,  -30);
+                    break;
+                case (3):
+                    PatientInteractUtilities.RollResult(self, p, 10,  0,  -20);
+                    break;
+                case (4):
+                    PatientInteractUtilities.RollResult(self, p, 10,  10,  -10);
+                    break;
+                case (5):
+                    PatientInteractUtilities.RollResult(self, p, 10,  10,  0);
+                    break;
+                case (6):
+                    PatientInteractUtilities.RollResult(self, p, 10,  20,  0);
+                    break;
+            }
+    }
 
-        if (info.interactionName == "Electric Chair")
-        {
-            self.changePatience(-100);
-        }
-        StartCoroutine(goOnCooldown(10f));
-        
-    } 
+    [ServerRpc(RequireOwnership = false)]
+    public override void InteractTherapy(int rollValue, GameObject p)
+    {
+        switch (rollValue)
+            {
+                case (1):
+                    PatientInteractUtilities.RollResult(self, p, 10,  -10,  -10);
+                    break;
+                case (2):
+                    PatientInteractUtilities.RollResult(self, p, 10,  0,  0);
+                    break;
+                case (3):
+                    PatientInteractUtilities.RollResult(self, p, 15,  10,  0);
+                    break;
+                case (4):
+                    PatientInteractUtilities.RollResult(self, p, 20,  10,  0);
+                    break;
+                case (5):
+                    PatientInteractUtilities.RollResult(self, p, 20,  20,  0);
+                    break;
+                case (6):
+                    PatientInteractUtilities.RollResult(self, p, 30,  30,  10);
+                    break;
+            }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public override void InteractElectricChair(int rollValue, GameObject p)
+    {
+        switch (rollValue)
+            {
+                case (1):
+                    PatientInteractUtilities.RollResult(self, p, 10,  -10,  -10);
+                    break;
+                case (2):
+                    PatientInteractUtilities.RollResult(self, p, 10,  -5,  -10);
+                    break;
+                case (3):
+                    PatientInteractUtilities.RollResult(self, p, 10,  0,  0);
+                    break;
+                case (4):
+                    PatientInteractUtilities.RollResult(self, p, 10,  5,  0);
+                    break;
+                case (5):
+                    PatientInteractUtilities.RollResult(self, p, 10,  10,  0);
+                    break;
+                case (6):
+                    PatientInteractUtilities.RollResult(self, p, 10,  20,  10);
+                    break;
+            }
+    }
 
 }

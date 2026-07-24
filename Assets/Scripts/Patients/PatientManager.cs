@@ -41,7 +41,9 @@ public class PatientManager : NetworkBehaviour
         base.OnStartServer();
         if (IsServerInitialized)
         {
-        //    selectPatient(allPatients[0]); //this was just used for testing
+            //so the first day isnt too boring, itll start off with 2 extra random patients
+            selectPatient(unusedPatients[Random.Range(0,unusedPatients.Count)]); 
+            selectPatient(unusedPatients[Random.Range(0,unusedPatients.Count)]);
         }
         spawnedPatients.OnChange += OnSpawnedPatientsChange;
         FishNet.InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;

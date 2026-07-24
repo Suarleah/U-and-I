@@ -578,8 +578,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7400392250789980530}
   - component: {fileID: 77224146847795703}
-  - component: {fileID: 3274201880209496550}
-  - component: {fileID: 3142274279012729083}
+  - component: {fileID: 6676961906902917411}
+  - component: {fileID: 5433399841933917766}
   - component: {fileID: 4959539066434842964}
   - component: {fileID: 7469166534214679092}
   - component: {fileID: 7098922523306271417}
@@ -587,7 +587,7 @@ GameObject:
   - component: {fileID: 3948577010694349012}
   - component: {fileID: 5133157734838045663}
   m_Layer: 6
-  m_Name: PatientZero
+  m_Name: PatientShy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -660,8 +660,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: adb7f1e18e34a47479017ab457c6055b, type: 3}
-  m_Color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
+  m_Sprite: {fileID: 21300000, guid: b6d322f36f88b49428385ae1d154020d, type: 3}
+  m_Color: {r: 1, g: 0, b: 0.8816936, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -670,7 +670,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3274201880209496550
+--- !u!114 &6676961906902917411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -679,42 +679,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 9006883238750405188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a43cf4cba4241feb9d78e385311ba5, type: 3}
+  m_Script: {fileID: 11500000, guid: 397ff5dfd733a4a64b6658fa8c678ba2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatientZero
+  m_EditorClassIdentifier: Assembly-CSharp::PatientShy
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7469166534214679092}
   _networkObjectCache: {fileID: 7469166534214679092}
   agent: {fileID: 4959539066434842964}
-  interactable: {fileID: 3142274279012729083}
+  interactable: {fileID: 5433399841933917766}
   room: 0
   spawn: {fileID: 0}
   roomBounds: {fileID: 0}
   escaped: 0
-  maxPatience: 60
+  maxPatience: 50
   localpatience: 0
   maxHealth: 100
   localhealth: 0
   damage: 50
-  angularSpeed: 120
-  speed: 3.5
+  angularSpeed: 999
+  speed: 5
   chaseSpeed: 8
   wanderCooldownMin: 5
   wanderCooldownMax: 10
   wanderUp: 1
   floor: 0
-  escapedWanderRange: 150
-  escapedWanderCooldownMin: 5
-  escapedWanderCooldownMax: 10
+  escapedWanderRange: 30
+  escapedWanderCooldownMin: 20
+  escapedWanderCooldownMax: 30
   aggroedPlayer: {fileID: 0}
   sightfov: {fileID: 489929125369284726}
   radialfov: {fileID: 5527681074395406958}
-  aggroLength: 1
+  aggroLength: 0
   aggrotimer: 0
   cheating: 0
   attackCD: 1
   attackTimer: 0
---- !u!114 &3142274279012729083
+  shyRange: 30
+  viewThreshold: 0.5
+  maxViewDist: 15
+  viewObstructingLayer:
+    serializedVersion: 2
+    m_Bits: 512
+--- !u!114 &5433399841933917766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -723,9 +729,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9006883238750405188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c9f6adbc56540499f1e87f216b9cae, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c3c0449925f549a0855530bb36e6f15, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatientZeroInteractable
+  m_EditorClassIdentifier: Assembly-CSharp::PatientShyInteractable
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 7469166534214679092}
   _networkObjectCache: {fileID: 7469166534214679092}
@@ -736,9 +742,9 @@ MonoBehaviour:
   interacting: 0
   deadUI: 0
   localOnCD: 0
-  cooldown: 0
+  cooldown: 10
   floor: 0
-  self: {fileID: 3274201880209496550}
+  self: {fileID: 6676961906902917411}
   feedbackText: {fileID: 5276331289844314277, guid: 934c55e035a0b4392bf2b893bd222214, type: 3}
 --- !u!195 &4959539066434842964
 NavMeshAgent:
@@ -792,9 +798,9 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 3
+  <PrefabId>k__BackingField: 6
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 2056465145993305554
+  <AssetPathHash>k__BackingField: 4883822629611236608
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: -0.36652, y: -21.86948, z: 0}
@@ -808,8 +814,8 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 3274201880209496550}
-  - {fileID: 3142274279012729083}
+  - {fileID: 6676961906902917411}
+  - {fileID: 5433399841933917766}
   - {fileID: 7098922523306271417}
   - {fileID: 15096550057979987}
   InitializedParentNetworkBehaviour: {fileID: 0}
@@ -822,7 +828,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584167504995371868
+  _initializedTimestamp: -8584167492904173518
 --- !u!114 &7098922523306271417
 MonoBehaviour:
   m_ObjectHideFlags: 0

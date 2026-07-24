@@ -42,7 +42,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092438903743781372}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -491,7 +491,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8635517830820555045}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -660,7 +660,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0218602d9c3ad3a47a0a0c0c147579ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -691,7 +691,7 @@ MonoBehaviour:
   spawn: {fileID: 0}
   roomBounds: {fileID: 0}
   escaped: 0
-  maxPatience: 100
+  maxPatience: 40
   localpatience: 0
   maxHealth: 100
   localhealth: 0
@@ -716,6 +716,9 @@ MonoBehaviour:
   attackTimer: 0
   viewThreshold: 0
   maxViewDist: 50
+  viewObstructingLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &8384602076411664877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,7 +797,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 13
+  <PrefabId>k__BackingField: 14
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 10415973869109085382
   SceneId: 0
@@ -824,7 +827,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584180492114407028
+  _initializedTimestamp: -8584167504995371868
 --- !u!114 &7098922523306271417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,7 +934,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 4, y: 4}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

@@ -7,10 +7,11 @@ public class PatientBoo : Patient
     
     [Range(-1f, 1f)] public float viewThreshold; 
     public float maxViewDist; 
-    LayerMask viewObstructingLayer;
+    public LayerMask viewObstructingLayer;
 
     public override void Update()
     {
+        
         base.Update();
         //code that determines whether player has this patient in view
         foreach (PlayerMovement p in GameManager.Instance.GetPlayers())
@@ -28,12 +29,15 @@ public class PatientBoo : Patient
                 float distanceToTarget = directionToTarget.magnitude;
                 if (!Physics.Raycast(ptf.position, directionToTarget.normalized, out RaycastHit hit, distanceToTarget, viewObstructingLayer))
                 {
-                    //patient boo freezes
+                    //patient boo freezes and patience doesnt decrease
                     agent.speed = 0f;
                     agent.angularSpeed = 0f;
+                     patience.Value += Time.deltaTime; //patience decreases in the superclass so this evens it out as long as a player is looking at patient boo
                 }
             }
         }
+
+        
     }
 
     public override void EscapedUpdate()
