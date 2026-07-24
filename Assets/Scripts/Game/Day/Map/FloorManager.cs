@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FloorManager : MonoBehaviour
 {
+    int num; //floor number;
     //patient spawns
     public List<Transform> patientSpawns;
     //patient room bounds

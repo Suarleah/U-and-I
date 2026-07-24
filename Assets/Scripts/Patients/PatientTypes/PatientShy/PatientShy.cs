@@ -58,6 +58,10 @@ public class PatientShy : Patient
         }
         foreach(Patient p in PatientManager.Instance.GetAllSpawnedPatients())
         {
+            if (p == this) //obviously shouldnt count themself
+            {
+                continue;
+            }
             float dist = Vector3.Distance(p.transform.position, transform.position);
             if (dist <= shyRange)
             {

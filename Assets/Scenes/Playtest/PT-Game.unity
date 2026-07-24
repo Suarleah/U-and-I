@@ -690,7 +690,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 120081988}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2796,7 +2796,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 346975973}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: BottomRightRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2987,7 +2987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 375375585}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: TopRightRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3315,7 +3315,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 390899450}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: BottomLeftRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3661,7 +3661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 487757745}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4308,7 +4308,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543806693}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8381,7 +8381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 959562869}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: TopLeftRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12116,7 +12116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1496169439}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14009,7 +14009,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 16897
+    m_Bits: 16896
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: f74cad026e65d43aabf5a6ae4440a2a8, type: 2}
   m_TargetDisplay: 0
@@ -17181,7 +17181,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019507122}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f9b7221137c14900b946308e080d124, type: 3}
   m_Name: 
@@ -17204,7 +17204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SecurityMenu
   doors:
-  - {fileID: 0}
+  - {fileID: 776217589}
   cleaningZones:
   - {fileID: 574530759}
   doorButtons:
@@ -17241,7 +17241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2058097593}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: BottomRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17450,7 +17450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2083446600}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
