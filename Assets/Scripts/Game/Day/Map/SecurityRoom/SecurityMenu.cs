@@ -6,12 +6,34 @@ public class SecurityMenu : MonoBehaviour
 {
     //this is the script that manages the doors (ie which doors are on cooldown at any given time, which doors are opened/closed for the janitor)
    
+    public int floorNum = 0; 
+    public FloorManager floor;
+
     public List<Door> doors; //keeps track of doors on the map
     public List<CleaningSection> cleaningZones;
 
     public List<Button> doorButtons; //corresponding buttons for doors (2 for each door 1 is open 1 is close)
     public List<Button> zoneButtons; //corresponding buttons for zones
 
+    void OnEnable() 
+    {
+       
+        
+    }
+
+
+    public void setFloor(int num)
+    {
+        floorNum = num;
+        floor = MapManager.Instance.floors[floorNum];
+        doors = floor.doors;
+        cleaningZones = floor.janitorZones;
+    }
+
+    private void UpdateButtons() //fills out the arrays with the correct floors'
+    {
+        
+    }
 
     
     private void Update()

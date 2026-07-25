@@ -11,6 +11,7 @@ public class SecurityTerminal : Interactable
         UIManager.Instance.currentInteraction = this;
         UIManager.Instance.MinimapCanvas.gameObject.SetActive(true);
         UIManager.Instance.MinimapCanvas.GetComponent<MinimapManager>().setFloor(floor);
+        UIManager.Instance.MinimapCanvas.GetComponent<SecurityMenu>().setFloor(floor);
     }
 
 
