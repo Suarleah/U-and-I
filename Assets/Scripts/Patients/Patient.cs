@@ -70,7 +70,7 @@ public class Patient : NetworkBehaviour
     {
         if (spawn)
         {
-            transform.position = spawn.position;
+            agent.Warp(spawn.position);
         }
         
         agent.updateRotation = false;
@@ -149,7 +149,7 @@ public class Patient : NetworkBehaviour
         }
         escaped = false;
         patience.Value = maxPatience;
-        transform.position = spawn.position;
+        agent.Warp(spawn.position);
         attackTimer = attackCD;
         aggrotimer = aggroLength;
         wanderUp = true;

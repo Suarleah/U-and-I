@@ -159,7 +159,7 @@ public class PatientManager : NetworkBehaviour
         //set spawn and roombounds here, when I create the mapmanager
         go.GetComponent<Patient>().spawn = MapManager.Instance.floors[index / MapManager.patientsperfloor].patientSpawns[index % MapManager.patientsperfloor];
         go.GetComponent<Patient>().roomBounds = MapManager.Instance.floors[index / MapManager.patientsperfloor].patientRooms[index % MapManager.patientsperfloor];
-        go.transform.position = go.GetComponent<Patient>().spawn.position;
+        go.GetComponent<Patient>().agent.Warp(go.GetComponent<Patient>().spawn.position);
         Spawn(go);
         spawnedPatients.Add(go.GetComponent<NetworkObject>().ObjectId);
     }
