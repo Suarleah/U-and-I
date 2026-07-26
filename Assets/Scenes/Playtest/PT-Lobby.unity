@@ -5436,7 +5436,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2144975064}
   _networkObjectCache: {fileID: 0}
   patientManager: {fileID: 4360553664395883280, guid: 2b920e79d5a3f4a7a877ee7b2b83191d, type: 3}
-  gameManager: {fileID: 2249856431838784785, guid: faaf1b77c017c43b681e226c83177817, type: 3}
+  gameManager: {fileID: 6426771585740384806, guid: 17622a10d8a2c1144b4f5763b9390c4d, type: 3}
 --- !u!4 &2144975066
 Transform:
   m_ObjectHideFlags: 0
