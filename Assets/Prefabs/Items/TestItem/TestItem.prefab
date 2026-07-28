@@ -299,6 +299,7 @@ MonoBehaviour:
   deadUI: 0
   localOnCD: 0
   cooldown: 0
+  floor: 0
   itemSO: {fileID: 11400000, guid: bc694faf574b347f0ae691ef97d3583a, type: 2}
 --- !u!114 &5962623977467366103
 MonoBehaviour:
@@ -330,7 +331,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 14
+  <PrefabId>k__BackingField: 20
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 13540187701016750846
   SceneId: 0
@@ -358,7 +359,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584206460246393638
+  _initializedTimestamp: -8584164088566313368
 --- !u!114 &2703852801128213648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +428,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
