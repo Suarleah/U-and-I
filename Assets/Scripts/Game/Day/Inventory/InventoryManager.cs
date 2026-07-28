@@ -139,7 +139,7 @@ public class InventoryManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UseOnServer(ItemSO item, UseInfo info)
     {
-        Debug.Log("TryUse");
+        //Debug.Log("TryUse");
         item.TryUse(info);
     }
 
@@ -324,7 +324,7 @@ public class InventoryManager : NetworkBehaviour
             return;
         }
         GameObject itemInstance = Instantiate(item.itemInteractablePrefab);
-        itemInstance.transform.position = transform.position;//spawns it directly on the player, since inventory manager is attached to the player
+        itemInstance.transform.position = gameObject.GetComponentInParent<PlayerMovement>().transform.position;//spawns it directly on the player, since inventory manager is attached to the player
 
         base.ServerManager.Spawn(itemInstance);
     }
