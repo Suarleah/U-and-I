@@ -44,6 +44,7 @@ public class PatientInteractable : Interactable
             return;
         }
         GiveFeedback("Rolled a " + info.rollValue);
+        StartCoroutine(goOnCooldown(cooldown));
         if (info.interactionName == "Observe")
         {
             InteractObserve(info.rollValue, p);
@@ -62,6 +63,7 @@ public class PatientInteractable : Interactable
         {
             InteractElectricChair(info.rollValue, p);
         }
+        
     }
     [ServerRpc(RequireOwnership = false)]
     public virtual void InteractObserve(int rollValue, GameObject p)

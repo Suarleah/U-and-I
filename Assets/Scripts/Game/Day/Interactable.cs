@@ -26,7 +26,7 @@ public class Interactable : NetworkBehaviour
 
     public readonly SyncVar<bool> onCD = new SyncVar<bool>();
     public bool localOnCD;
-    public float cooldown = 0;
+    public float cooldown;
 
     public int floor; //the floor this interactable is currently on
 

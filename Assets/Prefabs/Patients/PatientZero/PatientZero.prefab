@@ -828,7 +828,7 @@ MonoBehaviour:
   interacting: 0
   deadUI: 0
   localOnCD: 0
-  cooldown: 0
+  cooldown: 10
   floor: 0
   self: {fileID: 3274201880209496550}
   feedbackText: {fileID: 5276331289844314277, guid: 934c55e035a0b4392bf2b893bd222214, type: 3}
