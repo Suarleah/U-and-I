@@ -8,6 +8,7 @@ public class Door : Interactable
 {
 
     public readonly SyncVar<bool> closed = new SyncVar<bool>();
+    public GameObject minimapicon;
 
 
     public override void OnStartServer()
@@ -38,10 +39,13 @@ public class Door : Interactable
         {
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
             gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            minimapicon.GetComponent<SpriteRenderer>().enabled = true;
+            
         } else
         {
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            minimapicon.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 
