@@ -62,6 +62,11 @@ public class Interactable : NetworkBehaviour
             
         }
 
+        if (Vector3.Distance(player.transform.position, transform.position) > 10f)
+        {
+            Close();
+        }
+
         
 
     }
