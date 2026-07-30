@@ -75,6 +75,13 @@ public class PlayerStats : NetworkBehaviour
         }
     }
 
+    public void DamageWrapperDebug()
+    {
+        DamageDetails ethan = new DamageDetails();
+        
+        TakeDamage(10, ethan);
+    }
+
     [Server]
     public void Heal(int amt, DamageDetails deets)
     {
