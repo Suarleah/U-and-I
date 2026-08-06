@@ -53,7 +53,7 @@ public class PatientShy : Patient
             float dist = Vector3.Distance(p.transform.position, transform.position);
             if (dist <= shyRange)
             {
-                patience.Value -= Time.deltaTime * 2; //lose tons of patience for each nearby player
+                patience.Value -= Time.deltaTime * patienceDecay; //lose tons of patience for each nearby player
             }
         }
         foreach(Patient p in PatientManager.Instance.GetAllSpawnedPatients())
@@ -65,7 +65,7 @@ public class PatientShy : Patient
             float dist = Vector3.Distance(p.transform.position, transform.position);
             if (dist <= shyRange)
             {
-                patience.Value -= Time.deltaTime * 2; //lose tons of patience for each nearby entity as well
+                patience.Value -= Time.deltaTime * patienceDecay; //lose tons of patience for each nearby entity as well
             }
         }
 
@@ -85,13 +85,45 @@ public class PatientShy : Patient
         }
     }
 
+    public override void FollowingUpdate()
+    {
+        foreach(PlayerMovement p in GameManager.Instance.GetPlayers())
+        {
+            float dist = Vector3.Distance(p.transform.position, transform.position);
+            if (dist <= shyRange)
+            {
+                patience.Value -= Time.deltaTime * patienceDecay/10; //lose tons of patience for each nearby player
+            }
+        }
+        foreach(Patient p in PatientManager.Instance.GetAllSpawnedPatients())
+        {
+            if (p == this) //obviously shouldnt count themself
+            {
+                continue;
+            }
+            float dist = Vector3.Distance(p.transform.position, transform.position);
+            if (dist <= shyRange)
+            {
+                patience.Value -= Time.deltaTime * patienceDecay/10; //lose tons of patience for each nearby entity as well
+            }
+        }
+
+        if (Vector3.Distance(followingPlayer.transform.position, transform.position) > 5)
+        {
+            agent.SetDestination(followingPlayer.transform.position);
+        } else
+        {
+            agent.ResetPath();
+        }
+    }
+
     public override void EscapedUpdate()
     {
         /*if (!IsServerStarted)
         {
             return;
         }*/
-        patience.Value += Time.deltaTime;
+        patience.Value += Time.deltaTime * maxPatience/escapeTime;
         if (patience.Value >= maxPatience)
         {
             StartCoroutine(Contain());
@@ -148,7 +180,7 @@ public class PatientShy : Patient
         {
            yield break;
         }
-   
+        followingPlayer = null;
         escaped = true;
         patience.Value = 0;
         wanderUp = true; 

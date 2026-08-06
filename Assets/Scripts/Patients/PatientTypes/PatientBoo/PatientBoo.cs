@@ -13,6 +13,7 @@ public class PatientBoo : Patient
     {
         
         base.Update();
+        agent.isStopped = false;
         //code that determines whether player has this patient in view
         foreach (PlayerMovement p in GameManager.Instance.GetPlayers())
         {
@@ -32,9 +33,8 @@ public class PatientBoo : Patient
                 if (hit.collider == null)
                 {
                     //patient boo freezes and patience doesnt decrease
-                    agent.speed = 0f;
-                    agent.angularSpeed = 0f;
-                     patience.Value += Time.deltaTime; //patience decreases in the superclass so this evens it out as long as a player is looking at patient boo
+                    agent.isStopped = true;
+                    patience.Value += Time.deltaTime*patienceDecay; //patience decreases in the superclass so this evens it out as long as a player is looking at patient boo
                 }
             }
         }
@@ -48,7 +48,7 @@ public class PatientBoo : Patient
         {
             return;
         }*/
-        patience.Value += Time.deltaTime;
+        patience.Value += Time.deltaTime * maxPatience/escapeTime;
         if (patience.Value >= maxPatience)
         {
             aggrotimer = aggroLength;

@@ -785,11 +785,13 @@ MonoBehaviour:
   escaped: 0
   maxPatience: 50
   localpatience: 0
+  patienceDecay: 1.5
   maxHealth: 100
   localhealth: 0
   damage: 50
   angularSpeed: 999
   speed: 5
+  followingSpeed: 7
   chaseSpeed: 8
   wanderCooldownMin: 5
   wanderCooldownMax: 10
@@ -798,6 +800,7 @@ MonoBehaviour:
   escapedWanderRange: 30
   escapedWanderCooldownMin: 20
   escapedWanderCooldownMax: 30
+  escapeTime: 60
   aggroedPlayer: {fileID: 0}
   sightfov: {fileID: 489929125369284726}
   radialfov: {fileID: 5527681074395406958}
@@ -806,6 +809,7 @@ MonoBehaviour:
   cheating: 0
   attackCD: 1
   attackTimer: 0
+  followingPlayer: {fileID: 0}
   shyRange: 30
   viewThreshold: 0.5
   maxViewDist: 15

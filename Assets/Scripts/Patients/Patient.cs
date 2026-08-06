@@ -25,6 +25,7 @@ public class Patient : NetworkBehaviour
     public float maxPatience; //most patients will use this to determine how close they are to escape
     public readonly SyncVar<float> patience = new SyncVar<float>();
     public float localpatience;
+    public float patienceDecay; //how fast patience lowers for this patient
 
     public int maxHealth; //for patients who can get damaged, usually dropping hp to zero will contain them
     public readonly SyncVar<int> health = new SyncVar<int>();
@@ -33,6 +34,7 @@ public class Patient : NetworkBehaviour
     public float damage;
     public float angularSpeed;
     public float speed;
+    public float followingSpeed;
     public float chaseSpeed;
 
 
@@ -46,6 +48,7 @@ public class Patient : NetworkBehaviour
     public float escapedWanderRange;
     public float escapedWanderCooldownMin; //how long in between wandering it waits,, it's a range so its a bit more random
     public float escapedWanderCooldownMax;
+    public float escapeTime; //how long they stay escaped for
 
     public GameObject aggroedPlayer; //if patient is escaped and aggroed, the player will be stored here
     public FieldOfView sightfov; // the patient sees furhter in the direction theyre facing
@@ -57,6 +60,9 @@ public class Patient : NetworkBehaviour
     public float attackTimer; //the patient will have to wait between attacks so they dont always just one shot.
 
     public Coroutine currentWander;
+
+    public GameObject followingPlayer; //the patient is current following this player
+   
 
     public override void OnStartServer()
     {
@@ -95,7 +101,14 @@ public class Patient : NetworkBehaviour
             agent.speed = chaseSpeed;
         } else
         {
-            agent.speed = speed;
+            if (followingPlayer)
+            {
+                agent.speed = followingSpeed;
+            } else
+            {
+                agent.speed = speed;
+            }
+            
         }
         agent.angularSpeed = angularSpeed;
         if (escaped)
@@ -103,6 +116,10 @@ public class Patient : NetworkBehaviour
             EscapedUpdate();
         } else
         {
+            if (followingPlayer)
+            {
+                FollowingUpdate();
+            }
             ContainedUpdate();
         }
 
@@ -118,11 +135,24 @@ public class Patient : NetworkBehaviour
         
     }
 
+    //method to be overwritten by subclass, what the patient does on update when they are following the player
+    public virtual void FollowingUpdate()
+    {
+        patience.Value -= patienceDecay*Time.deltaTime/10; //for now, their patience will decrease 5* slower while following
+        if (Vector3.Distance(followingPlayer.transform.position, transform.position) > 5)
+        {
+            agent.SetDestination(followingPlayer.transform.position);
+        } else
+        {
+            agent.ResetPath();
+        }
+    }
+
 
     //method to be overwritten by subclass, what the patient does on update when they are contained
     public virtual void ContainedUpdate()
     {
-        patience.Value -= Time.deltaTime;
+        patience.Value -= patienceDecay*Time.deltaTime;
         aggroedPlayer = null;
         if (patience.Value <= 0)
         {
@@ -172,7 +202,7 @@ public class Patient : NetworkBehaviour
         {
            yield break;
         }
-   
+        followingPlayer = null;
         escaped = true;
         patience.Value = 0;
         wanderUp = true; 

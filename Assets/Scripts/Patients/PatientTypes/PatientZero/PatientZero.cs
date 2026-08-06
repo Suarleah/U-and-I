@@ -13,7 +13,7 @@ public class PatientZero : Patient
         {
             return;
         }*/
-        patience.Value += Time.deltaTime;
+        patience.Value += Time.deltaTime * maxPatience/escapeTime;
         if (patience.Value >= maxPatience)
         {
             aggrotimer = aggroLength;

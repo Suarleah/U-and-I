@@ -11,15 +11,52 @@ public class PatientInteractable : Interactable
     public override void Interact()
     {
         interacting = true;
-        UIManager.Instance.currentInteraction = this;
-        UIManager.Instance.PatientInteractionCanvas.enabled = true;
+        //UIManager.Instance.currentInteraction = this;
+        if (self.followingPlayer == player)
+        {
+            GiveFeedback("Stopped Following!");
+            self.followingPlayer = null;
+            interacting = false;
+            Close();
+        } else
+        {
+            GiveFeedback("Started Following!");
+            self.followingPlayer = player;
+        }
+        
     }
 
+    public void Update() 
+    {
+        localOnCD = onCD.Value;
+        if (closest) 
+        {
+            //Debug.Log("OPEN INTERACTION CANVAS!!");
+            //UIManager.Instance.PatientInteractionCanvas.enabled = true;
+            c.gameObject.SetActive(true);
+            if (Vector2.Distance(transform.position, player.transform.position) > 5f)
+            {
+                closest = false;
+            }
+
+        } else
+        {
+            //UIManager.Instance.PatientInteractionCanvas.enabled = false;
+            c.gameObject.SetActive(false);
+        }
+
+        /*if (Vector3.Distance(player.transform.position, transform.position) > 10f)
+        {
+            Close();
+        }*/
+    } 
 
     public override void Close()
     {
-        closePatientInfo();
-        base.Close();
+        closest = false;
+        interacting = false;
+        self.followingPlayer = null;
+        //unfollow
         
     }
 
@@ -41,6 +78,7 @@ public class PatientInteractable : Interactable
     public virtual void PatientButtonExecute(PatientInteractionInfo info, GameObject p){
         if (onCD.Value)
         {
+            GiveFeedback("On Cooldown!");
             return;
         }
         GiveFeedback("Rolled a " + info.rollValue);

@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
 
     public Canvas PatientInteractionCanvas;
     public Canvas MinimapCanvas;
+    public PatientInteractable interactingPatient; //if its currently interactign with a patient, this is the one
 
 
 
@@ -42,7 +43,14 @@ public class UIManager : MonoBehaviour
     
     public void UIButtonPressed(PatientInteractionInfo info) //info is usually just the button name, 
     {
-        currentInteraction.UIButtonPressed(info);
+        if (currentInteraction)
+        {
+            currentInteraction.UIButtonPressed(info);
+        } else if (interactingPatient)
+        {   
+            interactingPatient.UIButtonPressed(info);
+        }
+        
     }
 
 
@@ -93,10 +101,12 @@ public class UIManager : MonoBehaviour
                 }
 
             }
+            
         }
 
         
-
+        PatientInteractionCanvas.enabled = false;
+        interactingPatient = null;
         if (curobj) //if an interactable is in range and the closest, and the player isnt already interacting with something else
         {
             /*if (currentInteraction)
@@ -107,6 +117,10 @@ public class UIManager : MonoBehaviour
                 curobj.GetComponent<Interactable>().closest = true;
             }*/
             curobj.GetComponent<Interactable>().closest = true;
+            if (curobj.GetComponent<PatientInteractable>()){
+                PatientInteractionCanvas.enabled = true;
+                interactingPatient = curobj.GetComponent<PatientInteractable>();
+            }
         } 
     }
 }
