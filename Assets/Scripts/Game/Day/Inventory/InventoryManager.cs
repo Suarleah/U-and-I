@@ -352,4 +352,17 @@ public class InventoryManager : NetworkBehaviour
 
         }
     }
+
+    [Server]
+    public bool Contains(int id)
+    {
+        for (int i = 0; i < invSize; i++)
+        {
+            if (items[i].id == id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
