@@ -104,9 +104,9 @@ public class UIManager : MonoBehaviour
             
         }
 
-        
         PatientInteractionCanvas.enabled = false;
         interactingPatient = null;
+        
         if (curobj) //if an interactable is in range and the closest, and the player isnt already interacting with something else
         {
             /*if (currentInteraction)
@@ -117,7 +117,7 @@ public class UIManager : MonoBehaviour
                 curobj.GetComponent<Interactable>().closest = true;
             }*/
             curobj.GetComponent<Interactable>().closest = true;
-            if (curobj.GetComponent<PatientInteractable>()){
+            if (curobj.GetComponent<PatientInteractable>() && Vector3.Distance(player.transform.position, curobj.transform.position) < 5f){
                 PatientInteractionCanvas.enabled = true;
                 interactingPatient = curobj.GetComponent<PatientInteractable>();
             }

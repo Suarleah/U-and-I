@@ -202,6 +202,10 @@ public class Patient : NetworkBehaviour
         {
            yield break;
         }
+        if (followingPlayer)
+        {
+            followingPlayer.GetComponent<PlayerMovement>().releaseFollower();
+        }
         followingPlayer = null;
         escaped = true;
         patience.Value = 0;

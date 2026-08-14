@@ -12,16 +12,23 @@ public class PatientInteractable : Interactable
     {
         interacting = true;
         //UIManager.Instance.currentInteraction = this;
-        if (self.followingPlayer == player)
+        if (self.followingPlayer == player) //if currently following, unfollow
         {
             GiveFeedback("Stopped Following!");
+            player.GetComponent<PlayerMovement>().followingPatient = null;
             self.followingPlayer = null;
             interacting = false;
             Close();
         } else
         {
             GiveFeedback("Started Following!");
+            if (player.GetComponent<PlayerMovement>().followingPatient) //only one follower a a time.
+            {
+                player.GetComponent<PlayerMovement>().releaseFollower();
+            }
+           
             self.followingPlayer = player;
+            
         }
         
     }
@@ -55,7 +62,12 @@ public class PatientInteractable : Interactable
     {
         closest = false;
         interacting = false;
-        self.followingPlayer = null;
+        if (self.followingPlayer)
+        {
+            self.followingPlayer.GetComponent<PlayerMovement>().releaseFollower();
+            self.followingPlayer = null;
+        }
+        
         //unfollow
         
     }

@@ -30,6 +30,8 @@ public class PlayerMovement : NetworkBehaviour
     public bool canMove; //added this since in some situations we might not want to allow player to move
     public bool canNotebook; // if they allowed to look at their notebook
 
+    public Patient followingPatient;
+
     public GameObject networkTrigger; //so players can access a collision trigger event on server, rn being used for enemy line of sight
 
     void Awake()
@@ -137,7 +139,17 @@ public class PlayerMovement : NetworkBehaviour
         //gameObject.GetComponentInChildren<BoxCollider2D>().gameObject.layer = LayerMask.NameToLayer("Ghost");
     }
 
-    
+    public void releaseFollower() //releases current following patient
+    {
+        if (followingPatient)
+        {
+            followingPatient.GetComponent<PatientInteractable>().GiveFeedback("Stopped Following!");
+            followingPatient.GetComponent<PatientInteractable>().interacting = false;
+        }
+        
+        followingPatient = null;
+        
+    }
 
     private void Animate()
     {

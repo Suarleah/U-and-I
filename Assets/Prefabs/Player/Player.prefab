@@ -852,11 +852,12 @@ MonoBehaviour:
   inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   visual: {fileID: 5660681057038499985}
   ghostVisual: {fileID: 4342947600327768424}
-  myNotebook: {fileID: 0}
+  myNotebook: {fileID: 5562597564052682921}
   cinemachineCamera: {fileID: 1349247756320619719}
   visionField: {fileID: 1375445627953458213}
   canMove: 1
   canNotebook: 0
+  followingPatient: {fileID: 0}
   networkTrigger: {fileID: 2255425819262258535}
 --- !u!114 &6428768581238622022
 MonoBehaviour:
