@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 [CreateAssetMenu(fileName = "ItemSO", menuName = "Scriptable Objects/ItemSO")]
 public class ItemSO : ScriptableObject
 {
-    int id;
+    public int id;
 
     public bool stackable;
     public int stackMax;
