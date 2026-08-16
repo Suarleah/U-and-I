@@ -9,7 +9,7 @@ public class NotebookManager : MonoBehaviour
     public GameObject homePage;
     private Transform child;
     private Canvas myCanvas;
-    void Start()
+    void Awake()
     {
         child = GetComponent<Transform>();
         myCanvas = GetComponent<Canvas>();
@@ -23,7 +23,10 @@ public class NotebookManager : MonoBehaviour
     public void CreatePage(PatientSO patient) // call when patient is added
     {
         NotebookPage n = Instantiate(page, child).GetComponent<NotebookPage>();
+        n.gameObject.SetActive(false);
+
         n.SetInfo(patient);
+        pages.Add(n.gameObject);
     }
 
     public void OpenBook()
@@ -44,17 +47,18 @@ public class NotebookManager : MonoBehaviour
 
     public void CloseHomePage()
     {
-        if (pages[0] != null)
+        if (pages.Count == 0)
         {
-            pages[0].SetActive(true);
+           return;
         }
 
+        pages[0].SetActive(true);
         homePage.SetActive(false);
     }
 
     public void FlipPageForward()
     { // 2 pages = 0, 1 on last page pageIndex = 2
-        if (pages.Count == pageIndex)
+        if (pageIndex + 1 >= pages.Count)
         {
             return;
         }

@@ -19,7 +19,7 @@ public class PlayerMovement : NetworkBehaviour
     public GameObject visual;
     public GameObject ghostVisual;
     private TextMeshProUGUI nameText;
-    public GameObject myNotebook;
+    public NotebookManager myNotebook;
     private Animator animator;
     [SerializeField] private CinemachineCamera cinemachineCamera;
 
@@ -28,11 +28,11 @@ public class PlayerMovement : NetworkBehaviour
     public GameObject visionField; //object that allows player to see through fog of war
 
     public bool canMove; //added this since in some situations we might not want to allow player to move
-    public bool canNotebook; // if they allowed to look at their notebook
 
     public Patient followingPatient;
 
     public GameObject networkTrigger; //so players can access a collision trigger event on server, rn being used for enemy line of sight
+    public static PlayerMovement LocalInstance;
 
     void Awake()
     {
@@ -42,13 +42,16 @@ public class PlayerMovement : NetworkBehaviour
         moveAction = inputAsset.FindAction("Move");
         noteAction = inputAsset.FindAction("Notebook"); // N
         cinemachineCamera = FindFirstObjectByType<CinemachineCamera>();
-
-        myNotebook.SetActive(false);
     }
 
     public override void OnStartClient()
     { // Called as cloient when join
         base.OnStartClient();
+
+        if (IsOwner)
+        {
+            LocalInstance = this;
+        }
 
         playerName.OnChange += OnNameChanged;
         SetNameServerRpc(AuthenticationService.Instance.PlayerName);
@@ -105,23 +108,21 @@ public class PlayerMovement : NetworkBehaviour
 
             // Rigid body synced automatically by the NetworkTransform component :D
         }
-
-        if (canNotebook)
+        
+        if (noteAction.WasPerformedThisFrame())
         {
-            if (noteAction.WasPerformedThisFrame())
-            {
-                OpenNotebook();
-            }
+            OpenNotebook();
         }
+    
     }
 
     private void OpenNotebook()
     {
-        myNotebook.SetActive(true);
+       myNotebook.OpenBook();
     }
     public void CloseNotebook()
     {
-        myNotebook.SetActive(false);
+       myNotebook.CloseBook();
     }
 
     private void ghostUpdate()

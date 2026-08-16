@@ -137,13 +137,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc439f3d22161bb42bf8f3af3183766c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Voter
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5952741089857973561}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5952741089857973561}
   textDesc: {fileID: 1024700644159527565}
+  infoText: {fileID: 0}
   voteHolder: {fileID: 8337310663665818194}
   me: {fileID: 0}
   patientManager: {fileID: 0}
+  voteManager: {fileID: 0}
+  votable: 0
 --- !u!114 &5952741089857973561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,22 +177,23 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 17
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 11519295200959106756
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
   <IsNested>k__BackingField: 0
   WasActiveDuringEdit: 0
   WasActiveDuringEdit_Set1: 1
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 3430922164423694350}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -200,7 +204,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: 0
+  _initializedTimestamp: -8584147227542197769
 --- !u!1 &1024700644159527565
 GameObject:
   m_ObjectHideFlags: 0

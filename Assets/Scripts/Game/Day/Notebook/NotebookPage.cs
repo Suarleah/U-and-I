@@ -38,4 +38,9 @@ public class NotebookPage : MonoBehaviour
     {
         notebookManager.FlipPageBackward();
     }
+
+    public void Exit()
+    {
+        notebookManager.CloseBook();
+    }
 }

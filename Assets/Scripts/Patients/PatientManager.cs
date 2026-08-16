@@ -20,7 +20,7 @@ public class PatientManager : NetworkBehaviour
 
     public List<Patient> localSpawnedPatients = new List<Patient>(); //just for testing purposes
 
-    
+
     private void Awake()
     {
         Instance = this;
@@ -31,7 +31,7 @@ public class PatientManager : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
+
         // This ensures the object is fully initialized on the network 
         // before you read from or write to SyncVars/SyncObjects
     }
@@ -42,27 +42,28 @@ public class PatientManager : NetworkBehaviour
         if (IsServerInitialized)
         {
             //so the first day isnt too boring, itll start off with 2 extra random patients
-            selectPatient(unusedPatients[Random.Range(0,unusedPatients.Count)]); 
+            selectPatient(unusedPatients[Random.Range(0, unusedPatients.Count)]);
             //selectPatient(unusedPatients[Random.Range(0,unusedPatients.Count)]);
         }
         spawnedPatients.OnChange += OnSpawnedPatientsChange;
         FishNet.InstanceFinder.NetworkManager.SceneManager.OnLoadEnd += OnLoadEnd;
-        
+
     }
 
     private void OnSpawnedPatientsChange(SyncListOperation op, int index, int oldItem, int newItem, bool asServer)
     {
-        
+
         for (int i = 0; i < spawnedPatients.Count; i++)
         {
             if (localSpawnedPatients.Count <= i)
             {
                 localSpawnedPatients.Add(GetPatientFromId(spawnedPatients[i]));
-            } else
+            }
+            else
             {
                 localSpawnedPatients[i] = GetPatientFromId(spawnedPatients[i]);
             }
-            
+
         }
     }
 
@@ -73,7 +74,7 @@ public class PatientManager : NetworkBehaviour
         {
             return;
         }
-        string targetSceneName = "entity test scene"; 
+        string targetSceneName = "entity test scene";
 
         foreach (UnityEngine.SceneManagement.Scene scene in args.LoadedScenes)
         {
@@ -86,16 +87,16 @@ public class PatientManager : NetworkBehaviour
                 SpawnAllPatients();
             }
         }
-        
+
     }
 
-    public List<PatientSO> getRandomUnusedPatients (int count) //gets x patients that the players dont currently have
+    public List<PatientSO> getRandomUnusedPatients(int count) //gets x patients that the players dont currently have
     {
         if (count >= unusedPatients.Count)
         {
             count = unusedPatients.Count; //hopefully will never happen, but if there arent enough unusedpatients left in the pool theyll just have less to choose from
         }
-        
+
         List<PatientSO> ret = new List<PatientSO>();
         if (count == 0)
         {
@@ -115,10 +116,24 @@ public class PatientManager : NetworkBehaviour
         return ret;
     }
 
+    [Server]
     public void selectPatient(PatientSO patient) //after a patient has been voted on, select that patient, remove it from unused patients, and add it to current patients
     {
         currentPatients.Add(patient);
         unusedPatients.Remove(patient);
+
+        int idx = allPatients.IndexOf(patient);
+        RpcAddNotebookPage(idx);
+    }
+
+    [ObserversRpc]
+    private void RpcAddNotebookPage(int patientIndex)
+    {
+        if (PlayerMovement.LocalInstance != null)
+        {
+            PlayerMovement.LocalInstance.myNotebook.CreatePage(allPatients[patientIndex]);
+        }
+        
     }
 
     public List<Patient> GetAllSpawnedPatients()
@@ -138,7 +153,7 @@ public class PatientManager : NetworkBehaviour
     [Server]
     public void SpawnAllPatients() //only call to reset
     {
-        spawnedPatients.Clear(); 
+        spawnedPatients.Clear();
         for (int i = 0; i < currentPatients.Count; i++)
         {
             SpawnPatient(i);
@@ -185,4 +200,6 @@ public class PatientManager : NetworkBehaviour
         }
         return null;
     }
+
+
 }

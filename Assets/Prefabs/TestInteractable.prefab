@@ -249,9 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe6c52ee1c324db3bba521819f39676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatientInteractable
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 2688575944743280862}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2688575944743280862}
   c: {fileID: 644844353463343277}
   closest: 0
   inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
@@ -275,9 +275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2287fdc323554001babcbab51ff8e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Patient
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2688575944743280862}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2688575944743280862}
   agent: {fileID: 4907829477048295666}
   interactable: {fileID: 8260457708823568642}
   room: 0
@@ -286,10 +286,13 @@ MonoBehaviour:
   escaped: 0
   maxPatience: 100
   localpatience: 0
+  patienceDecay: 0
   maxHealth: 100
   localhealth: 0
   damage: 50
+  angularSpeed: 0
   speed: 8
+  followingSpeed: 0
   chaseSpeed: 10
   wanderCooldownMin: 10
   wanderCooldownMax: 15
@@ -298,6 +301,7 @@ MonoBehaviour:
   escapedWanderRange: 100
   escapedWanderCooldownMin: 10
   escapedWanderCooldownMax: 15
+  escapeTime: 0
   aggroedPlayer: {fileID: 0}
   sightfov: {fileID: 0}
   radialfov: {fileID: 0}
@@ -306,6 +310,7 @@ MonoBehaviour:
   cheating: 0
   attackCD: 0
   attackTimer: 0
+  followingPlayer: {fileID: 0}
 --- !u!114 &2688575944743280862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +341,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 7
+  <PrefabId>k__BackingField: 14
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 10332861877130126337
   SceneId: 0
@@ -352,9 +357,10 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
+  - {fileID: 8260457708823568642}
+  - {fileID: 4232278299421936745}
   - {fileID: 8136152836363559960}
   - {fileID: 1857517800265202415}
-  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -365,7 +371,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584217421857001458
+  _initializedTimestamp: -8584147227542197769
 --- !u!114 &8136152836363559960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
-  _componentIndexCache: 0
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2688575944743280862}
   _networkObjectCache: {fileID: 2688575944743280862}
   _componentConfiguration: 0
@@ -424,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
-  _componentIndexCache: 1
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2688575944743280862}
   _networkObjectCache: {fileID: 2688575944743280862}
   IgnoredParameters: []

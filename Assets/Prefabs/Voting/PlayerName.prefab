@@ -308,7 +308,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 7
+  <PrefabId>k__BackingField: 21
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 13828480660209192028
   SceneId: 0
@@ -335,7 +335,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584212931145538408
+  _initializedTimestamp: -8584147227542197769
 --- !u!114 &8700376897569020820
 MonoBehaviour:
   m_ObjectHideFlags: 0
