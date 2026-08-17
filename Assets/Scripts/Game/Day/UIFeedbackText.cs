@@ -5,7 +5,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections;
 
-public class PatientFeedbackText : NetworkBehaviour
+public class UIFeedbackText : NetworkBehaviour
 {
     public readonly SyncVar<float> alpha = new SyncVar<float>();
 

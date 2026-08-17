@@ -1,6 +1,7 @@
 using UnityEngine;
 using FishNet;
 using FishNet.Object;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,8 +11,9 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public Canvas PatientInteractionCanvas;
+    public Canvas OperatingRoomCanvas;
     public Canvas MinimapCanvas;
-    public PatientInteractable interactingPatient; //if its currently interactign with a patient, this is the one
+    public Interactable bottomLeftCornerInteraction; // some interaction UIs (patient canvas, operatingroomswitcher canvas) use the bottom left space, and shouldnt overlap 
 
 
 
@@ -46,9 +48,21 @@ public class UIManager : MonoBehaviour
         if (currentInteraction)
         {
             currentInteraction.UIButtonPressed(info);
-        } else if (interactingPatient)
+        } else if (bottomLeftCornerInteraction)
         {   
-            interactingPatient.UIButtonPressed(info);
+            bottomLeftCornerInteraction.UIButtonPressed(info);
+        }
+        
+    }
+
+    public void UIButtonPressed(string info) //info is usually just the button name, 
+    {
+        if (currentInteraction)
+        {
+            currentInteraction.UIButtonPressed(info);
+        } else if (bottomLeftCornerInteraction)
+        {   
+            bottomLeftCornerInteraction.UIButtonPressed(info);
         }
         
     }
@@ -80,7 +94,7 @@ public class UIManager : MonoBehaviour
         {
             if (colliders[i].gameObject.GetComponent<Interactable>())
             {
-                if (!colliders[i].gameObject.GetComponent<Interactable>().enabled || colliders[i].gameObject.GetComponent<Interactable>().onCD.Value)
+                if (!colliders[i].gameObject.GetComponent<Interactable>().enabled) //|| colliders[i].gameObject.GetComponent<Interactable>().onCD.Value)
                 {
                     colliders[i].gameObject.GetComponent<Interactable>().closest = false;
                     continue;
@@ -105,7 +119,8 @@ public class UIManager : MonoBehaviour
         }
 
         PatientInteractionCanvas.enabled = false;
-        interactingPatient = null;
+        OperatingRoomCanvas.enabled = false;
+        bottomLeftCornerInteraction = null;
         
         if (curobj) //if an interactable is in range and the closest, and the player isnt already interacting with something else
         {
@@ -119,7 +134,12 @@ public class UIManager : MonoBehaviour
             curobj.GetComponent<Interactable>().closest = true;
             if (curobj.GetComponent<PatientInteractable>() && Vector3.Distance(player.transform.position, curobj.transform.position) < 5f){
                 PatientInteractionCanvas.enabled = true;
-                interactingPatient = curobj.GetComponent<PatientInteractable>();
+                bottomLeftCornerInteraction = curobj.GetComponent<PatientInteractable>();
+            }
+
+            if (curobj.GetComponent<OperatingRoomSwitcher>() && Vector3.Distance(player.transform.position, curobj.transform.position) < 5f){
+                OperatingRoomCanvas.enabled = true;
+                bottomLeftCornerInteraction = curobj.GetComponent<OperatingRoomSwitcher>();
             }
         } 
     }

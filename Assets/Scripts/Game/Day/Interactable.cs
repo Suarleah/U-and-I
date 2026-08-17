@@ -7,6 +7,8 @@ using System.Collections;
 using FishNet.Object.Synchronizing;
 using System.Globalization;
 using FishNet.Connection;
+using System;
+using TMPro;
 
 public class Interactable : NetworkBehaviour
 {
@@ -29,6 +31,8 @@ public class Interactable : NetworkBehaviour
     public float cooldown;
 
     public int floor; //the floor this interactable is currently on
+
+    public GameObject feedbackText;
 
     public virtual void Awake()
     {
@@ -129,6 +133,11 @@ public class Interactable : NetworkBehaviour
 
     }
 
+    public virtual void UIButtonPressed(string info) //when a UI button is pressed, this can be called. 
+    {
+
+    }
+
     
     [Server]
     public virtual IEnumerator goOnCooldown(float seconds)
@@ -152,6 +161,15 @@ public class Interactable : NetworkBehaviour
         {
             Close();
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void GiveFeedback(string feedback){
+        GameObject go = Instantiate(feedbackText);
+        go.transform.position = transform.position;
+        go.GetComponentInChildren<TextMeshProUGUI>().text = feedback;
+        base.ServerManager.Spawn(go);
+        go.GetComponentInChildren<UIFeedbackText>().Begin();
     }
     
 }
