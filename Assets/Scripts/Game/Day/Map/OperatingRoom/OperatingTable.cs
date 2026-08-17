@@ -34,8 +34,9 @@ public class OperatingTable : Interactable
             return;
         }
 
-        UIManager.Instance.currentInteraction = this;
 
+        UIManager.Instance.currentInteraction = this;
+        //start the minigame, pass in the current player and the current patient so that the effects of the minigame can actually affect them
         
 
         StartCoroutine(goOnCooldown(cooldown));
