@@ -10,14 +10,17 @@ public class NotebookPage : MonoBehaviour
      [SerializeField] private Transform infoHolder;
     [SerializeField] private GameObject infoText;
 
+    public PatientSO patientSO;
+
     private NotebookManager notebookManager;
     void Start()
     {
-        notebookManager = FindAnyObjectByType<NotebookManager>();
+        notebookManager = GetComponentInParent<NotebookManager>();
     }
 
     public void SetInfo(PatientSO patient)
     {
+        patientSO = patient;
         patientImage.sprite = patient.myPhoto;
         patientName.text = patient.namee;
         patientDesc.text = patient.desc;

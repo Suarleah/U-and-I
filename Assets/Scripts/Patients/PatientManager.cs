@@ -117,13 +117,15 @@ public class PatientManager : NetworkBehaviour
     }
 
     [Server]
-    public void selectPatient(PatientSO patient) //after a patient has been voted on, select that patient, remove it from unused patients, and add it to current patients
+    public void selectPatient(PatientSO patient)
     {
         currentPatients.Add(patient);
         unusedPatients.Remove(patient);
 
         int idx = allPatients.IndexOf(patient);
         RpcAddNotebookPage(idx);
+        RpcAddNotebookInfo(idx, patient.log1);
+        RpcAddNotebookInfo(idx, patient.log2);
     }
 
     [ObserversRpc]
@@ -133,7 +135,15 @@ public class PatientManager : NetworkBehaviour
         {
             PlayerMovement.LocalInstance.myNotebook.CreatePage(allPatients[patientIndex]);
         }
-        
+    }
+
+    [ObserversRpc]
+    private void RpcAddNotebookInfo(int patientIndex, string info)
+    {
+        if (PlayerMovement.LocalInstance != null)
+        {
+            PlayerMovement.LocalInstance.myNotebook.AddInfoToPatient(allPatients[patientIndex], info);
+        }
     }
 
     public List<Patient> GetAllSpawnedPatients()
@@ -175,6 +185,7 @@ public class PatientManager : NetworkBehaviour
         go.GetComponent<Patient>().spawn = MapManager.Instance.floors[index / MapManager.patientsperfloor].patientSpawns[index % MapManager.patientsperfloor];
         go.GetComponent<Patient>().roomBounds = MapManager.Instance.floors[index / MapManager.patientsperfloor].patientRooms[index % MapManager.patientsperfloor];
         go.GetComponent<Patient>().agent.Warp(go.GetComponent<Patient>().spawn.position);
+        go.GetComponent<Patient>().patientSO = currentPatients[index];
         Spawn(go);
         spawnedPatients.Add(go.GetComponent<NetworkObject>().ObjectId);
     }

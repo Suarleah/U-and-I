@@ -98,6 +98,7 @@ public class PatientInteractable : Interactable
         if (info.interactionName == "Observe")
         {
             InteractObserve(info.rollValue, p);
+           
         }
         if (info.interactionName == "Bribe")
         {

@@ -19,8 +19,8 @@ MonoBehaviour:
     me cards while I was out of school to cheer me up; one of my friends sent me
     a card of Luigi sucking up a ghost from Luigi's Mansion.
   myPhoto: {fileID: 21300000, guid: adb7f1e18e34a47479017ab457c6055b, type: 3}
-  log1: 
-  log2: 
-  log3: 
-  log4: 
-  log5: 
+  log1: test log 1
+  log2: test log 2
+  log3: test log 3
+  log4: test log 4
+  log5: test log 5

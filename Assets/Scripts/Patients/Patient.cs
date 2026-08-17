@@ -54,7 +54,7 @@ public class Patient : NetworkBehaviour
     public FieldOfView sightfov; // the patient sees furhter in the direction theyre facing
     public FieldOfView radialfov; // tha patient has a small radius around them that they will always be able to see players
     public float aggroLength;//the patient will stay aggroed until they reach the target's lest seen location. Then, they will have basically the equivalent of cheating, chasing down the player for this amount of time before deaggroing
-    public float aggrotimer; 
+    public float aggrotimer;
     public bool cheating;
     public float attackCD;
     public float attackTimer; //the patient will have to wait between attacks so they dont always just one shot.
@@ -62,7 +62,9 @@ public class Patient : NetworkBehaviour
     public Coroutine currentWander;
 
     public GameObject followingPlayer; //the patient is current following this player
-   
+
+    public PatientSO patientSO;
+
 
     public override void OnStartServer()
     {
@@ -70,6 +72,9 @@ public class Patient : NetworkBehaviour
         // Initialize the server variable
         patience.Value = maxPatience;
         health.Value = maxHealth;
+
+        AddNotebookInfo(patientSO.log1); // Testing
+        AddNotebookInfo(patientSO.log2); //Gnitset
     }
 
     public virtual void Awake()
@@ -78,14 +83,14 @@ public class Patient : NetworkBehaviour
         {
             agent.Warp(spawn.position);
         }
-        
+
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         if (agent.isOnNavMesh && IsServerStarted)
         {
             agent.SetDestination(transform.position);
         }
-        
+
     }
 
     public virtual void Update()
@@ -99,22 +104,25 @@ public class Patient : NetworkBehaviour
         if (aggroedPlayer)
         {
             agent.speed = chaseSpeed;
-        } else
+        }
+        else
         {
             if (followingPlayer)
             {
                 agent.speed = followingSpeed;
-            } else
+            }
+            else
             {
                 agent.speed = speed;
             }
-            
+
         }
         agent.angularSpeed = angularSpeed;
         if (escaped)
         {
             EscapedUpdate();
-        } else
+        }
+        else
         {
             if (followingPlayer)
             {
@@ -132,17 +140,18 @@ public class Patient : NetworkBehaviour
     //method to be overwritten by subclass, what the patient does on update when they are escaped
     public virtual void EscapedUpdate()
     {
-        
+
     }
 
     //method to be overwritten by subclass, what the patient does on update when they are following the player
     public virtual void FollowingUpdate()
     {
-        patience.Value -= patienceDecay*Time.deltaTime/10; //for now, their patience will decrease 5* slower while following
+        patience.Value -= patienceDecay * Time.deltaTime / 10; //for now, their patience will decrease 5* slower while following
         if (Vector3.Distance(followingPlayer.transform.position, transform.position) > 5)
         {
             agent.SetDestination(followingPlayer.transform.position);
-        } else
+        }
+        else
         {
             agent.ResetPath();
         }
@@ -152,7 +161,7 @@ public class Patient : NetworkBehaviour
     //method to be overwritten by subclass, what the patient does on update when they are contained
     public virtual void ContainedUpdate()
     {
-        patience.Value -= patienceDecay*Time.deltaTime;
+        patience.Value -= patienceDecay * Time.deltaTime;
         aggroedPlayer = null;
         if (patience.Value <= 0)
         {
@@ -160,18 +169,18 @@ public class Patient : NetworkBehaviour
         }
         else if (wanderUp)
         {
-            if (currentWander!= null)
+            if (currentWander != null)
             {
                 StopCoroutine(currentWander);
             }
             currentWander = StartCoroutine(roomWander());
         }
-        
+
     }
 
     public virtual IEnumerator Contain() //recontain a patient  on server
     {
-        
+
 
         if (!IsServerStarted)
         {
@@ -183,10 +192,10 @@ public class Patient : NetworkBehaviour
         attackTimer = attackCD;
         aggrotimer = aggroLength;
         wanderUp = true;
-        
+
         ContainAllClients();
-  
-        
+
+
     }
 
     [ObserversRpc]
@@ -197,10 +206,10 @@ public class Patient : NetworkBehaviour
 
     public virtual IEnumerator Escape()//patient escapes;
     {
-        
+
         if (!IsServerStarted)
         {
-           yield break;
+            yield break;
         }
         if (followingPlayer)
         {
@@ -209,7 +218,7 @@ public class Patient : NetworkBehaviour
         followingPlayer = null;
         escaped = true;
         patience.Value = 0;
-        wanderUp = true; 
+        wanderUp = true;
 
 
         cheating = false;
@@ -217,7 +226,7 @@ public class Patient : NetworkBehaviour
         aggrotimer = aggroLength;
         //find the closest player on the whole map and chase them for a little (to give the escape a slightly explosive start ya know)
         PlayerMovement closestPlayer = null;
-        List<PlayerMovement> players = GameManager.Instance.GetPlayers().ToList<PlayerMovement>(); 
+        List<PlayerMovement> players = GameManager.Instance.GetPlayers().ToList<PlayerMovement>();
         for (int i = 0; i < players.Count; i++)
         {
             if (!closestPlayer)
@@ -226,7 +235,8 @@ public class Patient : NetworkBehaviour
                 {
                     closestPlayer = players[i];
                 }
-            } else
+            }
+            else
             {
                 if (Vector3.Distance(closestPlayer.transform.position, transform.position) > Vector3.Distance(players[i].transform.position, transform.position))
                 {
@@ -238,9 +248,9 @@ public class Patient : NetworkBehaviour
         agent.SetDestination(closestPlayer.transform.position);
 
 
-        
+
         EscapeAllClients();
-        
+
     }
 
     [ObserversRpc]
@@ -256,10 +266,17 @@ public class Patient : NetworkBehaviour
     [Server]
     public virtual void changePatience(float amt)
     {
-        patience.Value+=amt;
+        patience.Value += amt;
     }
-    
- 
+
+    [ObserversRpc]
+    public void AddNotebookInfo(string info)
+    {
+        if (PlayerMovement.LocalInstance != null)
+        {
+            PlayerMovement.LocalInstance.myNotebook.AddInfoToPatient(patientSO, info);
+        }
+    }
 
     public virtual IEnumerator roomWander() //just ambient movement for the patient to do while contained
     {
@@ -271,14 +288,14 @@ public class Patient : NetworkBehaviour
 
         agent.SetDestination(new Vector3(randX, randY, transform.position.z));
 
-        
+
         yield return new WaitForSeconds(Random.Range(wanderCooldownMin, wanderCooldownMax));
         wanderUp = true;
     }
 
     public virtual IEnumerator escapedWander() //just ambient movement for the patient to do while contained
     {
-        
+
         Vector3 randomPoint = transform.position + Random.insideUnitSphere * escapedWanderRange;
         NavMeshHit hit;
 
@@ -305,7 +322,8 @@ public class Patient : NetworkBehaviour
         }
     }
 
-    public virtual Transform FindClosestPlayer(){
+    public virtual Transform FindClosestPlayer()
+    {
         Transform closestPlayer = null;
         radialfov.FindVisibleTargets();
         if (radialfov.visibleTargets.Count > 0)
@@ -326,13 +344,13 @@ public class Patient : NetworkBehaviour
             {
                 closestPlayer = sightfov.visibleTargets[0];
             }
-            
+
             for (int i = 0; i < sightfov.visibleTargets.Count; i++)
             {
                 if (Vector3.Distance(sightfov.visibleTargets[i].position, transform.position) < Vector3.Distance(closestPlayer.position, transform.position))
                 {
                     closestPlayer = sightfov.visibleTargets[i];
-                    
+
                 }
             }
         }
@@ -343,7 +361,7 @@ public class Patient : NetworkBehaviour
                 closestPlayer = closestPlayer.transform.parent;
             }
         }
-        
+
         return closestPlayer;
     }
 

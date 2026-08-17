@@ -18,8 +18,8 @@ MonoBehaviour:
   desc: MY NAME IS PATIENT TWO, I WAS BORN WITH A SUPER GIANT MOUTH AND NOW ALL I
     CAN DO IS YELL!
   myPhoto: {fileID: 21300000, guid: 0218602d9c3ad3a47a0a0c0c147579ce, type: 3}
-  log1: 
-  log2: 
-  log3: 
-  log4: 
-  log5: 
+  log1: test log 1
+  log2: test log 2
+  log3: test log 3
+  log4: test log 4
+  log5: test log 5

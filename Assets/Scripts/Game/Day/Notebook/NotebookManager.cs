@@ -17,7 +17,7 @@ public class NotebookManager : MonoBehaviour
         pageIndex = 0;
 
         CloseBook();
-        
+
     }
 
     public void CreatePage(PatientSO patient) // call when patient is added
@@ -27,6 +27,19 @@ public class NotebookManager : MonoBehaviour
 
         n.SetInfo(patient);
         pages.Add(n.gameObject);
+    }
+
+    public void AddInfoToPatient(PatientSO patient, string info)
+    {
+        foreach (GameObject go in pages)
+        {
+            NotebookPage np = go.GetComponent<NotebookPage>();
+            if (np != null && np.patientSO == patient)
+            {
+                np.AddInfo(info);
+                return;
+            }
+        }
     }
 
     public void OpenBook()
@@ -49,7 +62,7 @@ public class NotebookManager : MonoBehaviour
     {
         if (pages.Count == 0)
         {
-           return;
+            return;
         }
 
         pages[0].SetActive(true);
@@ -72,8 +85,8 @@ public class NotebookManager : MonoBehaviour
 
         pages[pageIndex].SetActive(true); // next page
         pages[pageIndex - 1].SetActive(false); // prior page
-        
-        
+
+
     }
     public void FlipPageBackward()
     { // 2 pages = 0, 1 on last page pageIndex = 2
@@ -91,8 +104,8 @@ public class NotebookManager : MonoBehaviour
 
         pages[pageIndex].SetActive(true); // next page
         pages[pageIndex + 1].SetActive(false); // prior page
-        
-        
+
+
     }
 
 }
