@@ -106,13 +106,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7774081086563399486}
   - {fileID: 7124068074357686195}
   - {fileID: 8985491925968478675}
   - {fileID: 3813975635958645783}
   - {fileID: 9138098812462459366}
   - {fileID: 3638901250156569103}
   - {fileID: 2190269630530082464}
+  - {fileID: 7774081086563399486}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -858,7 +858,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 565799403373961434, guid: b91a80942351f8c44bb0543f31cb5ad9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c9c879fe9eff89c49835294edb9a96c6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -881,7 +881,7 @@ GameObject:
   - component: {fileID: 4541386433988949631}
   - component: {fileID: 8305484446074210175}
   m_Layer: 3
-  m_Name: exit
+  m_Name: Home
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -894,14 +894,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7029233220995026015}
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 580930319412817293}
   m_Father: {fileID: 4117476192889593616}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 877, y: 432}
@@ -991,7 +991,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4602482590279474690}
         m_TargetAssemblyTypeName: NotebookPage, Assembly-CSharp
-        m_MethodName: Exit
+        m_MethodName: Home
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NotebookManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class NotebookManager : MonoBehaviour
     public List<GameObject> pages = new List<GameObject>();
     public int pageIndex;
     public GameObject homePage;
+    public Transform buttonHolder;
+    public GameObject patientButton;
     private Transform child;
     private Canvas myCanvas;
     void Awake()
@@ -27,6 +30,22 @@ public class NotebookManager : MonoBehaviour
 
         n.SetInfo(patient);
         pages.Add(n.gameObject);
+
+        int thisIndex = pages.Count - 1;
+
+        GameObject buttonGO = Instantiate(patientButton, buttonHolder);
+
+        Image icon = buttonGO.GetComponent<NotebookButton>().patientPhoto;
+        
+        if (icon != null)
+        {
+            icon.sprite = patient.myPhoto;
+        }
+
+        Button btn = buttonGO.GetComponent<Button>();
+
+        btn.onClick.AddListener(() => OpenSpecificPage(thisIndex));
+        //when button click, open specific page
     }
 
     public void AddInfoToPatient(PatientSO patient, string info)
@@ -67,6 +86,35 @@ public class NotebookManager : MonoBehaviour
 
         pages[0].SetActive(true);
         homePage.SetActive(false);
+    }
+
+    public void OpenHomePage()
+    {
+        homePage.SetActive(true);
+
+        foreach (GameObject p in pages)
+        {
+            p.SetActive(false);
+        }
+
+    }
+
+    public void OpenSpecificPage(int index)
+    {
+        if (index < 0 || index >= pages.Count) 
+        {
+            return;
+        }
+
+        homePage.SetActive(false);
+        
+        foreach (GameObject p in pages)
+        {
+            p.SetActive(false);
+        }
+
+        pages[index].SetActive(true);
+        pageIndex = index;
     }
 
     public void FlipPageForward()

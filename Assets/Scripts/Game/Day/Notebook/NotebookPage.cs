@@ -42,8 +42,8 @@ public class NotebookPage : MonoBehaviour
         notebookManager.FlipPageBackward();
     }
 
-    public void Exit()
+    public void Home()
     {
-        notebookManager.CloseBook();
+        notebookManager.OpenHomePage();
     }
 }

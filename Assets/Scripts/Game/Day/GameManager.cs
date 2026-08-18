@@ -19,7 +19,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI quotaText;
     public static GameManager Instance;
     private PatientManager patientManager;
-    
+
     public string winScene; private SceneLoadData win;
     public string loseScene; private SceneLoadData lose;
 
@@ -28,6 +28,8 @@ public class GameManager : NetworkBehaviour
     public readonly SyncVar<float> daytime = new SyncVar<float>(); //the amount of time left in the day
 
     public readonly SyncVar<int> quota = new SyncVar<int>(); //the day #
+
+
 
     [SerializeField] private List<int> quotas; //list of quotas in order that players need to pass
     void Awake()
@@ -48,10 +50,22 @@ public class GameManager : NetworkBehaviour
         dayText.text = "Day: " + day.Value;
         quotaText.text = "Quota: " + quota.Value;
         FishNet.InstanceFinder.SceneManager.OnLoadEnd += OnSceneLoadEnd;
+
+        Canvas canvas = GetComponentInChildren<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        canvas.worldCamera = Camera.main;
+
     }
 
     private void OnSceneLoadEnd(SceneLoadEndEventArgs args)
     {
+
+        Canvas canvas = GetComponentInChildren<Canvas>();
+        if (canvas.worldCamera == null && Camera.main != null)
+        {
+            canvas.worldCamera = Camera.main;
+        }
+        
         if (args.QueueData.AsServer)
         {
             foreach (UnityEngine.SceneManagement.Scene scene in args.LoadedScenes) //for some reason the default is the vector one which doesnt work, thats why i used the full name
@@ -61,8 +75,9 @@ public class GameManager : NetworkBehaviour
                     day.Value++;
                     if (quotas.Count > day.Value)
                     {
-                        quota.Value = quotas[(day.Value-1)/3]; 
-                    } else //if not a set value, just increase exponentially
+                        quota.Value = quotas[(day.Value - 1) / 3];
+                    }
+                    else //if not a set value, just increase exponentially
                     {
                         quota.Value = (int)(quota.Value * 1.5f);
                     }
@@ -74,8 +89,9 @@ public class GameManager : NetworkBehaviour
                     day.Value++;
                     if (quotas.Count > day.Value)
                     {
-                        quota.Value = quotas[(day.Value-1)/3]; 
-                    } else //if not a set value, just increase exponentially
+                        quota.Value = quotas[(day.Value - 1) / 3];
+                    }
+                    else //if not a set value, just increase exponentially
                     {
                         quota.Value = (int)(quota.Value * 1.5f);
                     }
@@ -92,7 +108,7 @@ public class GameManager : NetworkBehaviour
                     break;
                 }
 
-                
+
             }
 
             foreach (PlayerMovement p in GetPlayers())
@@ -112,7 +128,7 @@ public class GameManager : NetworkBehaviour
     {
         creditsText.text = "Credits: " + next;
     }
-    
+
     private void OnChangeQuota(int prev, int next, bool asServer)
     {
         quotaText.text = "Quota: " + next;
@@ -136,22 +152,22 @@ public class GameManager : NetworkBehaviour
         NetworkManager.SceneManager.LoadGlobalScenes(lose);
     }
 
-/*    public void ReloadScene()
-    {
-        patientManager.SpawnAllPatients();
-        foreach (PlayerMovement p in GetPlayers())
+    /*    public void ReloadScene()
         {
-            PlayerStats s = p.GetComponent<PlayerStats>();
-            s.isDead.Value = false;
+            patientManager.SpawnAllPatients();
+            foreach (PlayerMovement p in GetPlayers())
+            {
+                PlayerStats s = p.GetComponent<PlayerStats>();
+                s.isDead.Value = false;
+            }
+            NetworkManager.SceneManager.LoadGlobalScenes(me);
         }
-        NetworkManager.SceneManager.LoadGlobalScenes(me);
-    }
-*/
+    */
 
     [ServerRpc(RequireOwnership = false)]
     public void PlayerClockedOut(GameObject player) //players call this whenever they try to clock out, if all players have clocked out, the day ends
     {
-        
+
         for (int i = 0; i < players.Count; i++)
         {
             if (!GetPlayers()[i].stats.isClockedOut.Value)
@@ -169,21 +185,23 @@ public class GameManager : NetworkBehaviour
         {
             p.stats.ResetPlayer();
         }
-        if (day.Value%3 == 0) //if its a quota day
+        if (day.Value % 3 == 0) //if its a quota day
         {
             if (credits.Value <= quota.Value) //check if quota was reached
             {
                 NetworkManager.SceneManager.LoadGlobalScenes(lose);
-            } else
+            }
+            else
             {
                 NetworkManager.SceneManager.LoadGlobalScenes(win);
             }
-        } else
+        }
+        else
         {
             NetworkManager.SceneManager.LoadGlobalScenes(win);
         }
-        
-        
+
+
     }
 
     public List<PlayerMovement> GetPlayers()
@@ -223,7 +241,7 @@ public class GameManager : NetworkBehaviour
         {
             daytime.Value -= Time.deltaTime;
         }
-        
+
     }
 
 }
