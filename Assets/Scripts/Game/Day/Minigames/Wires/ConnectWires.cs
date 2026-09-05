@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,6 +11,7 @@ public class ConnectWires : MinigameBase
     public Camera cam;
     public Vector3 mousePos;
     public bool isDragging = false;
+    public Wire wireHovering;
 
     [Header("Cursor UI")]
     public RectTransform cursorUI; private Animator handAnim;
@@ -55,8 +57,6 @@ public class ConnectWires : MinigameBase
         {
             return;
         }
-
-
     }
     public void OnDragWire()
     {
@@ -65,6 +65,11 @@ public class ConnectWires : MinigameBase
     public void OnEndDragWire()
     {
         isDragging = false;
+
+        if (wireHovering != null)
+        {
+            if (wireHovering.isStart);
+        }
     }
 
     public void OnGameResult(int result)
