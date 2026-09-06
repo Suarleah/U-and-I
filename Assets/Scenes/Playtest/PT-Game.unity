@@ -26059,7 +26059,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 2093653007}
   _networkObjectCache: {fileID: 0}
-  testItem: {fileID: 6352760854533797816, guid: 63208c68105204505bbff1ef6b8b6ddb, type: 3}
+  testItem: {fileID: 6352760854533797816, guid: aed61e70ff30d4fe4a55479f0e18baea, type: 3}
 --- !u!4 &2093653009
 Transform:
   m_ObjectHideFlags: 0
