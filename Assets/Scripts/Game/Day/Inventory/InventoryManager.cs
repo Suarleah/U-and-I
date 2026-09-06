@@ -25,17 +25,19 @@ public class InventoryManager : NetworkBehaviour
     InputAction selectSlotFour;
 
     public int invSize;
-    public readonly SyncList<ItemSO> items = new SyncList<ItemSO>();
+    public readonly SyncList<ItemInstance> items = new SyncList<ItemInstance>();
+    public List<ItemInstance> localItems = new List<ItemInstance>();
 
-    public List<ItemSO> localItems = new List<ItemSO>();
+    public ItemInstance selectedItem;
     public int selectedSlot; //player currently held Item
-    public ItemSO selectedItem; //player currently held Item
 
     [Header("Visual")]
 
     public Canvas inventoryVisual;
     public Image[] itemIcons;
     public Image[] selectIcons;
+
+
 
     public void Awake()
     {
@@ -77,7 +79,7 @@ public class InventoryManager : NetworkBehaviour
         }
     }
 
-    private void OnInventoryChange(SyncListOperation op, int index, ItemSO oldItem, ItemSO newItem, bool asServer)
+    private void OnInventoryChange(SyncListOperation op, int index, ItemInstance oldItem, ItemInstance newItem, bool asServer)
     {
         /*switch (op)
         {
@@ -118,29 +120,152 @@ public class InventoryManager : NetworkBehaviour
         selectedItem = items[selectedSlot];
     }
 
-    public void DropItem(InputAction.CallbackContext c)
-    {
-        TryDropItem(selectedSlot, selectedItem); // so technically selected item does like nothing but i have it just in case
-    }
-
     public void LeftClick(InputAction.CallbackContext c)
     {
-        //first check if its hovered over an inventory slot, if so, select that inventory slot
-
-        //use it from the player
-        if (selectedSlot >= items.Count || !items[selectedSlot])
-        {
-            return;
-        }
-
-        UseOnServer(items[selectedSlot], new UseInfo(FishNet.InstanceFinder.ClientManager.Connection.FirstObject, this, selectedSlot));
+        if (selectedSlot >= items.Count || items[selectedSlot] == null) return;
+        UseOnServer(selectedSlot, new UseInfo(FishNet.InstanceFinder.ClientManager.Connection.FirstObject, this, selectedSlot));
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void UseOnServer(ItemSO item, UseInfo info)
+    public void UseOnServer(int slot, UseInfo info) => UseItem(slot, info);
+
+    [Server]
+    private void UseItem(int slot, UseInfo info)
     {
-        //Debug.Log("TryUse");
-        item.TryUse(info);
+        if (slot < 0 || slot >= items.Count) return;
+
+        ItemInstance instance = items[slot];
+        if (instance == null || instance.OnCooldown) return;
+
+        instance.definition.Use(info, instance);
+
+        if (instance.definition.cooldown > 0f)
+            instance.StartCooldown(instance.definition.cooldown);
+
+        if (!instance.definition.reusable)
+            RemoveItem(slot);
+    }
+
+    [Server]
+    public bool TryPreventDeath(UseInfo info)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] == null) continue;
+            UseInfo slotInfo = new UseInfo(info.user, this, i);
+            if (items[i].definition.TryPreventDeath(slotInfo, items[i])) // if youre carrying. seat belt, prevent your death
+            {
+                if (!items[i].definition.reusable) RemoveItem(i);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    [Server]
+    public void AddItem(int index, ItemInstance item)
+    {
+        items[index] = item;
+        items.Dirty(index);
+    }
+
+    [Server]
+    public void AddItemToStack(int index, ItemInstance item)
+    {
+        items[index].count++;
+        items.Dirty(index);
+    }
+
+    [Server]
+    public void RemoveItem(int index) // dropped the redundant `item` param — items[index] is the source of truth
+    {
+        ItemInstance slot = items[index];
+        if (slot == null) return;
+
+        if (slot.definition.stackable && slot.count > 1)
+        {
+            slot.count--;
+            items.Dirty(index);
+        }
+        else
+        {
+            items[index] = null;
+            items.Dirty(index);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void TryPickUpItem(ItemSO item, NetworkObject caller)
+    {
+        if (!caller || !caller.IsSpawned) return;
+
+        if (item.stackable)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i] != null && items[i].definition == item && items[i].count < item.stackMax)
+                {
+                    AddItemToStack(i, items[i]);
+                    Despawn(caller);
+                    return;
+                }
+            }
+        }
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] == null)
+            {
+                AddItem(i, new ItemInstance(item));
+                Despawn(caller);
+                return;
+            }
+        }
+        // inventory full
+    }
+
+    public void DropItem(InputAction.CallbackContext c) => TryDropItem(selectedSlot);
+
+    [ServerRpc(RequireOwnership = false)]
+    public void TryDropItem(int index)
+    {
+        ItemInstance slot = items[index];
+        if (slot == null || slot.definition.cursed) return;
+
+        SpawnItemInteractable(slot);
+        RemoveItem(index);
+    }
+
+    [Server]
+    public void SpawnItemInteractable(ItemInstance item)
+    {
+        GameObject itemInstance = Instantiate(item.definition.itemInteractablePrefab);
+        itemInstance.transform.position = gameObject.GetComponentInParent<PlayerMovement>().transform.position;
+        base.ServerManager.Spawn(itemInstance);
+    }
+
+    [Server]
+    public void DropAll()
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] == null) continue;
+            int stackCount = items[i].definition.stackable ? items[i].count : 1; // bonus fix: cache before it shrinks
+            for (int j = 0; j < stackCount; j++)
+                TryDropItem(i);
+        }
+    }
+
+    [Server]
+    public bool Contains(int id)
+    {
+        for (int i = 0; i < invSize; i++)
+        {
+            if (items[i] != null && items[i].definition.id == id) // bonus fix: original NRE'd on empty slots
+                return true;
+        }
+        return false;
     }
 
     public void ScrollWheel(InputAction.CallbackContext c)
@@ -207,162 +332,5 @@ public class InventoryManager : NetworkBehaviour
         {
             selectIcons[slot].enabled = true;
         }
-    }
-
-
-    [ServerRpc(RequireOwnership = false)]
-    public void TryPickUpItem(ItemSO item, NetworkObject caller) //if this runs, the object will be destroyed, so it cant be called anymore from server (this is the validity check)
-    {
-
-        if (!caller)//check if the object which called this method exists + is spawned on server
-        {
-            return;
-        }
-        else
-        {
-            if (!caller.IsSpawned)
-            {
-                return;
-            }
-        }
-
-        //check for stackable items, if theres a stack they can stack onto
-        if (item.stackable)
-        {
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (items[i])
-                {
-                    if (items[i].itemInteractablePrefab == item.itemInteractablePrefab && items[i].count < items[i].stackMax)
-                    {
-                        AddItemToStack(i, item);
-                        Despawn(caller);
-                        return;
-                    }
-                }
-
-            }
-        }
-        //otherwise, check for first open spot
-        for (int i = 0; i < items.Count; i++)
-        {
-            if (!items[i])
-            {
-                AddItem(i, item);
-                Despawn(caller);
-                return;
-            }
-        }
-        //inventory full
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void TryDropItem(int index, ItemSO item)
-    {
-        if (items[index])
-        {
-            if (items[index].cursed) //cursed items cant be dropped normally
-            {
-                return;
-            }
-
-            SpawnItemInteractable(items[index]); //first spawn item from inventory, then remove it from inventory
-            RemoveItem(index, item);
-        }
-    }
-
-
-    [Server]
-    public void AddItem(int index, ItemSO item) //add item to empty inventory slot
-    {
-        items[index] = item;
-        items.Dirty(index);
-    }
-
-    [Server]
-    public void AddItemToStack(int index, ItemSO item) //adds to a stack
-    {
-        items[index].count++;
-        items.Dirty(index);
-
-        // itemIcon[index].sprite = picture of item....?
-    }
-
-    [Server]
-    public void RemoveItem(int index, ItemSO item) //removes the item, or one stack of the item
-    {
-        if (!items[index])
-        {
-            return;
-        }
-        if (items[index].stackable)
-        {
-            if (items[index].count <= 1)
-            {
-                items[index] = null;
-                items.Dirty(index);
-            }
-            else
-            {
-                items[index].count--;
-                items.Dirty(index);
-            }
-        }
-        else
-        {
-            items[index] = null;
-            items.Dirty(index);
-        }
-
-    }
-
-    [Server]
-    public void SpawnItemInteractable(ItemSO item) //removes the item, or one stack of the item
-    {
-        if (!item)
-        {
-            return;
-        }
-        GameObject itemInstance = Instantiate(item.itemInteractablePrefab);
-        itemInstance.transform.position = gameObject.GetComponentInParent<PlayerMovement>().transform.position;//spawns it directly on the player, since inventory manager is attached to the player
-
-        base.ServerManager.Spawn(itemInstance);
-    }
-
-    [Server]
-    public void DropAll()
-    {
-        for (int i = 0; i < items.Count; i++)
-        {
-            if (!items[i])
-            {
-                continue;
-            }
-            if (items[i].stackable)
-            {
-                for (int j = 0; j < items[i].count; j++)
-                {
-                    TryDropItem(i, items[i]);
-                }
-            }
-            else
-            {
-                TryDropItem(i, items[i]);
-            }
-
-        }
-    }
-
-    [Server]
-    public bool Contains(int id)
-    {
-        for (int i = 0; i < invSize; i++)
-        {
-            if (items[i].id == id)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
