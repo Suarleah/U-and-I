@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 2436530215870910541}
   - component: {fileID: 7273354964446269551}
   m_Layer: 8
-  m_Name: Bandage
+  m_Name: Adrenaline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -266,7 +266,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 858380008ba3e9b4c8e1d43997f42864, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b14baa4003122364d9056d7704690775, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   cooldown: 0
   floor: 0
   feedbackText: {fileID: 0}
-  itemSO: {fileID: 11400000, guid: 8125f51e0957f4961b9a1991c9270a7a, type: 2}
+  itemSO: {fileID: 11400000, guid: d1845cb9a098447d795d3940bcc7e3a3, type: 2}
 --- !u!114 &5962623977467366103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +334,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 20
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 3310064652828371983
+  <AssetPathHash>k__BackingField: 6251253815541769670
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: -2.36137, y: -0.39731, z: 0}

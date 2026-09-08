@@ -1,10 +1,11 @@
 using UnityEngine;
 using FishNet.Object;
+using System.Linq;
 
 
 public class ItemManager : NetworkBehaviour
 {
-    public GameObject testItem;
+    public GameObject[] testItems;
 
     public static ItemManager Instance;
 
@@ -12,9 +13,9 @@ public class ItemManager : NetworkBehaviour
     {
         base.OnStartServer();
         Instance = this;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < testItems.Length; i++)
         {
-            GameObject go = Instantiate(testItem);
+            GameObject go = Instantiate(testItems[i]);
             go.transform.position = new Vector3();
             Spawn(go);
         }

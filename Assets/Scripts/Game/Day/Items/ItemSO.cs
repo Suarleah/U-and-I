@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 
 //fix this later, but the server code cant be called on a scriptable object since it doesnt extend a network object
@@ -21,7 +22,7 @@ public abstract class ItemSO : ScriptableObject
     public bool cursed;
 
     public GameObject itemInteractablePrefab;
-    public GameObject inventoryVisual; //theres a better /more concise way to do this but since no assets in imma just do this
+    public Sprite inventoryVisual; //theres a better /more concise way to do this but since no assets in imma just do this
 
     // Override if the item does something when clicked.
     [Server]

@@ -115,6 +115,15 @@ public class InventoryManager : NetworkBehaviour
             {
                 localItems[i] = items[i];
             }
+            if (items[i] != null)
+            {
+                itemIcons[i].sprite = items[i].definition.inventoryVisual;
+                itemIcons[i].enabled = true;
+            } else
+            {
+                itemIcons[i].sprite = null;
+                itemIcons[i].enabled = false;
+            }
 
         }
         selectedItem = items[selectedSlot];
