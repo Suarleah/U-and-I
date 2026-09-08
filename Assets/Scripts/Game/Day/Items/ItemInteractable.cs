@@ -11,9 +11,5 @@ public class ItemInteractable : Interactable
         InventoryManager inv = player.GetComponentInChildren<InventoryManager>();
         inv.TryPickUpItem(itemSO, base.NetworkObject); 
     }
-
-    
-
-
     
 }
