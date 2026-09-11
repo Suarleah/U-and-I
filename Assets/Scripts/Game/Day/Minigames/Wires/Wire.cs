@@ -5,9 +5,24 @@ public class Wire : MonoBehaviour
     public ConnectWires connectWires;
     public int index;
     public bool isStart = true;
-    void Start()
+    private LineRenderer lineRenderer;
+    void Awake()
     {
-        
+        lineRenderer = GetComponent<LineRenderer>();
+    }
+
+    void Update()
+    {
+        DrawLine();
+    }
+
+    void DrawLine()
+    {
+        if (!isStart)
+        {
+            return;
+        }
+        lineRenderer.SetPosition(1, connectWires.mousePos);
     }
 
     public void OnCursorEnter()
