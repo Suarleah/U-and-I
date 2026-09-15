@@ -6,7 +6,6 @@ public class ShopZone : MonoBehaviour
 {
 
     public ItemSO item;
-    public int cost = 5;
     public Image fillBox;
     public bool endZone;
 

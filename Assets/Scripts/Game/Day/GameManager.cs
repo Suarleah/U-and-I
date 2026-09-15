@@ -231,6 +231,15 @@ public class GameManager : NetworkBehaviour
         credits.Value -= amt;
     }
 
+    [Server]
+    public bool TrySpendCredits(float amount)
+    {
+        if (amount <= 0f) return true;
+        if (credits.Value < amount) return false;
+        credits.Value -= amount;
+        return true;
+    }
+
     void Update()
     {
         if (!IsServerStarted)

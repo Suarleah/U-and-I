@@ -52,7 +52,11 @@ public class CleaningSection : NetworkBehaviour
         {
             return;
         }
-        GameManager.Instance.SubtractCredits(50);
+        if (!GameManager.Instance.TrySpendCredits(50)) //try to spend 50, if you dont have em, you cant clean
+        {
+            //debug youre too poor.
+            return;
+        }
         //clean all patients in the zone
         for (int i = 0; i < zonePatients.Count; i++)
         {

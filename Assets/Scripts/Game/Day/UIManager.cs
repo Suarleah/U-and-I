@@ -119,7 +119,11 @@ public class UIManager : MonoBehaviour
         }
 
         PatientInteractionCanvas.enabled = false;
-        OperatingRoomCanvas.enabled = false;
+        if (OperatingRoomCanvas)
+        {
+            OperatingRoomCanvas.enabled = false;
+        }
+        
         bottomLeftCornerInteraction = null;
         
         if (curobj) //if an interactable is in range and the closest, and the player isnt already interacting with something else

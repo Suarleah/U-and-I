@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using FishNet;
+using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -8,10 +10,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class ShopEntry
+{
+    public ItemSO item;
+    public int cost;
+}
+
 public class ShopManager : NetworkBehaviour
 {
     public static ShopManager Instance;
     public GameObject shopScreen;
+    public GameObject shopCanvas;
     public GameObject voteScreen;
     readonly SyncVar<int> playersReady = new SyncVar<int>(0); // Used for starting game
     private bool startingGame; // Used for starting game
@@ -22,6 +32,11 @@ public class ShopManager : NetworkBehaviour
     private Coroutine countdownCoroutine;
     public String sceneToLoad; // Next scene
     private SceneLoadData sld;
+
+    [Header("Shop")]
+    public List<ShopEntry> catalog; //the items you can buy
+    public Transform dropZone; // where purchased items land
+    public float dropScatterRadius = 0.5f; // spreads simultaneous purchases apart instead of stacking them exactly
 
     async void Start()
     {
@@ -42,6 +57,7 @@ public class ShopManager : NetworkBehaviour
     [ObserversRpc]
     public void BeginShopping()
     {
+        Debug.Log("shopping start");
         playersReadyText.text = (playersReady.Value + " / " + InstanceFinder.NetworkManager.ClientManager.Clients.Count);
         voteScreen.SetActive(false);
         shopScreen.SetActive(true);
@@ -112,5 +128,37 @@ public class ShopManager : NetworkBehaviour
         UpdateReadyText(playersReady.Value);
     }
 
+
+     [ServerRpc(RequireOwnership = false)]
+    public void TryPurchaseItem(int catalogIndex, NetworkConnection conn = null)
+    {
+        if (catalogIndex < 0 || catalogIndex >= catalog.Count) return;
+ 
+        ShopEntry entry = catalog[catalogIndex];
+ 
+        if (!GameManager.Instance.TrySpendCredits(entry.cost))
+        {
+            PurchaseFailed(conn, "Not enough credits!");
+            return;
+        }
+ 
+        SpawnPurchasedItem(entry.item);
+    }
+ 
+    [Server]
+    private void SpawnPurchasedItem(ItemSO item)
+    {
+        Vector2 offset = UnityEngine.Random.insideUnitCircle * dropScatterRadius;
+        Vector3 pos = dropZone.position + new Vector3(offset.x, offset.y, 0f);
+ 
+        GameObject go = Instantiate(item.itemInteractablePrefab, pos, Quaternion.identity);
+        ServerManager.Spawn(go);
+    }
+ 
+    [TargetRpc]
+    private void PurchaseFailed(NetworkConnection conn, string reason)
+    {
+        if (ShopMenuUI.Instance) ShopMenuUI.Instance.ShowMessage(reason);
+    }
 
 }
