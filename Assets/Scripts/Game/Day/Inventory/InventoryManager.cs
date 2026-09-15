@@ -10,6 +10,7 @@ using GameKit.Dependencies.Utilities;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using FishNet.Connection;
 
 
 public class InventoryManager : NetworkBehaviour
@@ -170,6 +171,23 @@ public class InventoryManager : NetworkBehaviour
         }
 
         return false;
+    }
+
+    [TargetRpc]
+    public void ToggleMinimapClient(NetworkConnection conn)
+    {
+        Canvas canvas = UIManager.Instance.MinimapCanvas;
+
+        if (canvas.gameObject.activeSelf)
+        {
+            canvas.gameObject.SetActive(false);
+            return;
+        }
+
+        canvas.GetComponent<SecurityMenu>().enabled = false; // no door/cleaning zone control from a handheld map
+
+        canvas.gameObject.SetActive(true);
+        canvas.GetComponent<MinimapManager>().setFloor(GetComponentInParent<PlayerStats>().floor);
     }
 
     [Server]

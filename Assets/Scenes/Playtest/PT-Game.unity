@@ -26978,8 +26978,8 @@ MonoBehaviour:
   - {fileID: 6352760854533797816, guid: 386852fced99b4fde85fd58947d1a24f, type: 3}
   - {fileID: 6352760854533797816, guid: 386852fced99b4fde85fd58947d1a24f, type: 3}
   - {fileID: 6352760854533797816, guid: aed61e70ff30d4fe4a55479f0e18baea, type: 3}
-  - {fileID: 6352760854533797816, guid: aed61e70ff30d4fe4a55479f0e18baea, type: 3}
-  - {fileID: 6352760854533797816, guid: aed61e70ff30d4fe4a55479f0e18baea, type: 3}
+  - {fileID: 6352760854533797816, guid: 69158109e97064879b0e12c4ee7bbfa8, type: 3}
+  - {fileID: 6352760854533797816, guid: b96eeb4f8f6ed43eb94bc77cf993f817, type: 3}
 --- !u!4 &2093653009
 Transform:
   m_ObjectHideFlags: 0
