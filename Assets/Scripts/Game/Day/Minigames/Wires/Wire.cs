@@ -3,7 +3,7 @@ using UnityEngine;
 public class Wire : MonoBehaviour
 {
     public ConnectWires connectWires;
-    public int colorIndex; // used to check if this wire matches the one it's being connected to
+    public Color myColor; // Not racist I swear!!
     public bool isStart = true;
     public bool isConnected = false;
 
@@ -40,12 +40,17 @@ public class Wire : MonoBehaviour
         {
             connectWires.wireHovering = null;
         }
-           
+
     }
 
     public void OnPointerDownWire() // OnPointerDown
     {
         connectWires.BeginDrag(this); // try to start a drag from this wire
+    }
+
+    public void OnPointerUpWire() // PointerUp
+    {
+        connectWires.EndDrag();
     }
 
     public void Connect(Vector3 endPosition) // endPosition is passed in as a world-space position of my sister

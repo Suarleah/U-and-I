@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class ConnectWires : MinigameBase
 {
@@ -15,6 +16,7 @@ public class ConnectWires : MinigameBase
     public Wire wireHovering;   // whatever wire the cursor is currently over
     public Wire draggingWire;   // the actual start wire the player picked up
     public int wireCount = 4;   // difficulty
+    public int score;
 
     [Header("Wire Spawn")]
     public Transform start;
@@ -37,10 +39,11 @@ public class ConnectWires : MinigameBase
         gameObject.SetActive(false); // start off disabled until the minigame is opened
     }
 
-    public override void Open(PatientInteractionInfo info)
+    public override void Open()
     {
-        base.Open(info);
+        base.Open();
         correctConnections = 0; // reset progress every time the minigame opens
+        score = 6; // will get subtracted if they make mistakes
         SpawnWires();
     }
 
@@ -70,8 +73,8 @@ public class ConnectWires : MinigameBase
             eLine.startColor = colorPool[x]; eLine.endColor = colorPool[x];
             // Set the line (that shows up between cursor and wire when dragging) to be the same color as the wire itself
 
-            sWire.colorIndex = x; // store the color index on the start wire so we can match it later
-            eWire.colorIndex = x; // store the same color index on the end wire
+            sWire.myColor = colorPool[x]; // store the color index on the start wire so we can match it later
+            eWire.myColor = colorPool[x]; // store the same color index on the end wire
             sWire.connectWires = this; // give the wire a reference back to this manager
             eWire.connectWires = this; // same for the end wire
 
@@ -80,6 +83,17 @@ public class ConnectWires : MinigameBase
 
             colorPool.RemoveAt(x);
             // Remove the color from the temp list so it cannot be repeated this spawn cycle
+        }
+
+        ShuffleWires(end);
+        ShuffleWires(start);
+    }
+
+    private void ShuffleWires(Transform parent)
+    {
+        for (int i = parent.childCount - 1; i >= 0; i--)
+        {
+            parent.GetChild(i).SetSiblingIndex(Random.Range(0,parent.childCount));
         }
     }
 
@@ -108,7 +122,7 @@ public class ConnectWires : MinigameBase
         draggingWire = w; // remember which wire is being dragged
     }
 
-    private void EndDrag() // onpointerup
+    public void EndDrag() // 
     {
         if (!isDragging)
         {
@@ -120,7 +134,7 @@ public class ConnectWires : MinigameBase
 
         if (draggingWire != null && wireHovering != null
             && !wireHovering.isStart && !wireHovering.isConnected
-            && wireHovering.colorIndex == draggingWire.colorIndex) // check we dropped on the MATCHINNG end wire
+            && wireHovering.myColor == draggingWire.myColor) // check we dropped on the MATCHINNG end wire
         {
             draggingWire.Connect(wireHovering.transform.position); // lock the start wire's line onto the end wire
             wireHovering.Connect(wireHovering.transform.position); // mark the end wire as connected too
@@ -133,9 +147,16 @@ public class ConnectWires : MinigameBase
                 OnGameResult(1); // win the minigame
             }
         }
-        else
+        else if (draggingWire != null)
         {
-            draggingWire?.ResetLine(); // snap the line back if it wasn't dropped on the right wire
+            handAnim.SetTrigger("hurt");
+
+            score--;
+            if (score == 0)
+            {
+                OnGameResult(0);
+            }
+            draggingWire.ResetLine(); // snap the line back if it wasn't dropped on the right wire
         }
 
         draggingWire = null; // clear the dragging reference either way
