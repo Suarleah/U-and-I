@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b736816c643b98e40a97df6e0a5fd18b
+guid: 3505286f69b93254db31566a7e9d1b3d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8670328546018703123
-    second: wires_0
+      213: -6092995687616858215
+    second: check_circle_200dp_E3E3E3_FILL0_wght400_GRAD0_opsz48_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wires_0
+      name: check_circle_200dp_E3E3E3_FILL0_wght400_GRAD0_opsz48_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1920
-        height: 1080
+        x: 15
+        y: 15
+        width: 170
+        height: 170
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 317bf5f00e1335870800000000000000
-      internalID: 8670328546018703123
+      spriteID: 9973c9544b4517ba0800000000000000
+      internalID: -6092995687616858215
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      wires_0: 8670328546018703123
+      check_circle_200dp_E3E3E3_FILL0_wght400_GRAD0_opsz48_0: -6092995687616858215
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

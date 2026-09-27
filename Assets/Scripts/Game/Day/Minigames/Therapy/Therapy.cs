@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class Therapy : MinigameBase
@@ -25,10 +26,11 @@ public class Therapy : MinigameBase
     public float playerFrequency;
 
     [Header("Difficulty")]
+    public Image timerVisual;
     public float amplitudeTolerance = 0.2f; // how close counts as a match
     public float frequencyTolerance = 0.2f;//howdcdllekje
     public float timeGiven = 45f; // seconds allowed per round
-    private float scoreTime;
+    [SerializeField] private float scoreTime;
 
     public override void Open()
     {
@@ -42,7 +44,6 @@ public class Therapy : MinigameBase
         playerFrequency = frequencySlider.value;
 
         scoreTime = timeGiven;
-        Timer(timeGiven); // countdown
     }
 
     public void OnAmplitudeChanged(Single value)
@@ -62,55 +63,35 @@ public class Therapy : MinigameBase
         PlotWave(patientLine, patientAmplitude, patientFrequency, phase); // redraw the target wave every frame
         PlotWave(playerLine, playerAmplitude, playerFrequency, phase); // redraw the player wave every frame
 
-    }
+        scoreTime -= Time.deltaTime;
+        timerVisual.fillAmount = scoreTime / timeGiven;
 
-    IEnumerator Timer(float t)
-    {
-        yield return new WaitForSecondsRealtime(1);
-        scoreTime--;
-        // I need to get the time it took them to do it
         if (scoreTime == 0)
         {
             CheckMatch();
-            yield return null;
         }
-        
     }
 
-
-    /* TODO for plot wave
-        Currently waves all All x values are 0 except for last point which is ~1500... Should be a number in the hundreds
-        So, only first and last point get correct x value, y value seems to work fine...
-
-
-        MAX/MIN Y  IS 400/-400 | top and bottom of the screen element
-        MAX/MIN X IS 0 and 1500 | 0 is left edge because anchored to left and 1500 is right edge of screen element 
-        screen element is an image (black box called screen), not the actual entire screen
-        
-        IN UNITY: 
-        amplitude is 0-120 decibles
-        frequency is the pitch and it is -3 to 3 where 1.0 is normal speed
-
-        Maybe just ignore these values and fake the sound later....?
-
-    */
     private void PlotWave(LineRenderer line, float amplitude, float frequency, float phase)
     {
-        line.positionCount = pointCount; // make sure the line has enough points
+        line.positionCount = pointCount;
 
-        for (int i = 0; i < pointCount; i++) // e.g i = 1
+        for (int i = 0; i < pointCount; i++)
         {
-            
-            float x = i * displayWidth; // stretch points across the display width
+            float t = (float)i / (pointCount - 1); // 0 to 1 normalized
+            float screenX = t * displayWidth; // screen position 0 to ~1500
+            float y = amplitude * Mathf.Sin((frequency * t * Mathf.PI * 2f) + phase); // frequency=cycles(s waves) visible on screen
 
-            float y = amplitude * Mathf.Sin((frequency * x) + phase);
-            //Holy google
-
-            line.SetPosition(i, new Vector3(x, y, 0f));
-            //place point i at the x and y value that was just calculated by a formula on the internet
+            line.SetPosition(i, new Vector3(screenX, y, 0f));
         }
     }
 
+
+    public void ResetSliders()
+    {
+        amplitudeSlider.value = 0;
+        frequencySlider.value = 0;
+    }
     public void CheckMatch()
     {
         bool ampMatch = Mathf.Abs(playerAmplitude - patientAmplitude) <= amplitudeTolerance; // check amplitude closeness
@@ -120,37 +101,46 @@ public class Therapy : MinigameBase
 
         if (ampMatch && freqMatch) // both need to be within tolerance to pass
         {
-            float timeLeft = (timeGiven - scoreTime); // how much time is left
-            if (timeLeft / timeGiven >= .90)
+            Debug.Log("Close enough");
+            
+
+            if (scoreTime / timeGiven >= .80)
             {
                 OnGameResult(6); // if they finished with 90% or more of their time left
+                return;
             }
-            if (timeLeft / timeGiven >= .80)
+            if (scoreTime / timeGiven >= .70)
             {
                 OnGameResult(5); // if they finished with 80% or more of their time left
+                return;
             }
-            if (timeLeft / timeGiven >= .65)
+            if (scoreTime / timeGiven >= .60)
             {
                 OnGameResult(4); // if they finished with 65% or more of their time left
+                return;
             }
-            if (timeLeft / timeGiven >= .50)
+            if (scoreTime / timeGiven >= .50)
             {
                 OnGameResult(3); // if they finished with 50% or more of their time left
+                return;
             }
-            if (timeLeft / timeGiven >= .35)
+            if (scoreTime / timeGiven >= .40)
             {
                 OnGameResult(2); // if they finished with 35% or more of their time left
+                return;
             }
-            if (timeLeft / timeGiven > 0)
+            if (scoreTime / timeGiven > 0)
             {
                 OnGameResult(1); // if they finished
+                return;
             }
             if (scoreTime == 0)
             {
                 OnGameResult(0); // they didn't even finish
+                return;
             }
         }
-        else
+        else if (scoreTime == 0)
         {
             OnGameResult(0); // fail
         }
@@ -158,6 +148,8 @@ public class Therapy : MinigameBase
 
     public void OnGameResult(int result)
     {
+        Debug.Log(result);
+
         Finish(result);
     }
 }
