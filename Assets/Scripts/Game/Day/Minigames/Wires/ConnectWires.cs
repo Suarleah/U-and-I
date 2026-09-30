@@ -36,7 +36,7 @@ public class ConnectWires : MinigameBase
 
         handAnim = cursorUI.GetComponent<Animator>(); // grab the animator off the cursor UI
 
-        gameObject.SetActive(false); // start off disabled until the minigame is opened
+        //gameObject.SetActive(false); // start off disabled until the minigame is opened
     }
 
     public override void Open()
