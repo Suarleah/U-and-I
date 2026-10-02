@@ -2,6 +2,9 @@ using UnityEngine;
 using FishNet.Object;
 using UnityEditor;
 
+
+//deprecated class, kept just in case
+/*
 public class PatientShyInteractable : PatientInteractable
 {
 
@@ -110,3 +113,4 @@ public class PatientShyInteractable : PatientInteractable
     }
 
 }
+*/

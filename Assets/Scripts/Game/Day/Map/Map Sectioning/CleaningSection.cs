@@ -62,7 +62,7 @@ public class CleaningSection : NetworkBehaviour
         {
             if (zonePatients[i])
             {
-                StartCoroutine(zonePatients[i].Contain());
+                zonePatients[i].Contain();
             }
         }
         zonePatients.Clear();

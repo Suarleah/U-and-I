@@ -80,14 +80,15 @@ public class PatientInteractable : Interactable
         }
     }
     
-    public override void UIButtonPressed(PatientInteractionInfo info)
+       public override void UIButtonPressed(PatientInteractionInfo info)
     {
         PatientButtonExecute(info, player);
         Close();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public virtual void PatientButtonExecute(PatientInteractionInfo info, GameObject p){
+    public void PatientButtonExecute(PatientInteractionInfo info, GameObject p)
+    {
         if (onCD.Value)
         {
             GiveFeedback("On Cooldown!");
@@ -95,51 +96,7 @@ public class PatientInteractable : Interactable
         }
         GiveFeedback("Rolled a " + info.rollValue);
         StartCoroutine(goOnCooldown(cooldown));
-        if (info.interactionName == "Observe")
-        {
-            InteractObserve(info.rollValue, p);
-           
-        }
-        if (info.interactionName == "Bribe")
-        {
-            InteractBribe(info.rollValue, p);
-        }
 
-        if (info.interactionName == "Therapy")
-        {
-            InteractTherapy(info.rollValue, p);
-        }
-
-        if (info.interactionName == "Electric Chair")
-        {
-            InteractElectricChair(info.rollValue, p);
-        }
-        
+        self.ResolveInteraction(info.interactionName, info.rollValue, p);
     }
-    [ServerRpc(RequireOwnership = false)]
-    public virtual void InteractObserve(int rollValue, GameObject p)
-    {
-        
-    }
-    [ServerRpc(RequireOwnership = false)]
-    public virtual void InteractBribe(int rollValue, GameObject p)
-    {
-        
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public virtual void InteractTherapy(int rollValue, GameObject p)
-    {
-        
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public virtual void InteractElectricChair(int rollValue, GameObject p)
-    {
-        
-    }
-
-
-    
-    
 }

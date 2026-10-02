@@ -1,5 +1,7 @@
 using UnityEngine;
 
+
+//deprecated class now
 public class PatientInteractUtilities : MonoBehaviour
 {
 

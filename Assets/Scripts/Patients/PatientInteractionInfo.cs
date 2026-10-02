@@ -8,3 +8,11 @@ public struct PatientInteractionInfo
     public int rollValue;
     
 }
+
+public static class PatientInteractions
+{
+    public const string Observe = "Observe";
+    public const string Bribe = "Bribe";
+    public const string Therapy = "Therapy";
+    public const string ElectricChair = "Electric Chair";
+}

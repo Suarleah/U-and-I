@@ -7,7 +7,7 @@ public class OperatingTable : Interactable
 {
     InputActionAsset MinigameInputs;
     public ConnectWires wiresminigame;
-    public Therapy therapyminigame;
+    public TherapyMinigame therapyminigame;
 
     public enum Operation
     {

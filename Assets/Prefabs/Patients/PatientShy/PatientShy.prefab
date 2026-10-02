@@ -670,13 +670,13 @@ GameObject:
   - component: {fileID: 7400392250789980530}
   - component: {fileID: 77224146847795703}
   - component: {fileID: 6676961906902917411}
-  - component: {fileID: 5433399841933917766}
   - component: {fileID: 4959539066434842964}
   - component: {fileID: 7469166534214679092}
   - component: {fileID: 7098922523306271417}
   - component: {fileID: 15096550057979987}
   - component: {fileID: 3948577010694349012}
   - component: {fileID: 5133157734838045663}
+  - component: {fileID: 7100817945374363331}
   m_Layer: 6
   m_Name: PatientShy
   m_TagString: Untagged
@@ -778,70 +778,44 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 7469166534214679092}
   _networkObjectCache: {fileID: 7469166534214679092}
   agent: {fileID: 4959539066434842964}
-  interactable: {fileID: 5433399841933917766}
+  interactable: {fileID: 0}
+  sightfov: {fileID: 489929125369284726}
+  radialfov: {fileID: 5527681074395406958}
+  patientSO: {fileID: 0}
   room: 0
   spawn: {fileID: 0}
   roomBounds: {fileID: 0}
-  escaped: 0
+  floor: 0
   maxPatience: 50
-  localpatience: 0
   patienceDecay: 1.5
+  followingDrainDivisor: 10
+  escapeTime: 60
   maxHealth: 100
-  localhealth: 0
-  damage: 50
-  angularSpeed: 999
   speed: 5
   followingSpeed: 7
   chaseSpeed: 8
+  angularSpeed: 999
+  followDistance: 5
   wanderCooldownMin: 5
   wanderCooldownMax: 10
-  wanderUp: 1
-  floor: 0
   escapedWanderRange: 30
   escapedWanderCooldownMin: 20
   escapedWanderCooldownMax: 30
-  escapeTime: 60
-  aggroedPlayer: {fileID: 0}
-  sightfov: {fileID: 489929125369284726}
-  radialfov: {fileID: 5527681074395406958}
-  aggroLength: 0
-  aggrotimer: 0
-  cheating: 0
+  damage: 50
+  attackRange: 1
   attackCD: 1
-  attackTimer: 0
-  followingPlayer: {fileID: 0}
-  shyRange: 30
+  aggroLength: 0
   viewThreshold: 0.5
   maxViewDist: 15
   viewObstructingLayer:
     serializedVersion: 2
     m_Bits: 512
---- !u!114 &5433399841933917766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9006883238750405188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c3c0449925f549a0855530bb36e6f15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatientShyInteractable
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 7469166534214679092}
-  _networkObjectCache: {fileID: 7469166534214679092}
-  c: {fileID: 3179598261658997742}
-  closest: 0
-  inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  player: {fileID: 0}
-  interacting: 0
-  deadUI: 0
-  localOnCD: 0
-  cooldown: 10
-  floor: 0
-  self: {fileID: 6676961906902917411}
-  feedbackText: {fileID: 5276331289844314277, guid: 934c55e035a0b4392bf2b893bd222214, type: 3}
+  currentStateName: 
+  aggroedPlayer: {fileID: 0}
+  followingPlayer: {fileID: 0}
+  localpatience: 0
+  localhealth: 0
+  shyRange: 30
 --- !u!195 &4959539066434842964
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -911,7 +885,7 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 6676961906902917411}
-  - {fileID: 5433399841933917766}
+  - {fileID: 0}
   - {fileID: 7098922523306271417}
   - {fileID: 15096550057979987}
   InitializedParentNetworkBehaviour: {fileID: 0}
@@ -1066,3 +1040,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7100817945374363331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9006883238750405188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe6c52ee1c324db3bba521819f39676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatientInteractable
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7469166534214679092}
+  _networkObjectCache: {fileID: 0}
+  c: {fileID: 3179598261658997742}
+  closest: 0
+  inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  player: {fileID: 0}
+  interacting: 0
+  deadUI: 0
+  localOnCD: 0
+  cooldown: 0
+  floor: 0
+  feedbackText: {fileID: 5276331289844314277, guid: 934c55e035a0b4392bf2b893bd222214, type: 3}
+  self: {fileID: 6676961906902917411}

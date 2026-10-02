@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
-public class Therapy : MinigameBase
+public class TherapyMinigame : MinigameBase
 {
     [Header("Lines")]
     public LineRenderer patientLine;
