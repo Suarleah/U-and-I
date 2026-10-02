@@ -111,7 +111,14 @@ public class PlayerMovement : NetworkBehaviour
         
         if (noteAction.WasPerformedThisFrame())
         {
-            OpenNotebook();
+            if (myNotebook.isBookOpen())
+            {
+                CloseNotebook();
+            } else
+            {
+                OpenNotebook();
+            }
+            
         }
     
     }

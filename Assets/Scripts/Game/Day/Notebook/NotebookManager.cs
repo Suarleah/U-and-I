@@ -77,6 +77,10 @@ public class NotebookManager : MonoBehaviour
         homePage.SetActive(true); // won't show up until myCanvas = true
     }
 
+    public bool isBookOpen()
+    {
+        return myCanvas.enabled;
+    }
     public void CloseHomePage()
     {
         if (pages.Count == 0)
