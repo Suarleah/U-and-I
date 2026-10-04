@@ -347,10 +347,6 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 838664787}
-    - target: {fileID: 3789399678585465002, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4115374634462127018, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -438,10 +434,6 @@ PrefabInstance:
     - target: {fileID: 6035665892891023005, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
       propertyPath: m_Name
       value: Minigame Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 6035665892891023005, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6822465354900873936, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
       propertyPath: cam
