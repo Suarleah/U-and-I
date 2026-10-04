@@ -8,6 +8,7 @@ TagManager:
   - Interactable
   - PatientInteractionCanvas
   - MinimapCamera
+  - spotlight
   layers:
   - Default
   - TransparentFX

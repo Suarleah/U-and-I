@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LobotomyTool : MonoBehaviour
+public class LobotomyMinigame : MinigameBase
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     [Header("Minigame")]
-    public static ConnectWires Instance;
+    public static LobotomyMinigame Instance;
     public Camera cam;
 
     public Vector3 mousePos;
