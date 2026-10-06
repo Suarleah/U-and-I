@@ -4,7 +4,7 @@ Shader "UI/Obscure"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         [MainColor] _BaseColor ("Base Color", Color) = (1,1,1,1)
-        _StencilRef ("Stencil Ref", Int) = 1
+        _StencilRef ("Stencil Ref", Int) = 2
     }
 
     SubShader
@@ -15,6 +15,8 @@ Shader "UI/Obscure"
         Stencil
         {
             Ref [_StencilRef]
+            ReadMask 2       // ignore the world FOV bit
+            WriteMask 2
             Comp NotEqual   // ONLY render pixels where stencil buffer IS NOT equal to 1
             Pass Keep
         }

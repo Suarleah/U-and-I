@@ -8,6 +8,8 @@ public class OperatingTable : Interactable
     InputActionAsset MinigameInputs;
     public ConnectWires wiresminigame;
     public TherapyMinigame therapyminigame;
+    public ObserveMinigame observeMinigame;
+    public LobotomyMinigame lobotomyMinigame;
 
     public enum Operation
     {
@@ -72,11 +74,13 @@ public class OperatingTable : Interactable
         switch (mode)
         {
             case (Operation.Observe):
+                observeMinigame.Open();
                 break;
             case (Operation.Therapy):
                 therapyminigame.Open();
                 break;  
             case (Operation.Lobotomy):
+                lobotomyMinigame.Open();
                 break;
             case (Operation.Electric_Chair):
                 wiresminigame.Open();

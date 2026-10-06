@@ -4,7 +4,7 @@ Shader "UI/StencilMask"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         [MainColor] _BaseColor ("Base Color", Color) = (1,1,1,1)
-        _StencilRef ("Stencil Ref", Int) = 1
+        _StencilRef ("Stencil Ref", Int) = 2
         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.1
     }
 
@@ -16,6 +16,8 @@ Shader "UI/StencilMask"
         Stencil
         {
             Ref [_StencilRef]
+            ReadMask 2       // ignore the world FOV bit
+            WriteMask 2
             Comp Always
             Pass Replace
         }

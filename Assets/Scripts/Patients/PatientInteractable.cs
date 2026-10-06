@@ -26,7 +26,7 @@ public class PatientInteractable : Interactable
             {
                 player.GetComponent<PlayerMovement>().releaseFollower();
             }
-           
+            player.GetComponent<PlayerMovement>().followingPatient = self;
             self.followingPlayer = player;
             
         }

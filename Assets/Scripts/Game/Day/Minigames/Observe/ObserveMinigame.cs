@@ -25,7 +25,7 @@ public class ObserveMinigame : MinigameBase
     public Vector2 wanderInterval = new Vector2(1f, 3f); // min/max seconds before a target picks a new spot
     
     //the score points under here are "fake score". basically once it reaches a final amount, itll end the minigame, but your score is based on your time
-    public float scorePerSecond = 0.1f; //how mcuh score the target gives per second 
+    public float scorePerSecond = 1f; //how mcuh score the target gives per second 
     [SerializeField] private float fakescore = 0;
 
 
@@ -119,6 +119,9 @@ public class ObserveMinigame : MinigameBase
     public void AddScore(float amount)
     {
         fakescore += amount;
+        if (fakescore > 10){
+            OnGameResult(5);
+        }
     }
 
     public void OnGameResult(int result)

@@ -1476,7 +1476,7 @@ MonoBehaviour:
   spotlightFollowSpeed: 6
   patientSpeed: 200
   wanderInterval: {x: 2, y: 5}
-  scorePerSecond: 0.1
+  scorePerSecond: 1
   fakescore: 0
   wanderArea: {fileID: 4708693301226555717}
   cursorUI: {fileID: 300124007276880070}
