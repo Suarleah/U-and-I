@@ -343,10 +343,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 975038934366503482, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1874631552286774592, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
       propertyPath: cam
       value: 
       objectReference: {fileID: 838664787}
+    - target: {fileID: 3795253697381227590, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4115374634462127018, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -431,14 +439,26 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 838664787}
+    - target: {fileID: 5852793745425550231, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 838664787}
     - target: {fileID: 6035665892891023005, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
       propertyPath: m_Name
       value: Minigame Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658887517518150598, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6822465354900873936, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
       propertyPath: cam
       value: 
       objectReference: {fileID: 838664787}
+    - target: {fileID: 7851162703478248856, guid: f7ad797e981f44544840ab3d272d83ea, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
