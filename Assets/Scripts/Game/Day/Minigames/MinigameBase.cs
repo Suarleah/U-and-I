@@ -5,6 +5,10 @@ public class MinigameBase : MonoBehaviour
     // Set by whoever opens the minigame (the OperatingTable). later gets the final roll, 1 to 6.
     public System.Action<int> onFinished;
 
+        // Called right before Open() with the patient being operated on.
+    // Each minigame overrides this to pull its settings from the patient.
+    public virtual void Configure(Patient patient) { }
+
     public virtual void Open()
     {
         gameObject.SetActive(true);

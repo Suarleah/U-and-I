@@ -57,6 +57,12 @@ public class Patient : NetworkBehaviour
     public float attackCD;    // pause after landing a hit so it can't hit every frame
     public float aggroLength; // how long Hunt tracks a target it can't see before giving up
 
+    [Header("Operation Difficulty")]
+    public ObserveSettings observeSettings = new ObserveSettings();
+    public WiresSettings wiresSettings = new WiresSettings();
+    public LobotomySettings lobotomySettings = new LobotomySettings();
+    public TherapySettings therapySettings = new TherapySettings();
+
     [Header("Being Looked At (for patients that use IsLookedAtBy)")]
     [Range(-1f, 1f)] public float viewThreshold;
     public float maxViewDist;
@@ -83,6 +89,15 @@ public class Patient : NetworkBehaviour
     public PatientState Hunt { get; protected set; }
     public PatientState AttackCooldown { get; protected set; }
     public PatientState Operated { get; protected set; }
+
+    // Difficulty for each minigame when this patient is being operated on.
+    // Default: the Inspector values. Override to make difficulty depend on something at runtime.
+    // These run on the CLIENT doing the minigame, so only read synced values (like patience.Value).
+    // Return a Clone() if you change anything, so the Inspector values aren't overwritten.
+    public virtual ObserveSettings GetObserveSettings() => observeSettings;
+    public virtual WiresSettings GetWiresSettings() => wiresSettings;
+    public virtual LobotomySettings GetLobotomySettings() => lobotomySettings;
+    public virtual TherapySettings GetTherapySettings() => therapySettings;
 
     public bool IsBeingOperated => Current == Operated;
 

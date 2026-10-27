@@ -166,4 +166,10 @@ public class ConnectWires : MinigameBase
     {
         Finish(result);
     }
+
+        public override void Configure(Patient patient)
+    {
+        WiresSettings s = patient.GetWiresSettings();
+        wireCount = Mathf.Clamp(s.wireCount, 1, wireColors.Length); // can't have more wires than colors
+    }
 }

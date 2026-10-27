@@ -152,4 +152,12 @@ public class TherapyMinigame : MinigameBase
 
         Finish(result);
     }
+
+    public override void Configure(Patient patient)
+    {
+        TherapySettings s = patient.GetTherapySettings();
+        timeGiven = s.timeGiven;
+        amplitudeTolerance = s.amplitudeTolerance;
+        frequencyTolerance = s.frequencyTolerance;
+    }
 }

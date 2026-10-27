@@ -426,4 +426,27 @@ public class LobotomyMinigame : MinigameBase
     {
         Finish(result);
     }
+
+    public override void Configure(Patient patient)
+    {
+        LobotomySettings s = patient.GetLobotomySettings();
+        irritationSpeed = s.irritationSpeed;
+        maxOffCurve = s.maxOffCurve;
+        twitchThreshold = s.twitchThreshold;
+        blinkDuration = s.blinkDuration;
+        maxSpeed = s.maxSpeed;
+
+        // Set the curve directly instead of through SetPoints, so a patient with no custom curve
+        // goes back to the default instead of keeping the previous patient's curve.
+        if (s.curve != null && s.curve.Count >= 2)
+        {
+            vectorPoints = new List<Vector2>(s.curve);
+            useVectorPoints = true;
+        }
+        else
+        {
+            useVectorPoints = false;
+        }
+        // Open() calls BuildPathFromSource, which picks up whichever source is active.
+    }
 }

@@ -132,4 +132,18 @@ public class ObserveMinigame : MinigameBase
     {
         Finish(result);
     }
+
+        public override void Configure(Patient patient)
+    {
+        ObserveSettings s = patient.GetObserveSettings();
+        spotlightSize = s.spotlightSize;
+        spotlightFollowSpeed = s.spotlightFollowSpeed;
+        patientSpeed = s.patientSpeed;
+        wanderInterval = s.wanderInterval;
+        parTime = s.parTime;
+        secondsPerRollLost = s.secondsPerRollLost;
+
+        cursorUI.localScale = new Vector3(spotlightSize, spotlightSize, spotlightSize); // Awake only does this once
+    }
 }
+

@@ -100,6 +100,7 @@ public class OperatingTable : Interactable
         BeginOperation(patient);
 
         game.onFinished = OnMinigameFinished;
+        game.Configure(patient);
         game.Open();
     }
 
@@ -208,4 +209,6 @@ public class OperatingTable : Interactable
         }
         return null;
     }
+
+    
 }
