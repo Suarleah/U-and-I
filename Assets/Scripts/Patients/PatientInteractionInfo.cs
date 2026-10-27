@@ -12,7 +12,8 @@ public struct PatientInteractionInfo
 public static class PatientInteractions
 {
     public const string Observe = "Observe";
-    public const string Bribe = "Bribe";
+    public const string Bribe = "Bribe"; //deprecated
     public const string Therapy = "Therapy";
     public const string ElectricChair = "Electric Chair";
+    public const string Lobotomy = "Lobotomy";
 }

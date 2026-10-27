@@ -14,7 +14,8 @@ public class ObserveMinigame : MinigameBase
     public Vector3 mousePos;
     public int score; //the final score
 
-    
+    public float parTime = 10f;          // finishing at or under this is a 6
+    public float secondsPerRollLost = 3f; // each this-many seconds over par drops the roll by 1
    
     public float timer = 0f;
 
@@ -59,6 +60,7 @@ public class ObserveMinigame : MinigameBase
         score = 0;
         fakescore = 0f;
         snapSpotlight = true; // so the spotlight doesn't fly in from wherever it was last time
+        timer = 0f;
     }
 
         void Update()
@@ -116,11 +118,13 @@ public class ObserveMinigame : MinigameBase
         }
     }
 
-    public void AddScore(float amount)
+        public void AddScore(float amount)
     {
         fakescore += amount;
-        if (fakescore > 10){
-            OnGameResult(5);
+        if (fakescore > 10)
+        {
+            float over = Mathf.Max(0f, timer - parTime);
+            OnGameResult(6 - Mathf.FloorToInt(over / secondsPerRollLost));
         }
     }
 

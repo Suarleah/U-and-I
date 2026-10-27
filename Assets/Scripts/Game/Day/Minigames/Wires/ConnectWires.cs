@@ -144,7 +144,7 @@ public class ConnectWires : MinigameBase
 
             if (correctConnections >= wireCount) // check if every wire has been matched
             {
-                OnGameResult(1); // win the minigame
+                OnGameResult(score); // win the minigame
             }
         }
         else if (draggingWire != null)

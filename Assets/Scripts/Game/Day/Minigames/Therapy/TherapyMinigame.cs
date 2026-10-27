@@ -64,12 +64,12 @@ public class TherapyMinigame : MinigameBase
         PlotWave(playerLine, playerAmplitude, playerFrequency, phase); // redraw the player wave every frame
 
         scoreTime -= Time.deltaTime;
-        timerVisual.fillAmount = scoreTime / timeGiven;
-
-        if (scoreTime == 0)
+        if (scoreTime <= 0f)
         {
+            scoreTime = 0f;
             CheckMatch();
         }
+        timerVisual.fillAmount = scoreTime / timeGiven;
     }
 
     private void PlotWave(LineRenderer line, float amplitude, float frequency, float phase)

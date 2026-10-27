@@ -411,14 +411,15 @@ public class LobotomyMinigame : MinigameBase
         finished = true;
         isDragging = false;
         score = maxScore;
-        OnGameResult(score);
+        OnGameResult(6);
     }
 
     private void Fail()
     {
         finished = true;
         isDragging = false;
-        OnGameResult(0);
+        float fraction = totalLength > 0f ? progress / totalLength : 0f;
+        OnGameResult(1 + Mathf.FloorToInt(fraction * 5f)); // returns 1 + fraction of progress * 5
     }
 
     public void OnGameResult(int result)

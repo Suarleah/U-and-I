@@ -2,17 +2,31 @@ using UnityEngine;
 
 public class MinigameBase : MonoBehaviour
 {
-    // protected PatientInteractionInfo currentInfo;  REPLACE WITH NEW SYSTEM
+    // Set by whoever opens the minigame (the OperatingTable). later gets the final roll, 1 to 6.
+    public System.Action<int> onFinished;
 
     public virtual void Open()
     {
         gameObject.SetActive(true);
     }
 
+    // Every minigame reports a roll from 1 (worst) to 6 (best). Anything outside that is clamped,
+    // so a minigame can report 0 for a total failure and it counts as a 1.
     protected void Finish(int result)
     {
-        //currentInfo.rollValue = result; REPLACE WITH NEW SYSTEM
         gameObject.SetActive(false);
-        //UIManager.Instance.UIButtonPressed(currentInfo);  REPLACE WITH NEW SYSTEM
+
+        // Clear the callback before calling it, so a minigame that calls Finish twice
+        // in the same frame (e.g. Observe targets adding score) only reports once.
+        System.Action<int> callback = onFinished;
+        onFinished = null;
+        callback?.Invoke(Mathf.Clamp(result, 1, 6));
+    }
+
+    // Closes the minigame without reporting a result (player backed out).
+    public void Cancel()
+    {
+        onFinished = null;
+        gameObject.SetActive(false);
     }
 }

@@ -82,6 +82,9 @@ public class Patient : NetworkBehaviour
     public PatientState Chase { get; protected set; }
     public PatientState Hunt { get; protected set; }
     public PatientState AttackCooldown { get; protected set; }
+    public PatientState Operated { get; protected set; }
+
+    public bool IsBeingOperated => Current == Operated;
 
     public bool IsEscaped => Current is EscapedState;
 
@@ -94,6 +97,7 @@ public class Patient : NetworkBehaviour
         Chase = new ChaseState(this);
         Hunt = new HuntState(this);
         AttackCooldown = new AttackCooldownState(this);
+        Operated = new OperatedState(this);
     }
 
     public void ChangeState(PatientState next)
@@ -223,6 +227,29 @@ public class Patient : NetworkBehaviour
         interactable.enabled = false;
         interactable.closeInteractionPrompt();
         interactable.Close();
+    }
+
+    // Puts the patient on the table. Returns false if it can't be operated on right now.
+    [Server]
+    public bool StartOperation()
+    {
+        if (IsEscaped || IsBeingOperated)
+        {
+            return false;
+        }
+        ChangeState(Operated);
+        return true;
+    }
+
+    // Takes the patient off the table and back to following (or contained).
+    [Server]
+    public void EndOperation()
+    {
+        if (!IsBeingOperated)
+        {
+            return;
+        }
+        ChangeState(followingPlayer ? Following : Contained);
     }
 
     [Server]
