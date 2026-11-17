@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MinigameBase : MonoBehaviour
@@ -25,6 +26,18 @@ public class MinigameBase : MonoBehaviour
         System.Action<int> callback = onFinished;
         onFinished = null;
         callback?.Invoke(Mathf.Clamp(result, 1, 6));
+    }
+
+    // Same as Finish, but waits first so end effects (blood, sounds) can play
+    protected void FinishAfter(int result, float delay)
+    {
+        StartCoroutine(FinishRoutine(result, delay));
+    }
+
+    private IEnumerator FinishRoutine(int result, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Finish(result);
     }
 
     // Closes the minigame without reporting a result (player backed out).

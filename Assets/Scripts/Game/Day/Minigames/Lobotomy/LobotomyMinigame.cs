@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class LobotomyMinigame : MinigameBase
 {
@@ -33,7 +34,28 @@ public class LobotomyMinigame : MinigameBase
     public LineRenderer progressLine;     // draws the part they've already traced
 
     [Header("Eye")]
-    public Animator eyeAnim;              // needs bool params "twitching" and "blinking"
+    public Animator eyeAnim;              // optional. needs bool params "twitching" and "blinking"
+    public RectTransform eyeShake;        // parent of the three images. jittered when twitching
+    public Image eyeOpen;
+    public Image eyeIrritated;            // faded in by irritation
+    public Image eyeClosed;               // only shown while blinking
+    public float irritatedFadeStart = 0.25f; // irritation where the red starts to show
+    public float twitchStrength = 6f;     // canvas units of jitter at full irritation
+    public float twitchSpeed = 40f;
+
+    [Header("Arch Curve (0-1 across pointsParent's rect, y up)")]
+    public bool useArch = true;           // false = use pointsParent's children like before
+    public Vector2 archCenter = new Vector2(0.485f, 0.45f);
+    public Vector2 archRadius = new Vector2(0.35f, 0.27f);
+    public Vector2 archAngles = new Vector2(172f, 8f); // degrees, left corner -> right corner
+    public int archSegments = 24;
+
+    [Header("Blood")]
+    public ParticleSystem bloodParticles;
+    public int pressBurst = 10;           // when you press on the eye
+    public float bloodPerSecond = 30f;    // while cutting
+    public int failBurst = 60;
+    public float endDelay = 0.6f;         // how long the result shows before the minigame closes
 
     [Header("Cursor UI")]
     public RectTransform cursorUI; private Animator toolAnim;
@@ -56,6 +78,8 @@ public class LobotomyMinigame : MinigameBase
     private readonly Queue<(float time, float dist)> moveSamples = new Queue<(float time, float dist)>();
     private float recentDistance;
     private Vector2 lastMouseLocal;
+
+    private float bloodCarry;
 
     void Awake()
     {
@@ -83,6 +107,11 @@ public class LobotomyMinigame : MinigameBase
         SetEye("twitching", false);
         SetEye("blinking", false);
         UpdateProgressLine();
+
+        bloodCarry = 0f;
+        if (bloodParticles) bloodParticles.Clear();
+        if (eyeShake) eyeShake.anchoredPosition = Vector2.zero;
+        UpdateEyeVisuals();
     }
 
     // ---------------- Setting the curve ----------------
@@ -106,6 +135,18 @@ public class LobotomyMinigame : MinigameBase
     // works out the curve from whichever source is active and converts it to canvas space
     private void BuildPathFromSource()
     {
+        if (!useVectorPoints && useArch && pointsParent is RectTransform archRect)
+        {
+            List<Vector2> arch = BuildArch(archRect);
+            Vector2[] archPoints = new Vector2[arch.Count];
+            for (int i = 0; i < arch.Count; i++)
+            {
+                archPoints[i] = canvasRect.InverseTransformPoint(archRect.TransformPoint(arch[i]));
+            }
+            BuildPath(archPoints);
+            return;
+        }
+
         Vector2[] canvasPoints;
 
         if (useVectorPoints)
@@ -186,6 +227,42 @@ public class LobotomyMinigame : MinigameBase
 #endif
     }
 
+    // points along an ellipse arc, in rt's local space
+    private List<Vector2> BuildArch(RectTransform rt)
+    {
+        List<Vector2> pts = new List<Vector2>(archSegments + 1);
+        Rect r = rt.rect;
+        for (int i = 0; i <= archSegments; i++)
+        {
+            float a = Mathf.Lerp(archAngles.x, archAngles.y, (float)i / archSegments) * Mathf.Deg2Rad;
+            Vector2 n = archCenter + new Vector2(Mathf.Cos(a) * archRadius.x, Mathf.Sin(a) * archRadius.y);
+            pts.Add(Rect.NormalizedToPoint(r, n));
+        }
+        return pts;
+    }
+
+    // copies the arch into vectorPoints, e.g. to hand-tweak it into a patient's LobotomySettings.curve
+    [ContextMenu("Copy Arch To Vector Points")]
+    private void CopyArchToVectorPoints()
+    {
+        if (pointsParent is RectTransform rt) vectorPoints = BuildArch(rt);
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
+    }
+
+    // shows the arch in the Scene view while the minigame is selected, so you can line it up with the photo
+    private void OnDrawGizmosSelected()
+    {
+        if (!useArch || !(pointsParent is RectTransform rt)) return;
+        Gizmos.color = Color.red;
+        List<Vector2> pts = BuildArch(rt);
+        for (int i = 0; i < pts.Count - 1; i++)
+        {
+            Gizmos.DrawLine(rt.TransformPoint(pts[i]), rt.TransformPoint(pts[i + 1]));
+        }
+    }
+
     // ---------------- Update ----------------
 
     void Update()
@@ -196,9 +273,11 @@ public class LobotomyMinigame : MinigameBase
         }
 
         UpdateIrritation();
+        UpdateEyeVisuals();
         if (finished) return; // blinking while held can fail the game
 
-        if (!RectTransformUtility.ScreenPointToWorldPointInRectangle(canvasRect, Mouse.current.position.ReadValue(), cam, out Vector3 mouseWorld))
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+        if (!RectTransformUtility.ScreenPointToWorldPointInRectangle(canvasRect, screenPos, cam, out Vector3 mouseWorld))
         {
             if (isDragging) Fail(); // dragged off screen = way off the curve
             return;
@@ -210,6 +289,7 @@ public class LobotomyMinigame : MinigameBase
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
+            if (IsOverEye(screenPos)) EmitBlood(pressBurst);
             TryBeginDrag(mouseLocal);
         }
         else if (Mouse.current.leftButton.wasReleasedThisFrame)
@@ -220,7 +300,50 @@ public class LobotomyMinigame : MinigameBase
         if (isDragging)
         {
             TraceCurve(mouseLocal);
+            if (!finished) BleedWhileDragging();
         }
+    }
+
+    // ---------------- Eye visuals / blood ----------------
+
+    private void UpdateEyeVisuals()
+    {
+        float red = isBlinking ? 0f : Mathf.InverseLerp(irritatedFadeStart, 1f, irritation);
+        if (eyeIrritated) eyeIrritated.color = new Color(1f, 1f, 1f, red);
+        if (eyeOpen) eyeOpen.enabled = !isBlinking;
+        if (eyeClosed) eyeClosed.enabled = isBlinking;
+        if (curveLine) curveLine.enabled = !isBlinking; // the cut line disappears with the eye
+
+        if (eyeShake)
+        {
+            bool twitching = !isBlinking && irritation >= twitchThreshold;
+            float amount = twitching ? Mathf.Lerp(0.3f, 1f, Mathf.InverseLerp(twitchThreshold, 1f, irritation)) : 0f;
+            Vector2 noise = new Vector2(
+                Mathf.PerlinNoise(Time.time * twitchSpeed, 0f) - 0.5f,
+                Mathf.PerlinNoise(0f, Time.time * twitchSpeed) - 0.5f);
+            eyeShake.anchoredPosition = noise * 2f * twitchStrength * amount;
+        }
+    }
+
+    private bool IsOverEye(Vector2 screenPos)
+    {
+        RectTransform eye = pointsParent as RectTransform;
+        return eye != null && RectTransformUtility.RectangleContainsScreenPoint(eye, screenPos, cam);
+    }
+
+    private void EmitBlood(int count)
+    {
+        if (bloodParticles == null || count <= 0) return;
+        bloodParticles.transform.position = mousePos;
+        bloodParticles.Emit(count);
+    }
+
+    private void BleedWhileDragging()
+    {
+        bloodCarry += bloodPerSecond * Time.deltaTime;
+        int n = Mathf.FloorToInt(bloodCarry);
+        bloodCarry -= n;
+        EmitBlood(n);
     }
 
     // ---------------- Irritation / blinking ----------------
@@ -411,15 +534,18 @@ public class LobotomyMinigame : MinigameBase
         finished = true;
         isDragging = false;
         score = maxScore;
-        OnGameResult(6);
+        FinishAfter(6, endDelay); // waits so the result is visible before closing
     }
 
     private void Fail()
     {
         finished = true;
         isDragging = false;
+        EmitBlood(failBurst);
+        if (eyeIrritated && !isBlinking) eyeIrritated.color = Color.white; // full red
+
         float fraction = totalLength > 0f ? progress / totalLength : 0f;
-        OnGameResult(1 + Mathf.FloorToInt(fraction * 5f)); // returns 1 + fraction of progress * 5
+        FinishAfter(1 + Mathf.FloorToInt(fraction * 5f), endDelay); // returns 1 + fraction of progress * 5
     }
 
     public void OnGameResult(int result)

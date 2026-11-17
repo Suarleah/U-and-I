@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using GameKit.Dependencies.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ObserveMinigame : MinigameBase
 {
@@ -18,6 +19,14 @@ public class ObserveMinigame : MinigameBase
     public float secondsPerRollLost = 3f; // each this-many seconds over par drops the roll by 1
    
     public float timer = 0f;
+    public float scoreToFinish = 10f; // fake score needed to end the minigame
+
+    [Header("Observation Meter")]
+    public Image observationMeter;    // Image Type: Filled (Horizontal, or Radial 360 around the spotlight)
+    public float meterSmoothing = 10f;
+    public Color meterColor = Color.white;
+    public Color meterLitColor = new Color(1f, 0.85f, 0.3f);
+    private float meterDisplay;
 
     [Header("Difficulty Modifiers")]
     public float spotlightSize;
@@ -61,11 +70,14 @@ public class ObserveMinigame : MinigameBase
         fakescore = 0f;
         snapSpotlight = true; // so the spotlight doesn't fly in from wherever it was last time
         timer = 0f;
+        meterDisplay = 0f;
+        if (observationMeter) observationMeter.fillAmount = 0f;
     }
 
         void Update()
     {
         timer += Time.deltaTime;
+        UpdateMeter();
         if (cursorUI == null || canvasRect == null || cam == null) 
         {
             return;
@@ -98,7 +110,7 @@ public class ObserveMinigame : MinigameBase
     void CheckSpotlight()
     {
         Vector3 center = cursorUI.TransformPoint(cursorUI.rect.center); // works even if the pivot isn't centered
-        float radius = Mathf.Min(cursorUI.rect.width, cursorUI.rect.height) * 0.5f * spotlightSize * cursorUI.lossyScale.x; // lossyScale picks up animator scaling too
+        float radius = Mathf.Min(cursorUI.rect.width, cursorUI.rect.height) * 0.5f * cursorUI.lossyScale.x; // lossyScale already includes spotlightSize (set in Configure) and animator scaling
 
         var targets = ObserveMinigameTarget.All;
         for (int i = targets.Count - 1; i >= 0; i--)
@@ -121,7 +133,7 @@ public class ObserveMinigame : MinigameBase
         public void AddScore(float amount)
     {
         fakescore += amount;
-        if (fakescore > 10)
+        if (fakescore > scoreToFinish)
         {
             float over = Mathf.Max(0f, timer - parTime);
             OnGameResult(6 - Mathf.FloorToInt(over / secondsPerRollLost));
@@ -131,6 +143,25 @@ public class ObserveMinigame : MinigameBase
     public void OnGameResult(int result)
     {
         Finish(result);
+    }
+
+    private void UpdateMeter()
+    {
+        if (observationMeter == null) return;
+
+        float target = Mathf.Clamp01(fakescore / scoreToFinish);
+        meterDisplay = Mathf.Lerp(meterDisplay, target, 1f - Mathf.Exp(-meterSmoothing * Time.deltaTime));
+        observationMeter.fillAmount = meterDisplay;
+        observationMeter.color = AnyTargetLit() ? meterLitColor : meterColor;
+    }
+
+    private bool AnyTargetLit()
+    {
+        foreach (ObserveMinigameTarget t in ObserveMinigameTarget.All)
+        {
+            if (t.IsLit) return true;
+        }
+        return false;
     }
 
         public override void Configure(Patient patient)

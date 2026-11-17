@@ -5,7 +5,9 @@ public class PatientZero : Patient
 {
     protected override void DefineInteractions()
     {
+        
         // Each line: outcomes for rolls 1 through 6. Numbers(credits, patience, playerHealth).
+        DefineInteraction(Lobotomy, Numbers(5, -40, -30), Numbers(10, -25, -20), Numbers(10, -10, -10), Numbers(15, 15, 0), Numbers(20, 30, 0), Numbers(25, 50, 0));
         DefineInteraction(Observe,       Numbers(10, -20, -20), Numbers(10, -20, -10), Numbers(10, -10, 0), Numbers(15, -5, 0),   Numbers(15, 0, 0),    Numbers(20, 0, 0));
         DefineInteraction(Bribe,         Numbers(10, -30, -15), Numbers(10, -20, 0),   Numbers(10, -10, 0), Numbers(10, 0, 0),    Numbers(10, 5, 5),    Numbers(10, 10, 10));
         DefineInteraction(Therapy,       Numbers(10, -10, -20), Numbers(10, 0, -10),   Numbers(10, 10, 0),  Numbers(10, 15, 0),   Numbers(10, 20, 0),   Numbers(20, 30, 0));

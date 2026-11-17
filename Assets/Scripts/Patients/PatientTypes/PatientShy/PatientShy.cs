@@ -26,6 +26,7 @@ public class PatientShy : Patient
 
     protected override void DefineInteractions()
     {
+        DefineInteraction(Lobotomy,      Numbers(5, -50, -20),  Numbers(10, -30, -10), Numbers(10, -15, 0),   Numbers(15, 10, 0),   Numbers(20, 25, 0),  Numbers(30, 40, 0));
         DefineInteraction(Observe,       Numbers(20, -50, -50), Numbers(20, -50, -25), Numbers(20, -25, -10), Numbers(30, -15, 0),  Numbers(30, -10, 0), Numbers(30, 0, 0));
         DefineInteraction(Bribe,         Numbers(10, -30, -50), Numbers(10, -20, -30), Numbers(10, 0, -20),   Numbers(10, 10, -10), Numbers(10, 10, 0),  Numbers(10, 20, 0));
         DefineInteraction(Therapy,       Numbers(20, -30, -30), Numbers(20, -15, -10), Numbers(20, 10, 0),    Numbers(25, 10, 0),   Numbers(30, 20, 10), Numbers(30, 30, 20));

@@ -1,6 +1,5 @@
 using FishNet.Object.Synchronizing;
 using FishNet.Object;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
@@ -11,6 +10,8 @@ using UnityEngine.SocialPlatforms;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using FishNet.Connection;
+using TMPro;
+using UnityEngine.EventSystems;
 
 
 public class InventoryManager : NetworkBehaviour
@@ -36,6 +37,9 @@ public class InventoryManager : NetworkBehaviour
 
     public Canvas inventoryVisual;
     public Image[] itemIcons;
+    public TextMeshProUGUI[] stackCountTexts; // one per slot, same order as itemIcons
+
+    private bool pointerOverUI;
     public Image[] selectIcons;
 
 
@@ -64,6 +68,13 @@ public class InventoryManager : NetworkBehaviour
         items.OnChange += OnInventoryChange;
 
         UpdateSelectIcon(0);
+        for (int i = 0; i < stackCountTexts.Length; i++) UpdateStackCount(i, null);
+    }
+
+    void Update()
+    {
+        // cached here because asking the EventSystem from inside an input callback gives a warning with the new Input System
+        pointerOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
     }
 
     public override void OnStartServer()
@@ -125,6 +136,7 @@ public class InventoryManager : NetworkBehaviour
                 itemIcons[i].sprite = null;
                 itemIcons[i].enabled = false;
             }
+            UpdateStackCount(i, items[i]);
 
         }
         selectedItem = items[selectedSlot];
@@ -132,6 +144,7 @@ public class InventoryManager : NetworkBehaviour
 
     public void LeftClick(InputAction.CallbackContext c)
     {
+        if (pointerOverUI) return; // clicking UI (ads, slots, menus) shouldn't also use the held item
         if (selectedSlot >= items.Count || items[selectedSlot] == null) return;
         UseOnServer(selectedSlot, new UseInfo(FishNet.InstanceFinder.ClientManager.Connection.FirstObject, this, selectedSlot));
     }
@@ -346,6 +359,15 @@ public class InventoryManager : NetworkBehaviour
         selectedSlot = 3;
         selectedItem = items[3];
         UpdateSelectIcon(3);
+    }
+
+    private void UpdateStackCount(int slot, ItemInstance item) // Visual
+    {
+        if (stackCountTexts == null || slot >= stackCountTexts.Length || stackCountTexts[slot] == null) return;
+
+        bool show = item != null && item.definition.stackable && item.count > 1;
+        stackCountTexts[slot].enabled = show;
+        if (show) stackCountTexts[slot].text = item.count.ToString();
     }
 
     private void UpdateSelectIcon(int slot) // Visual

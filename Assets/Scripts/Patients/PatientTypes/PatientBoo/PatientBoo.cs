@@ -15,6 +15,7 @@ public class PatientBoo : Patient
 
     protected override void DefineInteractions()
     {
+        DefineInteraction(Lobotomy, Numbers(5, -30, -20), Numbers(10, -15, -10), Numbers(10, 0, 0),     Numbers(15, 20, 0), Numbers(20, 35, 0), Numbers(25, 50, 0));
         DefineInteraction(Observe,       Numbers(10, -10, -10), Numbers(10, 0, -10),   Numbers(10, 10, 0),  Numbers(10, 20, 0),   Numbers(10, 30, 0),  Numbers(10, 35, 0));
         DefineInteraction(Bribe,         Numbers(10, -30, -50), Numbers(10, -20, -30), Numbers(10, 0, -20), Numbers(10, 10, -10), Numbers(10, 10, 0),  Numbers(10, 20, 0));
         DefineInteraction(Therapy,       Numbers(10, -10, -10), Numbers(10, 0, 0),     Numbers(15, 10, 0),  Numbers(20, 10, 0),   Numbers(20, 20, 0),  Numbers(30, 30, 10));
