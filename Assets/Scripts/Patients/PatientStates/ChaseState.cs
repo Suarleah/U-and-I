@@ -23,7 +23,7 @@ public class ChaseState : EscapedState
         }
 
         GameObject target = patient.aggroedPlayer;
-        if (!target || Patient.IsDead(target))
+        if (!target || Patient.IsUntargetable(target)) // dead or in a safe zone: give up
         {
             patient.ChangeState(patient.Wander);
             return;

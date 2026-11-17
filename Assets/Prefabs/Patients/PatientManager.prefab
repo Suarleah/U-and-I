@@ -54,6 +54,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 397b9cf1d9a644936bc51bbde18301a8, type: 2}
   - {fileID: 11400000, guid: 397b9cf1d9a644936bc51bbde18301a8, type: 2}
   - {fileID: 11400000, guid: 397b9cf1d9a644936bc51bbde18301a8, type: 2}
+  - {fileID: 11400000, guid: a14f74cfd456b4bf3bf5347b9e3f9f8b, type: 2}
   currentPatients: []
   unusedPatients: []
   localSpawnedPatients: []

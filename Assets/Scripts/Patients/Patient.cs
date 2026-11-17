@@ -144,6 +144,9 @@ public class Patient : NetworkBehaviour
 
     public virtual void Awake()
     {
+        // the Inspector field was never filled in on the prefabs, so find it here instead
+        if (!interactable) interactable = GetComponentInChildren<PatientInteractable>(true);
+
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.angularSpeed = angularSpeed;
@@ -379,6 +382,9 @@ public class Patient : NetworkBehaviour
 
     public static bool IsDead(GameObject player) => player.GetComponent<PlayerStats>().isDead.Value;
 
+    // Dead players and players standing in a safe zone can't be chased or attacked.
+    public static bool IsUntargetable(GameObject player) => IsDead(player) || SafeZone.IsSafe(player.transform.position);
+
     public Vector3 RandomPointInRoom()
     {
         Vector3[] corners = new Vector3[4];
@@ -421,7 +427,7 @@ public class Patient : NetworkBehaviour
         {
             // The FOV can hit the client hitbox child instead of the player root.
             Transform player = hit.GetComponent<PlayerStats>() ? hit : hit.parent;
-            if (IsDead(player.gameObject)) continue;
+            if (IsUntargetable(player.gameObject)) continue;
 
             float d = Vector2.Distance(player.position, transform.position);
             if (d < best)
@@ -439,7 +445,7 @@ public class Patient : NetworkBehaviour
         float best = float.MaxValue;
         foreach (PlayerMovement p in GameManager.Instance.GetPlayers())
         {
-            if (p.stats.isDead.Value) continue;
+            if (IsUntargetable(p.gameObject)) continue;
             float d = Vector2.Distance(p.transform.position, transform.position);
             if (d < best)
             {

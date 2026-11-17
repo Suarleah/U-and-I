@@ -805,6 +805,26 @@ MonoBehaviour:
   attackRange: 1
   attackCD: 1
   aggroLength: 1
+  observeSettings:
+    spotlightSize: 1
+    spotlightFollowSpeed: 6
+    patientSpeed: 200
+    wanderInterval: {x: 1, y: 3}
+    parTime: 13
+    secondsPerRollLost: 3
+  wiresSettings:
+    wireCount: 4
+  lobotomySettings:
+    irritationSpeed: 0.15
+    maxOffCurve: 30
+    twitchThreshold: 0.6
+    blinkDuration: 0.75
+    maxSpeed: 400
+    curve: []
+  therapySettings:
+    timeGiven: 10
+    amplitudeTolerance: 0.1
+    frequencyTolerance: 0.1
   viewThreshold: 0
   maxViewDist: 0
   viewObstructingLayer:

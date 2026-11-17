@@ -18,8 +18,11 @@ public class PatientShy : Patient
 
     public override GameObject FindTarget()
     {
-        List<PlayerMovement> watchers = GetPlayersLookingAtMe();
-        return watchers.Count > 0 ? watchers[0].gameObject : null;
+        foreach (PlayerMovement watcher in GetPlayersLookingAtMe())
+        {
+            if (!IsUntargetable(watcher.gameObject)) return watcher.gameObject; // safe zone watchers are left alone
+        }
+        return null;
     }
 
     protected override PatientState PickEscapeState() => Wander; // waits until someone looks at it
