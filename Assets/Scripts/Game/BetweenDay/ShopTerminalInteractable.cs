@@ -2,6 +2,31 @@ using UnityEngine;
 
 public class ShopTerminalInteractable : Interactable
 {
+    void Update()
+    {
+        localOnCD = onCD.Value;
+        if (closest) 
+        {
+            c.gameObject.SetActive(true);
+            if (Vector2.Distance(gameObject.transform.position, player.transform.position) > 5f)
+            {
+                closest = false;
+            }
+
+        } else
+        {
+            c.gameObject.SetActive(false);
+            
+        }
+
+        if (Vector3.Distance(player.transform.position, transform.position) > 5f)
+        {
+            Close();
+        }
+
+        
+
+    }
     public override void Interact()
     {
         if (!ShopMenuUI.Instance)

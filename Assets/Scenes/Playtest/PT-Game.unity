@@ -633,12 +633,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 29540150}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 24.88301, y: -16.03534, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 992502325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &35603848
 GameObject:
@@ -11447,10 +11447,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1745706838}
+  - {fileID: 29540153}
+  - {fileID: 1601140714}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1029907695
@@ -13007,6 +13009,7 @@ MonoBehaviour:
   lobotomyMinigame: {fileID: 0}
   operationTooltipText: {fileID: 43192777}
   mode: 0
+  operatingRange: 20
 --- !u!212 &1140757113
 SpriteRenderer:
   serializedVersion: 2
@@ -19166,7 +19169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1601140713}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -20.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -19175,7 +19178,7 @@ Transform:
   - {fileID: 1382164032}
   - {fileID: 1996064050}
   - {fileID: 690733329}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 992502325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1617945977
 GameObject:
@@ -26023,5 +26026,3 @@ SceneRoots:
   - {fileID: 2093653009}
   - {fileID: 1102771441}
   - {fileID: 992502325}
-  - {fileID: 29540153}
-  - {fileID: 1601140714}
